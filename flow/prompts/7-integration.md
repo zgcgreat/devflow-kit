@@ -122,6 +122,10 @@
 - 归档后的 `.specs/archive/<...>/`
 - 更新的 `.specs/需求LOG.md` 与 `.specs/进度跟踪.md`
 - 0~N 个 fix-plan（如有失败）
+- **更新 `.specs/进度跟踪.md`**：
+  - `当前阶段` 改为 `INTEGRATION`
+  - 在「阶段进度」清单中打钩 `集成 → 07-发布清单.md`
+  - 归档后：`活跃 Req` 改为 `无`，`当前阶段` 改为 `无`
 
 ## 约束（强制）
 
@@ -139,8 +143,12 @@
 - [ ] 失败的项目都已经过最多 3 轮自动重试，超限的已暂停
 - [ ] 需求LOG 已追加
 - [ ] 归档目录已创建（用户确认后）
+- [ ] **进度跟踪.md 已更新**（当前阶段 + 阶段进度打钩 + 归档后清空活跃 Req）
 
 ## 触发下一步
+
+- 此 req 完成 → 等下一个 req，回到 `@devflow-kit/flow/prompts/0-confirm.md`
+- 有未解决的 fix-plan → 暂停，告知用户决策
 
 - 此 req 完成 → 等下一个 req，回到 `@devflow-kit/flow/prompts/0-confirm.md`
 - 有未解决的 fix-plan → 暂停，告知用户决策
