@@ -1,5 +1,15 @@
 description = "Route any engineering task through devflow-kit"
 
 prompt = """
-Use the devflow-kit skill. Read devflow-kit/flow/GO.md and route the user's request to the correct phase. Load only the routed phase prompt, required artifacts, and applicable specialized skills. Do not implement before relevant phase gates are satisfied unless this is explicitly a tiny direct edit.
+Use the devflow-kit skill. Read devflow-kit/flow/GO.md and follow ALL steps in order:
+1. Read or create .specs/进度跟踪.md (project state)
+2. Run brownfield entry detection if applicable
+3. Match user intent against the routing table
+4. Load required artifacts based on the routed phase
+5. Output routing declaration with mode confirmation
+6. Execute the routed phase prompt
+
+Do not skip steps. Do not implement before phase gates are satisfied unless this is explicitly a tiny direct edit.
+
+Document Parsing Mode: When user uploads a document (PRD, design file, technical spec), trigger GO.md Section D. Parse document, evaluate quality, output results, confirm mode, generate artifacts.
 """

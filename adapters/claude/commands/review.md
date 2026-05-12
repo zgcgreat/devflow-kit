@@ -4,6 +4,13 @@ description: Review current changes through devflow-kit quality gates
 
 # /review — 四轮代码审查
 
+## 前置检查
+
+Before executing, ensure:
+1. `.specs/进度跟踪.md` exists and reflects current state
+2. Required artifacts exist (`01-需求分析.md`, `05-测试报告.md`)
+3. Git diff is available for review
+
 ## 快速模式
 
 用户可指定审查范围：
@@ -59,15 +66,6 @@ description: Review current changes through devflow-kit quality gates
 │  📝 输出: .specs/<req-id>/06-代码审查.md                     │
 │  📋 任务: 2 条 fix 任务已追加到 03-任务拆分.md               │
 └─────────────────────────────────────────────────────────────┘
-```
-
-## 前置加载（自动）
-
-AI 自动加载核心文件，并在输出开头声明：
-
-```
-✅ 已加载: code-review-and-quality (347 行)
-⏳ 按需待加载: security-and-hardening, performance-optimization
 ```
 
 ## Critical 问题处理（选择题模式）

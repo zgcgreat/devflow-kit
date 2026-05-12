@@ -4,4 +4,9 @@ description: Break approved requirements/design into small verifiable tasks
 
 Use the devflow-kit skill.
 
-Route to `devflow-kit/flow/prompts/3-task.md`. Read the existing requirement, design, UI design if applicable, and project context artifacts. Use `devflow-kit/agent-skills/skills/planning-and-task-breakdown/_SKILL.md`. Produce small ordered tasks with acceptance criteria and verification steps.
+Route to `devflow-kit/flow/prompts/3-task.md`. Before executing, ensure:
+1. `.specs/进度跟踪.md` exists and reflects current state
+2. Required artifacts exist (`01-需求分析.md`, `02-方案设计.md`)
+3. Phase gates are satisfied
+
+Read the existing requirement, design, UI design if applicable, and project context artifacts. Use `devflow-kit/agent-skills/skills/planning-and-task-breakdown/_SKILL.md`. Produce small ordered tasks with acceptance criteria and verification steps.
