@@ -1,0 +1,5 @@
+description = "Review current changes through devflow-kit quality gates"
+
+prompt = """
+Use the devflow-kit skill. Route to devflow-kit/flow/prompts/6-review.md. Use code-review-and-quality, security-and-hardening, and performance-optimization as relevant. Report findings with severity and file references.
+"""

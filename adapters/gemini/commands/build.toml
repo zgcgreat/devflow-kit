@@ -1,0 +1,5 @@
+description = "Implement the next devflow-kit task incrementally"
+
+prompt = """
+Use the devflow-kit skill. Route to devflow-kit/flow/prompts/4-dev.md. Execute one task at a time. Use incremental-implementation, test-driven-development, and git-workflow-and-versioning. Verify before marking complete.
+"""

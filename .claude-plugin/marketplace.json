@@ -1,0 +1,19 @@
+{
+  "name": "devflow-kit-local",
+  "owner": {
+    "name": "Local"
+  },
+  "metadata": {
+    "description": "A structured engineering workflow for AI coding agents."
+  },
+  "plugins": [
+    {
+      "name": "devflow-kit",
+      "source": {
+        "source": "local",
+        "path": "."
+      },
+      "description": "One entry point for spec, plan, build, test, review, and ship workflows."
+    }
+  ]
+}

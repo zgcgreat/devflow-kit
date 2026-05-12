@@ -1,0 +1,5 @@
+description = "Test, debug, and verify a change through devflow-kit"
+
+prompt = """
+Use the devflow-kit skill. Route to devflow-kit/flow/prompts/5-test.md. Use test-driven-development and debugging-and-error-recovery. For browser work, also use browser-testing-with-devtools. Record verification evidence.
+"""

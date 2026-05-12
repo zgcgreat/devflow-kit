@@ -1,0 +1,424 @@
+# GO — devflow-kit 统一路由器（AI 内部文件）
+
+> AI 指令（必须遵守）：
+> 1. **本文件是唯一路由入口**。读完后按第三步路由表匹配用户意图，然后路由到对应 prompt
+> 2. **第一条回复必须输出路由声明**（含选定的模式 Fast/Standard/Strict + 理由）
+> 3. **所有产物必须保存到 `.specs/<req-id>/` 下**，不能放项目根目录
+> 4. **不读本文件直接动手违反了流程规则**，会导致无入场扫描、无产物、无安全检查
+>
+> 用户使用方式：`Use devflow-kit` 或 `@devflow-kit/flow/GO.md` + 一句话需求
+
+> AI 看到本文件后按下方规则路由，自动决定阶段、自动生成 ID、自动按需加载工件，**不要等用户提供 ID 或路径**。
+
+---
+
+## 模式与风险分级（走任何阶段前必读）
+
+进入流程前先判定 Fast / Standard / Strict 三档。用户已显式指定模式时可以沿用，但命中高风险矩阵必须升级。
+
+**判定后必须独立输出模式确认并停等用户选择，用户确认后才能继续。**
+
+#### 模式确认（第三步路由匹配后、第四步加载工件前 · 必须停等）
+
+AI 判定模式后，**单独发一条消息**输出模式确认，**然后停下来等用户回复**。不能和路由声明混在一起一次性输出。
+
+```
+🎯 建议模式：<Fast / Standard / Strict>
+   理由：<简要说明为什么是这个模式>
+   流程：<该模式对应的最小流程，展开写>
+
+   其他可选模式：
+   • <模式B> — <该模式的最小流程>（<适合场景>）
+   • <模式C> — <该模式的最小流程>（<适合场景>）
+
+   请确认或选择其他模式：
+   1. ✅ <建议模式>（推荐）
+   2. <模式B>
+   3. <模式C>
+```
+
+⚠️ **AI 输出以上内容后必须停止，等用户回复。不能继续输出路由声明或执行任何动作。**
+
+用户回复确认后才算模式确定；用户选了其他模式则切换后继续。**不允许 AI 自行敲定模式后不问用户。**
+
+示例：
+
+```
+🎯 建议模式：Standard
+   理由：新增搜索功能，涉及前后端多文件改动，有 UI 变化
+   流程：需求确认 → 需求分析 → 方案设计 → 任务拆分 → 开发 → 测试 → 审查 → 集成
+
+   其他可选模式：
+   • Fast — 短任务说明 → 修改 → 窄验证 → 结果证据（≤2 文件、<50 行、低风险改动）
+   • Strict — 完整流程 + 安全/迁移/回滚/独立 review（高风险/生产敏感改动）
+
+   请确认或选择其他模式：
+   1. ✅ Standard（推荐）
+   2. Fast
+   3. Strict
+```
+
+**例外**：用户在需求中已显式指定模式（如"Fast 模式：修个 typo"）→ 可直接采用，但仍要在路由声明中展示该模式和流程（不再列出其他选项），让用户有机会确认。
+
+#### 模式降级评估（阶段切换时评估，需用户确认）
+
+AI 在完成任一阶段后进入下一阶段前，依据以下信号评估是否应建议降级：
+
+| 信号 | 当前模式 | 可降级到 |
+|------|----------|----------|
+| 实际改动文件数 ≤ 2，且均为同一层（纯后端/纯前端） | Standard | Fast |
+| 所有改动加起来 < 50 行（不含空行/注释/已有代码搬运） | Standard | Fast |
+| 无数据库/API/跨模块影响 | Standard | Fast |
+| 命中 0-confirm 阶段范围排除的任一条 | Standard | Fast |
+| 当前阶段运行中用户表示"太多了/太复杂了" | **任何模式** | 降一级或暂停 |
+
+降级前 AI 必须暂停并询问用户确认，输出示例：
+```
+📉 建议模式降级：Standard → Fast
+   触发信号：实际改动仅 2 文件 38 行，纯后端无 schema 变更
+   裁剪内容：跳过 2-design / 2a-ui-design，测试报告合并到开发记录
+   是否同意降级？[Y/n]
+```
+用户回复确认后才执行降级；用户拒绝则保持当前模式继续。
+不允许「悄无声息地跳过阶段」，也不允许 AI 自行决定降级。
+
+> 只有在 Fast 模式下确实卡住（如发现隐藏的多模块影响）时才需要**升级**到 Standard，
+> 此时同样必须暂停并询问用户确认。AI 不能替用户做升级或降级决定。
+
+| 模式 | 适用 | 最小流程 |
+|---|---|---|
+| Fast | 1~2 文件、低风险、通常 <50 行、需求清楚、可快速回滚 | 短任务说明 → 修改 → 窄验证 → 结果证据 |
+| Standard | 常规 feature / bugfix、多文件、UI、业务逻辑、需要 AC | 需求 → 设计 → 任务 → 开发 → 测试 → 审查 |
+| Strict | 高风险 / 生产敏感 / 架构或数据影响 | 完整流程 + 明确确认点 + 安全/迁移/回滚/独立 review |
+
+**高风险自动升级 Strict**：鉴权、权限、支付、账单、secret、PII、数据保留、schema / migration、公共 API / SDK、infra、部署、CI/CD、环境配置、依赖升级、跨模块架构、并发、后台任务、缓存、数据丢失风险、不可逆操作、上线回滚敏感路径。
+
+**必须人工确认的门**：需求范围、技术栈 / 架构方向、schema / migration、新依赖、删除文件、CI/CD / deploy 配置、接受 Critical review、归档 / 移动工件、生产 GO。
+
+---
+
+## 红线·Token 预算（走任何阶段前必读）
+
+flow-kit 的文件分两类，**加载策略不同**：
+
+| 类型 | 路径 | 长度 | 加载方式 |
+|---|---|---|---|
+| **SPEC**（项目产物）| `.specs/<id>/*.md` | 通常 < 200 行 | 整读 OK |
+| **REFERENCE**（查阅型）| `devflow-kit/flow/reference/*.md` | 75~470 行 | **禁止默认整读**，只 grep / read offset 需要的那一节 |
+| **TEMPLATE / PROMPT** | `devflow-kit/flow/templates|prompts/*.md` | < 150 行 | 整读 OK |
+
+**违规示例**（AI 常犯）：
+
+- ❌ 进入 2-design 阶段后直接 `read_file devflow-kit/flow/reference/tech-stacks.md` 整读 467 行
+- ✅ 正确：`grep_search` 查 `适用矩阵` 或 `read_file offset=??? limit=80` 只读所需那节
+
+- ❌ 进入 2a-ui-design 后同时读 `ui-aesthetics.md` 与 `ui-anti-patterns.md` 两全文
+- ✅ 正确：`ui-anti-patterns.md` 75 行可整读；`ui-aesthetics.md` 只读「调性」一节
+
+**Token 预算**：进入任何阶段的首轮消息，加载的 reference 总行数 ≤ **150 行**。超过 → 拆到后面按需拉。
+
+---
+
+## Token 预算估计 · 进阶段前必跑
+
+> 单行模式预估。AI 在路由声明中追加：
+
+```
+✅ 当前模式预估：Standard full chain ~240k - 530k tokens
+```
+
+段位判定：Small（< 50 line / 单文件 / 无新依赖）或 Large（前端 task ≥ 3 / schema / 风险项）。不做精确预估——实际偏差 < 30% 前不值得花时间算。
+
+### 何时不必跑
+
+- 用户已指定模式
+- 恢复中断任务（走 R1.5）
+- 横向命令（L-restyle / M-health）
+
+---
+
+## 第一步 · 读取或创建项目状态（必须，跳过即违反）
+
+1. 尝试读 `.specs/进度跟踪.md`。不存在 → 用 `@devflow-kit/flow/templates/进度跟踪.md` 模板创建空的 `.specs/进度跟踪.md`，然后继续
+2. 关注字段：`活跃 req` / `当前阶段` / `当前 Task` / `中断任务`
+3. 如果存在 `中断任务` 非空 → **优先级最高**，直接走"恢复中断任务"分支（见下表）
+
+### 可选 runtime adapter 检测
+
+flow-kit 默认不依赖任何运行时。若项目同时存在 `.claude/hooks/forge-pretool-guard.ps1` 与 `.claude/hooks/forge-session-audit.ps1`，说明可选 Forge runtime adapter 已安装。
+
+检测到 Forge 时，在路由声明里追加一行：
+
+```text
+Forge adapter: detected / not detected
+```
+
+---
+
+## 第二步 · 老项目入场检测（brownfield 必跑）
+
+**触发**：路由到 0-confirm 之前必跑。横向命令（A-architect / A-evolve / I-intel-scan / L-restyle / M-health）不跑本步。
+
+### 1.5.1 探测 AI 上下文文档
+
+按下面顺序 `ls` / `find` 探测项目根目录与常见路径：
+
+| 文档 | 路径 | 来自哪个生态 |
+|---|---|---|
+| `上下文.md` | `.specs/` | devflow-kit 自己 |
+| `AGENTS.md` | 仓库根 | OpenAI Codex / 标准 agents 协议 |
+| `CLAUDE.md` | 仓库根 / `.claude/` | Anthropic Claude Code |
+| `.cursor/rules/*.md` | `.cursor/` | Cursor IDE |
+| `.windsurf/rules/*.md` | `.windsurf/` | Windsurf IDE |
+| `.github/copilot-instructions.md` | `.github/` | GitHub Copilot |
+| `.clinerules` | 仓库根 | Cline |
+
+读 `.specs/进度跟踪.md` 的 `ai_context_doc`（用户上次指定的替代文档）和 `last_intel_scan` 字段。
+
+### 1.5.2 判决
+
+#### 情况 A · `进度跟踪.md` 已设 `ai_context_doc`
+
+用户上次明确指定了某文档为 AI 遵守依据。**直接读它**，不再询问。
+
+后续阶段（2-design / 4-dev）改读 `<ai_context_doc>` 替代 上下文.md。
+
+#### 情况 B · 已存在 `上下文.md` 且 `last_intel_scan` 在 90 天内
+
+**直接读 上下文.md**，跳过本步。无需打扰用户。
+
+#### 情况 C · 已存在 `上下文.md` 但超过 90 天
+
+读 上下文.md，**提醒用户**："上次扫描已 X 天，可重跑 intel-scan"，但**不强制**。
+
+#### 情况 D · 未发现 `上下文.md`，但有其他 AI 上下文文档（AGENTS / CLAUDE / Cursor / 等）
+
+**反问用户**（**必须**等待回复才能继续）：
+
+```
+🔍 检测到本项目已有以下 AI 上下文文档：
+  - <列出找到的，含路径与文件大小>
+
+devflow-kit 默认用 上下文.md 作为单一源。请选择：
+  1. 跑 intel-scan，综合现有文档 + 代码扫描，生成 上下文.md（推荐）
+  2. 以现有文档为准（告诉我哪个），跳过 intel-scan
+  3. 跳过 intel-scan + 不读现有文档（不推荐 · AI 会盲飞）
+
+请选 1/2/3。无人工确认前我不进 0-confirm（避免 AI 在不知项目约定下开始动手）。
+```
+
+- **选 1**：进 `prompts/I-intel-scan.md` 走分支 A
+- **选 2**：在 `进度跟踪.md` 写 `ai_context_doc: <用户指定路径>`，回到原意图（直接进 0-confirm）
+- **选 3**：在 `进度跟踪.md` 写 `ai_context_doc: none / skip`，回到原意图（带警告）
+
+#### 情况 E · 未发现任何 AI 上下文文档（上下文 / AGENTS / CLAUDE / Cursor / Windsurf / Copilot / Cline 全无）
+
+**反问用户**（**必须**等待回复才能继续）：
+
+```
+🔍 项目里未发现任何 AI 上下文文档。
+
+devflow-kit 后续阶段需要项目上下文给 AI 用。请选择：
+  1. 现在跑入场扫描，自动生成 上下文.md（~15-30k tokens · 仅首次 · 推荐）
+  2. 我手动指定项目里某个文档作为开发遵守依据：<请回复路径>
+  3. 跳过 intel-scan，直接进 0-confirm（不推荐 · AI 会"盲飞"，老项目护栏 B1-B5 全失效）
+
+请选 1/2/3。无人工确认前我不开始扫描或进入 0-confirm（避免无意义消耗 token）。
+```
+
+- **选 1**：进 `prompts/I-intel-scan.md` 走分支 C
+- **选 2**：在 `进度跟踪.md` 写 `ai_context_doc: <路径>`，回到原意图
+- **选 3**：在 `进度跟踪.md` 写 `ai_context_doc: none`，回到原意图（带警告）
+
+#### 情况 F · 是刚创新项目（无 `package.json` / `pyproject.toml` / 等代码上下文）
+
+跳过本步。这是 greenfield 项目，上下文.md 会在 0-confirm / 1-analysis / 2-design 过程中逐步沉淀。
+
+### 1.5.3 为什么这步重要
+
+跳过会导致：
+- AI 不知项目架构 → 写出不合项目风格的代码
+- AI 重复实现已有抽象 → 费 token 且产生重复代码
+- 4-dev 1.7 schema 任务 / 1.8 破坏性变更检测都会不准
+- 用户明明有 CLAUDE.md 写好的约定 → AI 完全不读 → 抱怨"为什么不按我说的来"
+
+---
+
+## 第三步 · 路由表（匹配用户意图 → 阶段）
+
+本文件是统一路由器。入口有两个角度同时匹配 —— 先看「用户首要意图」，再看「可选命令」：
+
+### A. 用户首要意图
+
+| 用户说 | 需求状态 | 路由到 | 示例原文 |
+|---|---|---|---|
+| 有新想法想做件事 | `.specs/` 下无活跃 req | **0-confirm**（需求确认）| "加个搜索功能"、"想加一个反馈收集组件" |
+| 有新想法想做件事 | `.specs/` 下有活跃 req | **其他路径**：走中断处理分支的规则 | "帮我改一下用户认证" |
+| 恢复中断任务 | `.specs/进度跟踪.md` 存在且 `中断任务` 非空 | **直接恢复中断任务**（按 R1.5 重启协议） | "继续"、"继续刚才的"、"接着做" |
+| 不要进入 flow-kit | — | **直接做**，跳过所有 flow 流程 | "不要走流程"、"就直接帮我改一下" |
+| 检查项目健康度 | — | **M-health**（体检）| "帮我看看项目状态"、"健康检查" |
+| 要求 evolve / architect 模式 | — | **A-evolve** 或 **A-architect** | "evolve"、"帮我梳理架构"、"architect" |
+| 纯读代码/技术问题 | — | 不用 flow-kit，直接回答 | "这段代码怎么回事"、"异步怎么实现的" |
+| 新 req 但已有 `.specs/` 下非活跃 req | 非活跃 req 未解锁 | 先归档或关闭旧的 req（更新 `.specs/进度跟踪.md`），再走 0-confirm | "之前那个需求先不做了，我想做新的" |
+
+### B. 可选命令（用户在流程行进中随时可发）
+
+| 用户说 | 路由到 | 说明 |
+|---|---|---|
+| "换个方案" / "换设计" | 回到 2-design | 触发新 ADR，生成设计文档变体 |
+| "architect" | A-architect | 架构 review / 梳理，不改变主流程 |
+| "扫描代码" / "入场扫描" / "intel" | I-intel-scan | 入场扫描，生成 上下文.md（首次或结构大变化时跑） |
+| "换风格" / "改视觉" / "restyle" | L-restyle | 视觉调性改版，不改变主流程 |
+| "我的需求变了" | 回到 0-confirm | 当前 req 归档，重新确认新范围，旧产物标记 superseded |
+| "继续" / "下一阶段" / "继续下一阶段" | 按 R1.5 执行下一阶段 | 不阻塞，直接往下走 |
+
+### C. 阶段门验证（防跳级 · 路由到非 0-confirm 阶段时必查）
+
+**触发条件**：路由目标 ≠ 0-confirm（即用户意图已跳过了前面的阶段）。
+
+AI 路由到某个阶段时，必须验证该阶段的前置产物存在。**缺前置产物 → 不允许直接进入，必须先补跑缺失阶段**。
+
+| 路由目标 | 必须存在的前置产物 | 缺失时处理 |
+|---|---|---|
+| 1-analysis | `.specs/<id>/00-需求确认.md` | 先走 0-confirm |
+| 2-design | `00-需求确认.md` + `01-需求分析.md` | 先补缺失的阶段 |
+| 2a-ui-design | 上面 + `02-方案设计.md` | 先走 2-design |
+| 3-task | `00` + `01` + `02`（前端项目 + `02a`） | 先补缺失的阶段 |
+| 4-dev | 上面 + `03-任务拆分.md` | 先走 3-task；Fast 模式例外（见下） |
+| 5-test | `03-任务拆分.md` + `04-开发记录.md`（或各 task 开发记录） | 先走 4-dev |
+| 6-review | `05-测试报告.md` | 先走 5-test |
+| 7-integration | `06-代码审查.md` | 先走 6-review |
+
+**Fast 模式例外**：Fast 模式允许跳过 0-confirm 到 3-task 之间的产物（SKILL.md 定义了最小流程），但必须满足：
+1. AI 已在路由声明中明确判定为 Fast 模式
+2. 改动确实 ≤ 2 文件、< 50 行、低风险
+3. 用户未反对该判定
+
+**用户显式跳过例外**：用户说"跳过设计" / "不要写需求" → 允许跳过，但 AI 必须在路由声明中记录跳过了什么、跳过的原因，后续阶段发现问题时不得以"没走过设计"为借口。
+
+---
+
+## 第四步 · 按需加载工件（接入前一阶段的输出）
+
+进入阶段后严格按下表加载文件，不要去 `.specs/` 下乱扫其他文件：
+
+| 阶段 | 全读（必须读完才能推进） | 查表（只查需要的那节） | 按需（讨论到相应主题再拉） |
+|---|---|---|---|
+| 0 | `.specs/进度跟踪.md` + `.specs/上下文.md` + `.specs/需求LOG.md`（如存在）+ `devflow-kit/flow/templates/00-需求确认.md`（仅模板结构参考，45 行） | — | — |
+| 1 | `<id>/00-需求确认.md` + `.specs/上下文.md` + `.specs/经验总结.md` | — | — |
+| 2 | `<id>/00-需求确认.md` + `<id>/01-需求分析.md` + `.specs/上下文.md` + `.specs/系统架构.md`（如存在 · brownfield 强烈推荐 · 重点读 § 2/§ 3/§ 4）| `devflow-kit/flow/reference/tech-stacks.md` 只查「适用矩阵」+ 过滤出的 5~6 张卡片 | ADR 阶段某项要深谈时再读 |
+| 2a | `<id>/00-需求确认.md` + `<id>/01-需求分析.md` + `<id>/02-方案设计.md` `## 0` 段 + `.specs/上下文.md` + `devflow-kit/flow/reference/ui-anti-patterns.md`（仅 75 行可全读）| `devflow-kit/flow/reference/ui-aesthetics.md` 查「5 维度」+ 「给 AI 的模板」 | uipro / impeccable 查询（装了才调）|
+| 3 | `<id>/01-需求分析.md` + `<id>/02-方案设计.md` + `<id>/02a-UI设计.md`（前端项目）+ `.specs/上下文.md` | — | 任务模板查询 |
+| 4 | `<id>/03-任务拆分.md`（只读当前 task 块）+ `<id>/02-方案设计.md` `## 0` 段 + `<id>/02a-UI设计.md`（UI 任务）+ `.specs/上下文.md` + `.specs/经验总结.md` | `devflow-kit/flow/reference/ui-anti-patterns.md`（UI 任务 · 75 行可全读）| — |
+| 5 | `<id>/01-需求分析.md` + `<id>/02-方案设计.md` `## 0` 段 + `<id>/03-任务拆分.md` + `<id>/04-开发记录.md` + 各 `*-开发记录.md` | `devflow-kit/flow/reference/test-pyramid.md` 只查「适用矩阵」+ 需要的那几轮详情 | — |
+| 6 | `<id>/01-需求分析.md` + `<id>/02-方案设计.md` + `<id>/03-任务拆分.md` + `<id>/05-测试报告.md` + `git diff` | `devflow-kit/flow/reference/ui-anti-patterns.md`（前端项目第三轮 · 75 行可全读）| — |
+| 7 | `.specs/<id>/` 全部产物 + `.specs/经验总结.md` | 产出：`07-发布清单.md`（发布检查 + 回滚方案）| — |
+| **M** (health) | `.specs/上下文.md` + `.specs/经验总结.md` + 最近 1 份 `.specs/health/*.md`（如有，做对比基线）| — | 抽样 5 个最近改动频繁的 src/ 模块 + 5 个测试文件 + 最近 30 天 git log |
+| **A** (evolve) | `.specs/进度跟踪.md` + `.specs/上下文.md` + `.specs/系统架构.md`（如存在）+ 范围内每个 `.specs/archive/<req-id>/02-方案设计.md` 的 § 9 段（仅 § 9，非整份 DESIGN）| — | 仅扫 `last_evolve_at` 之后归档的 req，禁止越界读 § 9 以外的 DESIGN 内容 |
+| **A** (architect) | `.specs/上下文.md` + `.specs/系统架构.md`（如存在）+ `.specs/需求LOG.md` + `devflow-kit/flow/templates/系统架构.md`（模板）| — | `src/` 顶层结构 + `package.json` / 依赖文件 + 抽样几份 `.specs/archive/*/02-方案设计.md` |
+
+### 查 reference 某一节的实际动作示例
+
+```
+# ± 查「适用矩阵」那一节的起始行
+grep_search Query="适用矩阵" SearchPath="devflow-kit/flow/reference/tech-stacks.md"
+# 取到 line 380 左右为起始，再：
+read_file path="devflow-kit/flow/reference/tech-stacks.md" offset=380 limit=60
+```
+
+不要「为了保险」一上来就整读。不仅费 token，还让你在后面的推理中被无关节况干扰。
+
+## 第五步 · 显式声明执行计划（必须）
+
+**前置条件：模式已由用户确认（见上方「模式确认」段）。** AI 必须在用户确认模式之后，才能输出路由声明和开始执行。
+
+进入实际工作前，AI 必须输出一段**路由声明**，**必须包含第三步路由表指定的 skill 加载情况**：
+
+```
+✅ 模式：<已确认的模式>（用户已确认 / 用户已显式指定）
+✅ 当前模式预估：<单行估计>（R1.9 要求，见 Token 预算估计节）
+✅ 路由：<阶段，例如 0-confirm>
+✅ Req-ID：<id>（已自动生成 / 已恢复活跃需求：<existing-id>）
+✅ 已加载的 skill：
+   - <skill1/_SKILL.md>（全读，N 行）
+   - <skill2/_SKILL.md>（全读，N 行）
+✅ 已加载的工件（参照上表「全读 / 查表 / 按需」）：
+   - <file1>（全读，N 行）
+   - <file2>（全读，N 行）
+✅ 未加载：<本阶段不需但后面可能用到的文件，明说何时才拉>
+✅ 第一动作：<具体下一步>
+```
+
+> **一致性**：路由声明中出现多阶段标识时（如路径展示），统一使用英文标识（`0-confirm → 1-analysis → 2-design` 等），不加中文注释，不混用。
+
+示例（4-dev 阶段）：
+
+**第一条消息（模式确认 · 必须停等用户）**：
+```
+🎯 建议模式：Standard
+   理由：执行 T01 搜索组件实现，多文件改动
+   流程：需求确认 → 需求分析 → 方案设计 → 任务拆分 → 开发 → 测试 → 审查 → 集成
+
+   其他可选模式：
+   • Fast — 短任务说明 → 修改 → 窄验证 → 结果证据
+   • Strict — 完整流程 + 安全/迁移/回滚/独立 review
+
+   请确认或选择其他模式：
+   1. ✅ Standard（推荐）
+   2. Fast
+   3. Strict
+```
+
+**用户确认后，第二条消息（路由声明）**：
+```
+✅ 模式：Standard（用户已确认）
+✅ 当前模式预估：Standard full chain ~240-530k tokens
+✅ 路由：4-dev（执行 T01：实现搜索组件）
+✅ Req-ID：add-search-box
+✅ 已加载的 skill：
+   - devflow-kit/agent-skills/skills/incremental-implementation/_SKILL.md（全读，63 行）
+   - devflow-kit/agent-skills/skills/test-driven-development/_SKILL.md（全读，42 行）
+   - devflow-kit/agent-skills/skills/git-workflow-and-versioning/_SKILL.md（全读，28 行）
+✅ 已加载的工件：
+   - .specs/add-search-box/02-方案设计.md ## 0 段（全读，15 行）
+   - .specs/add-search-box/03-任务拆分.md（仅 T01 块，28 行）
+   - .specs/上下文.md（全读，41 行）
+   - .specs/经验总结.md（全读，18 行）
+✅ 未加载：ui-anti-patterns.md（非 UI 任务）
+✅ 第一动作：按 4-dev 步骤 1，加载上一轮 PROGRESS 续做
+```
+
+模式确认和路由声明是**两条独立消息**。模式确认必须先发出并等用户回复，用户确认后才输出路由声明。用户选了其他模式 → AI 切换模式后再输出路由声明。
+
+## 第六步 · 执行对应阶段 prompt
+
+加载 `prompts/<n>-*.md` 的内容并按其指令推进。所有规则（`RULES.md` / `SYSTEM.md`）继续生效。
+
+---
+
+## 极少数情况：用户根本没说他想做什么
+
+例：用户只发了 `@devflow-kit/flow/GO.md`，正文空。
+
+→ AI 必须主动反问，给出 3 个最可能的选项让用户选：
+1. 我有个新想法想做
+2. 继续上次的工作（如果 STATE 有活跃 req，主动列出）
+3. 我要审查/测试某段已有代码
+
+不要瞎猜路由。
+
+---
+
+## 自检（产出路由声明前）
+
+- [ ] 已读 `.specs/进度跟踪.md`（如果存在）
+- [ ] **入场检测已跑**：已按第二步检测 `上下文.md` / AI 上下文文档，未跳过
+- [ ] 已按表格匹配意图，没有跳过
+- [ ] **阶段门已验证**：路由目标 ≠ 0-confirm 时，前置产物已检查；缺失阶段已补跑或用户已显式确认跳过
+- [ ] **模式已判定，已独立输出模式确认（推荐+流程+可选+流程），已停等用户确认，用户已回复确认**
+- [ ] **第三步路由表指定的 skill 已全部加载**
+- [ ] 新需求 已自动生成 ID 并展示
+- [ ] **Token 预算**：本轮加载的 reference/* 总行数 ≤ 150（全读仅 ui-anti-patterns 75 行 · 其他均查节）
+- [ ] **未越界**：没有读上表「查表」或「按需」列中的文件为全文
+- [ ] 路由声明含「模式 / 当前模式预估 / 已加载的 skill / 已加载的工件 / 未加载 / 第一动作」六要素
+- [ ] 没有要求用户提供 ID / 路径 / 阶段名（这些 AI 自己决定）

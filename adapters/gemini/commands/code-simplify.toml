@@ -1,0 +1,5 @@
+description = "Simplify code for clarity and maintainability — reduce complexity without changing behavior"
+
+prompt = """
+Use the devflow-kit skill. Load devflow-kit/agent-skills/skills/code-simplification/_SKILL.md. Simplify recently changed code (or the specified scope) while preserving exact behavior. Follow the skill's process: understand, identify opportunities, apply incrementally, verify. If tests fail after a simplification, revert and reconsider.
+"""

@@ -1,0 +1,5 @@
+description = "Run integration and launch readiness checks through devflow-kit"
+
+prompt = """
+Use the devflow-kit skill. Route to devflow-kit/flow/prompts/7-集成投产.md. Use shipping-and-launch, ci-cd-and-automation, and migration/deprecation skills as relevant. Produce a go/no-go decision with rollback plan.
+"""
