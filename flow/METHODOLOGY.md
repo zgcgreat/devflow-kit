@@ -9,7 +9,7 @@
 ## 标准流程
 
 ```
-需求确认 → REQUIREMENT → DESIGN → [2a UI-DESIGN]* → TASK → DEV → TEST → REVIEW → INTEGRATION → ARCHIVE
+需求确认 → ANALYSIS → DESIGN → [2a UI-DESIGN]* → TASK → DEV → TEST → REVIEW → INTEGRATION → ARCHIVE
     │          │           │            │            │      │       │         │            │
     │          └─ 上下文.md 跨阶段共享 ┘     前端项目 ┘     └ TDD ─┘         │            │
     │                                                                          │            │
@@ -20,9 +20,9 @@
 * 仅前端项目走 2a；后端 / CLI / lib 跳过
 ```
 
-**前端项目路径**：`需求确认 → REQUIREMENT → DESIGN → 2a UI-DESIGN → TASK → DEV → TEST → REVIEW (3 轮) → INTEGRATION`
-**后端项目路径**：`需求确认 → REQUIREMENT → DESIGN → TASK → DEV → TEST → REVIEW → INTEGRATION`
-**MVP 路径**：`REQUIREMENT → TASK → DEV`（只跑这三步，3 个文件起步）
+**前端项目路径**：`需求确认 → ANALYSIS → DESIGN → 2a UI-DESIGN → TASK → DEV → TEST → REVIEW (3 轮) → INTEGRATION`
+**后端项目路径**：`需求确认 → ANALYSIS → DESIGN → TASK → DEV → TEST → REVIEW → INTEGRATION`
+**MVP 路径**：`ANALYSIS → TASK → DEV`（只跑这三步，3 个文件起步）
 
 ---
 
@@ -31,9 +31,9 @@
 | 阶段 | 输入 | AI 职责 | 输出文件 | 需人工确认 | 迭代可跳 |
 |---|---|---|---|---|---|
 | 需求确认 | 一句话想法 / bug | 反问澄清 + 影响面判定 | `00-需求确认.md` | 是 | 否 |
-| REQUIREMENT | 需求确认 | 写 AC + 范围切分 + 术语提取 | `01-需求分析.md` + `上下文.md` | 是 | 条件性 |
-| DESIGN | 需求确认 + REQUIREMENT + CONTEXT | **技术栈预选**（5~6 卡让用户选）+ 技术决策 + ADR + 数据流 | `02-方案设计.md`（含 `## 0. 技术栈选定`）| 是（栈 + 关键决策）| 条件性 |
-| **2a UI-DESIGN** | REQUIREMENT + DESIGN | 美学方向 + design tokens + 反 AI-slop 自检 | `02a-UI设计.md` | 是（关键决策）| 否（前端必跑）/ 是（非前端跳过）|
+| ANALYSIS | 需求确认 | 写 AC + 范围切分 + 术语提取 | `01-需求分析.md` + `上下文.md` | 是 | 条件性 |
+| DESIGN | 需求确认 + ANALYSIS + CONTEXT | **技术栈预选**（5~6 卡让用户选）+ 技术决策 + ADR + 数据流 | `02-方案设计.md`（含 `## 0. 技术栈选定`）| 是（栈 + 关键决策）| 条件性 |
+| **2a UI-DESIGN** | ANALYSIS + DESIGN | 美学方向 + design tokens + 反 AI-slop 自检 | `02a-UI设计.md` | 是（关键决策）| 否（前端必跑）/ 是（非前端跳过）|
 | TASK | DESIGN（+ UI-DESIGN）| 拆原子任务 + 标 `[P]` 并行 + 依赖图 | `03-任务拆分.md` | 否 | 否 |
 | DEV | TASK 中一项 | fresh subagent + TDD + 原子提交 | 代码 + `开发记录.md` | 否 | 否 |
 | TEST | 代码 + AC + 非功能需求 | **5 轮金字塔**：功能 / 性能 / 安全 / 兼容 / 可观测（按项目类型裁剪）| `05-测试报告.md` | 否 | 否 |
@@ -68,8 +68,8 @@
 
 | 角色 | 输入 | 输出 | 时机 |
 |---|---|---|---|
-| **Architect** | 需求确认 / REQUIREMENT | 02-方案设计.md + ADR | DESIGN 阶段 |
-| **UI Director** | REQUIREMENT + DESIGN | 02a-UI设计.md（含 design tokens）| 2a UI-DESIGN 阶段（前端项目）|
+| **Architect** | 需求确认 / ANALYSIS | 02-方案设计.md + ADR | DESIGN 阶段 |
+| **UI Director** | ANALYSIS + DESIGN | 02a-UI设计.md（含 design tokens）| 2a UI-DESIGN 阶段（前端项目）|
 | **Planner** | DESIGN（+ UI-DESIGN）| 03-任务拆分.md | TASK 阶段 |
 | **Dev**（多实例并行）| TASK 中一项 | 代码 + 任务级 SUMMARY | DEV 阶段，每任务一个 fresh context |
 | **Reviewer** | diff + SPEC | 06-代码审查.md | REVIEW 阶段（建议四轮：spec 合规 + 代码质量 + UI + 补充）|

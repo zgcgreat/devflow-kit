@@ -6,7 +6,7 @@
 
 ## 1. 阶段
 
-完整流程：`需求确认 → REQUIREMENT → DESIGN → TASK → DEV → TEST → REVIEW → INTEGRATION → ARCHIVE`
+完整流程：`需求确认 → ANALYSIS → DESIGN → TASK → DEV → TEST → REVIEW → INTEGRATION → ARCHIVE`
 
 - Architect 不写实现代码
 - UI Director 不写完整组件
