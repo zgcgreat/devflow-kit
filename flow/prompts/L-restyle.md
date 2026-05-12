@@ -182,13 +182,13 @@ npx impeccable detect <component-file> # 反 AI-slop（可选，如装了）
 - [ ] 新调性已选定，用户已知代价
 - [ ] 影响面"动 / 不动"清单完整
 - [ ] 02a-UI设计.md v2 已写，组件接口与 v1 完全一致
-- [ ] 任务按"token → 组件 → 回归"三波次拆分
+- [ ] 任务按"token → 组件 → 回归"三批次拆分
 - [ ] 风险通告已输出且用户已确认
 - [ ] 没有任何任务触及"不动"列内容
 
 ## 触发下一步
 
-- 用户确认 → `@devflow-kit/flow/prompts/3-task.md`（按上述波次落实任务）
+- 用户确认 → `@devflow-kit/flow/prompts/3-task.md`（按上述批次落实任务）
 - → `@devflow-kit/flow/prompts/4-dev.md`（每任务 fresh context，UI 任务自动扫 anti-patterns）
 - → `@devflow-kit/flow/prompts/6-review.md`（**第三轮 UI 视觉审查必跑**，含 v1 vs v2 对比段）
 - → `@devflow-kit/flow/prompts/7-integration.md`（UAT 重点：老用户能否完成关键流程；视觉是否传达声明的调性）

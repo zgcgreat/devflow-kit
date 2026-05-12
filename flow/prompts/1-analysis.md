@@ -1,4 +1,4 @@
-# 阶段 1 · 需求 — 把需求确认书变成可执行需求
+# 阶段 1 · 分析 — 把需求确认书变成可执行需求
 
 > ⚠️ **进入本阶段前，必须先加载**：`devflow-kit/agent-skills/skills/spec-driven-development/_SKILL.md`
 
