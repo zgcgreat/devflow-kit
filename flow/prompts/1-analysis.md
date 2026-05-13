@@ -75,7 +75,10 @@
 - `.specs/<req-id>/01-需求分析.md`（必填）
 - 更新或创建 `.specs/上下文.md`
 - **更新 `.specs/项目状态.md`**：
-  - `当前阶段` 改为 `ANALYSIS`
+  - `当前阶段` 设为 `analysis`
+  - `阶段状态` 设为 `waiting_user_confirmation`
+  - `上次完成阶段` 设为 `analysis`
+  - `下一阶段` 设为 `design` 或 `task`（按路径建议）
   - 在「阶段进度」清单中打钩 `需求分析 → 01-需求分析.md`
 
 ## 约束

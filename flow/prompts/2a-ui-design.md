@@ -222,7 +222,10 @@ v0 = 占位符 + 关键布局 + 步骤 2 决定的 token + 假设清单。
   - 包含 frontmatter 形式的 design tokens（颜色 / 字体 / 间距 / 圆角 / 动效）
   - 包含调性声明、5 维决策、组件规约、Do's and Don'ts
 - **更新 `.specs/项目状态.md`**：
-  - `当前阶段` 改为 `2a UI-DESIGN`
+  - `当前阶段` 设为 `ui-design`
+  - `阶段状态` 设为 `waiting_user_confirmation`
+  - `上次完成阶段` 设为 `ui-design`
+  - `下一阶段` 设为 `task`
   - 在「阶段进度」清单中打钩 `2a UI设计 → 02a-UI设计.md`
 
 ## 外部 skill 集成（按可用情况优先）

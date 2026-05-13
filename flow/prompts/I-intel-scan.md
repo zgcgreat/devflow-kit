@@ -121,13 +121,38 @@ flow-kit 需要一份 上下文.md 给 AI 用。请选择：
 
 ### 1. 探测项目元信息（grep / read）
 
-按下面顺序探测，**记录每条的发现**（找不到也要记"未发现"）：
+按下面顺序探测，**记录每条的发现**（找不到也要记"未发现"）。如果同一工作目录下存在多个子项目，必须逐个子项目扫描，禁止只记录第一个命中的后端或根目录 `src/`。
+
+#### 1.0 工作区拓扑 / 子项目发现（前后端同目录必跑）
+
+先建立「项目地图」，再扫描技术栈：
+
+| 信号 | 识别含义 |
+|---|---|
+| 根目录 `package.json` 含 `workspaces` / `pnpm-workspace.yaml` / `turbo.json` / `nx.json` / `lerna.json` | JS/TS monorepo |
+| `apps/*/package.json`、`packages/*/package.json`、`frontend/package.json`、`client/package.json`、`web/package.json` | 前端 app / 共享包候选 |
+| `backend/package.json`、`server/package.json`、`api/package.json`、`services/*/package.json` | Node 后端候选 |
+| `backend/pyproject.toml`、`api/requirements.txt`、`server/go.mod`、`services/*/Cargo.toml` | 非 JS 后端候选 |
+| 同时存在 `vite.config.*` / `next.config.*` 与 `prisma/` / `src/main.*` / `app.py` / `main.go` | 前后端混合仓库 |
+
+输出必须包含：
+
+```markdown
+### 项目地图（必须）
+| 子项目 | 类型 | 根路径 | 主要信号 | 运行命令 | 备注 |
+|---|---|---|---|---|---|
+| web | frontend | `frontend/` | `frontend/package.json`, `vite.config.ts` | `npm run dev --workspace frontend` | React SPA |
+| api | backend | `backend/` | `backend/pyproject.toml`, `app/main.py` | `uvicorn app.main:app --reload` | FastAPI |
+| shared | shared | `packages/types/` | `package.json` | N/A | 共享类型 |
+```
+
+如果无法确定某个子目录类型，标为 `unknown`，不要丢弃。
 
 #### 1.1 包管理与运行时
 
 | 信号文件 | 提取信息 |
 |---|---|
-| `package.json` | name / engines / 主要依赖 / scripts |
+| 根目录及每个子项目的 `package.json` | name / package manager / workspaces / engines / 主要依赖 / scripts |
 | `pyproject.toml` / `requirements.txt` / `Pipfile` | Python 版本 / 主要依赖 |
 | `Cargo.toml` | Rust edition / 依赖 |
 | `go.mod` | Go 版本 / 主要依赖 |
@@ -135,63 +160,82 @@ flow-kit 需要一份 上下文.md 给 AI 用。请选择：
 | `composer.json` | PHP 版本 / Laravel / Symfony |
 | `Gemfile` | Ruby / Rails 版本 |
 
-#### 1.2 框架检测（前端 + 后端）
+#### 1.2 框架检测（逐子项目区分前端 + 后端）
 
 ```
-grep -l "from ['\"]react" src/        → React
-grep -l "from ['\"]vue" src/          → Vue
-grep -l "import.*svelte" src/         → Svelte
-ls -la nuxt.config.* next.config.*    → Next/Nuxt
-grep -l "@nestjs" src/                → NestJS
-grep -l "fastapi" .                   → FastAPI
-grep -l "django" .                    → Django
-grep -l "spring-boot" .               → Spring Boot
-grep -l "express" src/                → Express
+grep -l "from ['\"]react" <project-root>/src/        → React
+grep -l "from ['\"]vue" <project-root>/src/          → Vue
+grep -l "import.*svelte" <project-root>/src/         → Svelte
+ls -la <project-root>/nuxt.config.* <project-root>/next.config.* <project-root>/vite.config.* → Nuxt / Next / Vite
+grep -l "@nestjs" <project-root>/src/                → NestJS
+grep -l "fastapi" <project-root>/                    → FastAPI
+grep -l "django" <project-root>/                     → Django
+grep -l "spring-boot" <project-root>/                → Spring Boot
+grep -l "express" <project-root>/src/                → Express
 ```
 
 #### 1.3 关键约定
 
+所有命令都要按「根目录 + 每个子项目根路径」分别判断；如果根目录没有 `src/`，不要停止，继续扫描 `apps/*/src`、`frontend/src`、`client/src`、`web/src`、`backend/src`、`server/src`、`api/src`。
+
 ```
 # 命名约定
-ls src/ | head -20                    → 看目录命名是 kebab / camel / snake
-find src -type f -name "*.ts" | head  → 看文件命名
+ls <project-root>/src/ | head -20                    → 看目录命名是 kebab / camel / snake
+find <project-root>/src -type f \( -name "*.ts" -o -name "*.tsx" -o -name "*.py" -o -name "*.go" \) | head  → 看文件命名
 
 # import 风格
-grep "^import" src/**/*.ts | head -20 → 看 alias 用法（@/ vs ../）
+grep "^import" <project-root>/src/**/*.ts* | head -20 → 看 alias 用法（@/ vs ../）
 
 # 测试框架
-ls jest.config.* vitest.config.* pytest.ini  → 测试框架
-find . -path '*/__tests__/*' -o -name '*.test.*' -o -name '*.spec.*' | head
+ls <project-root>/jest.config.* <project-root>/vitest.config.* <project-root>/pytest.ini  → 测试框架
+find <project-root> -path '*/__tests__/*' -o -name '*.test.*' -o -name '*.spec.*' | head
 
 # Lint / Format
-ls .eslintrc.* .prettierrc.* .ruff.toml .pylintrc → 代码规范
+ls <project-root>/.eslintrc.* <project-root>/.prettierrc.* <project-root>/.ruff.toml <project-root>/pylintrc → 代码规范
 
 # CI
 ls .github/workflows/* .gitlab-ci.* azure-pipelines.* → CI 平台
 ```
 
-#### 1.4 既有抽象层（关键 · 防重复实现）
+#### 1.4 前端项目专项扫描（命中 frontend 子项目时必跑）
 
-grep 出每一类公共工具的实际位置：
+| 扫描项 | 信号 / 证据 |
+|---|---|
+| 前端框架 | `next.config.*` / `vite.config.*` / `nuxt.config.*` / `svelte.config.*` / `src/main.tsx` / `src/App.tsx` |
+| 路由 | `app/` / `pages/` / `src/router` / `react-router` / `vue-router` |
+| UI 库 | `@mui/*` / `antd` / `@chakra-ui/*` / `shadcn` / `radix-ui` / `tailwind.config.*` |
+| 样式系统 | `tokens.*` / `theme.*` / `:root` / CSS Modules / Sass / Tailwind config |
+| 状态管理 | `redux` / `zustand` / `jotai` / `pinia` / `Context` / `TanStack Query` / `SWR` |
+| 表单与校验 | `react-hook-form` / `zod` / `yup` / `vee-validate` |
+| 数据请求 | `axios` / `fetch` wrapper / `tRPC` / `GraphQL` / `openapi` generated client |
+| 可视化 / 表格 | `recharts` / `echarts` / `chart.js` / `tanstack-table` |
+| 质量验证 | `vitest` / `jest` / `@testing-library` / `playwright` / `cypress` / `storybook` |
+| 前端风险 | SSR/hydration、SEO、a11y、响应式、bundle size、浏览器兼容 |
+
+这些发现必须写入 `上下文.md` 的「前端结构」和「既有抽象索引」；不得只在扫描总结里提一句。
+
+#### 1.5 既有抽象层（关键 · 防重复实现）
+
+grep 出每一类公共工具的实际位置；多子项目时按子项目分组：
 
 | 抽象类型 | grep 命令 |
 |---|---|
-| HTTP client | `grep -rn "axios\|fetch\|httpClient\|apiClient\|http.Get" src/` |
-| 数据库访问 | `grep -rn "Repository\|DAO\|prisma\|sequelize\|sqlalchemy\|@Entity" src/` |
-| 状态管理 | `grep -rn "createStore\|useStore\|atom\|@Injectable" src/` |
-| 工具函数 | `find src -path '*utils*' -o -path '*helpers*' -o -path '*shared*' -o -path '*common*' \| head` |
-| 自定义 hooks（前端）| `find src -name 'use*.ts*' \| head` |
-| 中间件 | `find src -path '*middleware*' \| head` |
-| 错误处理 | `grep -rn "class.*Error\|errorHandler\|ErrorBoundary" src/` |
+| HTTP client | `grep -rn "axios\|fetch\|httpClient\|apiClient\|http.Get" <project-root>/src/` |
+| 数据库访问 | `grep -rn "Repository\|DAO\|prisma\|sequelize\|sqlalchemy\|@Entity" <project-root>/src/` |
+| 状态管理 | `grep -rn "createStore\|useStore\|atom\|@Injectable" <project-root>/src/` |
+| 工具函数 | `find <project-root>/src -path '*utils*' -o -path '*helpers*' -o -path '*shared*' -o -path '*common*' \| head` |
+| 自定义 hooks（前端）| `find <project-root>/src -name 'use*.ts*' \| head` |
+| 中间件 | `find <project-root>/src -path '*middleware*' \| head` |
+| 错误处理 | `grep -rn "class.*Error\|errorHandler\|ErrorBoundary" <project-root>/src/` |
 
-#### 1.5 数据库 schema
+#### 1.6 数据库 schema
 
 ```
 ls prisma/schema.prisma alembic.ini knexfile.* db/migrate/ → schema 工具
 ls migrations/                                              → 迁移目录
 ```
 
-#### 1.6 基础设施
+#### 1.7 基础设施
 
 ```
 ls Dockerfile docker-compose.* k8s/ helm/  → 容器化
@@ -234,7 +278,7 @@ grep -l "DATABASE_URL\|REDIS_URL" .env*    → 服务依赖
 - [ ] **步骤 0 既有文档探测做了**：找到的标准 AI 上下文文档已列出，用户已选定分支（A/B/C），决策已写入扫描总结
 - [ ] **未经用户同意没自动开始扫描**（分支 C 必须等用户回复 1/2/3）
 - [ ] 用户选 4「不生成 上下文.md」时已写 `项目状态.md` 的 `ai_context_doc` 字段并跳过剩余步骤
-- [ ] 1.1~1.6 各段都有 grep / read 输出（不靠猜）
+- [ ] 1.0~1.7 各段都有 grep / read 输出（不靠猜），多子项目时每个 frontend / backend / shared 都有记录
 - [ ] 上下文.md 的每个字段都有文件路径 / 行号引用
 - [ ] 上下文.md 顶部「源文档」段列出引用的 AGENTS / CLAUDE / 等（如适用）
 - [ ] 项目状态.md 的 `last_intel_scan` 已更新

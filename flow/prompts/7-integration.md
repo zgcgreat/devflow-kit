@@ -123,9 +123,12 @@
 - 更新的 `.specs/需求LOG.md` 与 `.specs/项目状态.md`
 - 0~N 个 fix-plan（如有失败）
 - **更新 `.specs/项目状态.md`**：
-  - `当前阶段` 改为 `INTEGRATION`
+  - `当前阶段` 设为 `integration`
+  - `阶段状态` 设为 `completed` 或 `blocked`
+  - `上次完成阶段` 设为 `integration`
+  - `下一阶段` 设为 `none` 或发布后归档动作
   - 在「阶段进度」清单中打钩 `集成 → 07-发布清单.md`
-  - 归档后：`活跃 Req` 改为 `无`，`当前阶段` 改为 `无`
+  - 归档后：`活跃 Req` 改为 `无`，`当前阶段` 设为 `none`，`阶段状态` 设为 `completed`
 
 ## 约束（强制）
 

@@ -32,18 +32,18 @@ check_file "flow/prompts/3-task.md"
 check_file "flow/prompts/4-dev.md"
 check_file "flow/prompts/6-review.md"
 check_file "flow/prompts/7-integration.md"
-check_file "skills/spec-driven-development/_SKILL.md"
-check_file "skills/planning-and-task-breakdown/_SKILL.md"
-check_file "skills/incremental-implementation/_SKILL.md"
-check_file "skills/test-driven-development/_SKILL.md"
-check_file "skills/code-review-and-quality/_SKILL.md"
+check_file "agent-skills/skills/spec-driven-development/_SKILL.md"
+check_file "agent-skills/skills/planning-and-task-breakdown/_SKILL.md"
+check_file "agent-skills/skills/incremental-implementation/_SKILL.md"
+check_file "agent-skills/skills/test-driven-development/_SKILL.md"
+check_file "agent-skills/skills/code-review-and-quality/_SKILL.md"
 check_file "adapters/claude/commands/go.md"
 check_file "adapters/gemini/commands/go.toml"
 check_file ".claude-plugin/plugin.json"
 check_dir "flow/templates"
 check_dir "flow/reference"
-check_dir "skills"
-check_dir "agents"
+check_dir "agent-skills/skills"
+check_dir "agent-skills/agents"
 
 if [[ -f "$ROOT/SKILL.md" ]]; then
   if ! head -n 5 "$ROOT/SKILL.md" | grep -q '^name: devflow-kit$'; then
@@ -69,7 +69,7 @@ else
   echo "WARN: python3 not found; skipping JSON validation" >&2
 fi
 
-legacy_hits=$(grep -RI --include='*.md' 'flow-kit' "$ROOT" | grep -v 'devflow-kit' || true)
+legacy_hits=$(grep -RI --include='*.md' -E '(^|[^A-Za-z0-9_-])(@?flow-kit/|flow-kit\\)' "$ROOT" | grep -v 'devflow-kit' || true)
 if [[ -n "$legacy_hits" ]]; then
   echo "LEGACY path references found:" >&2
   echo "$legacy_hits" >&2
@@ -102,7 +102,7 @@ else
   echo "WARN: python3 not found; skipping template reference validation" >&2
 fi
 
-skill_count=$(find "$ROOT/skills" -mindepth 2 -maxdepth 2 -name _SKILL.md 2>/dev/null | wc -l | tr -d ' ')
+skill_count=$(find "$ROOT/agent-skills/skills" -mindepth 2 -maxdepth 2 -name _SKILL.md 2>/dev/null | wc -l | tr -d ' ')
 prompt_count=$(find "$ROOT/flow/prompts" -maxdepth 1 -name '*.md' 2>/dev/null | wc -l | tr -d ' ')
 echo "skill_count=$skill_count"
 echo "flow_prompt_count=$prompt_count"

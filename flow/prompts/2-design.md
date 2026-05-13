@@ -205,7 +205,10 @@
 - `.specs/<req-id>/02-方案设计.md`
 - 0~N 个 `.specs/adr/<NNN>-*.md`
 - **更新 `.specs/项目状态.md`**：
-  - `当前阶段` 改为 `DESIGN`
+  - `当前阶段` 设为 `design`
+  - `阶段状态` 设为 `waiting_user_confirmation`
+  - `上次完成阶段` 设为 `design`
+  - `下一阶段` 设为 `ui-design`（前端 / UI）或 `task`
   - 在「阶段进度」清单中打钩 `方案设计 → 02-方案设计.md`
 
 ## 约束
