@@ -194,7 +194,7 @@ grep -rn "router\\.(get|post|put|patch|delete)\\|@(Get|Post|Put|Patch|Delete)" s
 
 #### 7.1 写入
 
-**首跑**：用 `write_to_file` 创建 `.specs/系统架构.md`，按模板 8 段全填（不适用的段可留 N/A 但**不能删段**——后续 A-evolve 要按段 append）。
+**首跑**：用 `write_to_file` 创建 `.specs/系统架构.md`，**⚠️ 强制要求**：必须严格按 `@devflow-kit/flow/templates/系统架构.md` 模板的完整结构输出，按模板 8 段全填（不适用的段可留 N/A 但**不能删段**——后续 A-evolve 要按段 append）。**不得省略或改写任何段落**。
 
 **重构**：
 
@@ -228,7 +228,7 @@ grep -rn "router\\.(get|post|put|patch|delete)\\|@(Get|Post|Put|Patch|Delete)" s
 
 ## 输出
 
-- `.specs/系统架构.md`（必产）
+- `.specs/系统架构.md`（必产，**必须严格按 `@devflow-kit/flow/templates/系统架构.md` 模板完整结构输出**）
 - `.specs/系统架构.md.bak-<date>`（重构跑必产）
 - 0~1 次对 `.specs/上下文.md` 的同步 patch（仅当步骤 7.3 用户选 1）
 - 在 `项目状态.md` 写 `last_architect_at: <YYYY-MM-DD>`

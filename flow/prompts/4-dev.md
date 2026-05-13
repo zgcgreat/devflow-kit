@@ -18,6 +18,33 @@
 - `@.specs/经验总结.md`
 - 仅引用与本任务相关的文件，**不要加载整个项目**
 
+## 入口门禁（Artifact Preflight）
+
+`4-dev` 必须满足二选一：
+
+1. **正式流程**：读取 `.specs/<req-id>/03-任务拆分.md` 中的当前 `<task>` 块。
+2. **单点调用**：用户显式提供一份临时最小 TASK。
+
+临时最小 TASK 必须包含：
+
+- `id`
+- `name`
+- `read_files`
+- `write_files`
+- `action`
+- `verify`
+- `done`
+
+AI 不允许自行编造临时最小 TASK；缺字段必须反问用户或回到 `@devflow-kit/flow/prompts/3-task.md` 生成正式 `03-任务拆分.md`。
+
+若当前 task 涉及前端 / UI 文件（`.css` / `.tsx` / `.vue` / `.html` / `.svelte` / 设计 token / 用户可见文案），必须先确认 `.specs/<req-id>/02a-UI设计.md` 存在。缺失时停止，回到 `@devflow-kit/flow/prompts/2a-ui-design.md`。纯后端 / CLI / lib 任务才可跳过。
+
+触发时输出：
+
+```text
+规则 R2.7 触发：4-dev 缺少 <TASK 或 02a-UI设计>。本次先回到 <阶段> 补齐，不能直接写代码。
+```
+
 ## 你的职责
 
 ### 1. 读取任务
@@ -27,14 +54,15 @@
 
 ### 1.4–1.8 开发前规则检查
 
-见 `@devflow-kit/flow/reference/4-dev-rules.md`，按任务类型加载相关节：
+见 `@devflow-kit/flow/reference/4-dev-rules.md`，按任务类型加载相关节。**1.4 沿用既有抽象 grep 与 1.5 经验总结扫描是所有生产代码任务的基础必检**；UI / schema / 破坏性变更是在基础必检上追加。
 
 | 任务类型 | 必读节 |
 |----------|--------|
-| UI 任务（含 `.tsx`/`.css`/button/颜色等） | 1.6 + 1.8 |
-| Schema 变更（表/字段/迁移文件） | 1.7 + 1.8 |
-| 破坏性变更（删 ≥ 5 行/改公共接口） | 1.8 + 引用图 grep |
-| 其他（纯后端/纯工具/非 UI 前端） | 1.4 + 1.5 |
+| 所有生产代码任务 | 1.4 + 1.5 |
+| UI 任务（含 `.tsx`/`.css`/button/颜色等） | 1.4 + 1.5 + 1.6 + 1.8 |
+| Schema 变更（表/字段/迁移文件） | 1.4 + 1.5 + 1.7 + 1.8 |
+| 破坏性变更（删 ≥ 5 行/改公共接口） | 1.4 + 1.5 + 1.8 + 引用图 grep |
+| 纯文档 / 纯配置且不影响运行行为 | 只读当前相关节；跳过 1.4/1.5 时必须在开发记录说明理由 |
 
 ```text
 ⚠️ 禁止整读 4-dev-rules.md！grep 当前任务类型对应节号，read offset 那节。
@@ -180,8 +208,9 @@ git diff --name-only
 
 ### 6. 写 开发记录.md
 
-使用 `@devflow-kit/flow/templates/开发记录.md` 模板，填到 `.specs/<req-id>/<task-id>-开发记录.md`。
-内容：做了什么 / 改了哪些文件 / verify 输出 / **6 维自查输出**（步骤 4 的 brooks-review 或内置回退结果）/ 是否触发新 fix-plan。
+**⚠️ 强制要求**：必须严格按照 `@devflow-kit/flow/templates/开发记录.md` 模板的完整结构输出，填到 `.specs/<req-id>/<task-id>-开发记录.md`。**不得省略或改写任何段落**。
+
+内容必须包含：做了什么 / 改了哪些文件 / verify 输出 / **6 维自查输出**（步骤 4 的 brooks-review 或内置回退结果）/ 是否触发新 fix-plan。
 
 ### 7. 标记完成
 
@@ -291,7 +320,7 @@ git diff --name-only
 ## 触发下一步 & 自动推进
 
 - 还有未完成任务 → 清窗，再次进入 `@devflow-kit/flow/prompts/4-dev.md` 跑下一个
-- **全部完成 → 生成 `04-开发记录.md`**：用 `@devflow-kit/flow/templates/04-开发记录.md` 模板汇总本次开发阶段全部任务的执行情况、关键决策、与设计的偏离、遗留事项和质量证据，保存到 `.specs/<req-id>/04-开发记录.md`
+- **全部完成 → 生成 `04-开发记录.md`**：**⚠️ 强制要求**：必须严格按照 `@devflow-kit/flow/templates/04-开发记录.md` 模板的完整结构汇总本次开发阶段全部任务的执行情况、关键决策、与设计的偏离、遗留事项和质量证据，保存到 `.specs/<req-id>/04-开发记录.md`。**不得省略或改写任何段落**。
 - **全部完成 → 更新 `.specs/项目状态.md`**：
   - `当前阶段` 设为 `dev`
   - `阶段状态` 设为 `completed` 或 `blocked`

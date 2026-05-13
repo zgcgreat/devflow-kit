@@ -265,7 +265,7 @@ Schema 变更：
 
 #### 7.1 报告写入 `.specs/evolve/<YYYY-MM-DD>-EVOLVE.md`
 
-使用 `@devflow-kit/flow/templates/架构演进同步.md` 模板，写入 `.specs/evolve/<YYYY-MM-DD>-EVOLVE.md`。
+使用 `@devflow-kit/flow/templates/架构演进同步.md` 模板，**⚠️ 强制要求**：必须严格按模板完整结构输出，写入 `.specs/evolve/<YYYY-MM-DD>-EVOLVE.md`。**不得省略或改写任何段落**。
 
 必须填齐：元信息、扫描范围、候选汇总、五类候选明细、应用 patch、跳过项与理由、备份记录、状态更新、下次同步建议。步骤 5 的最终 patch 原样贴入模板的「应用 patch」段。
 
@@ -287,7 +287,7 @@ last_evolve_promoted:
 - `.specs/上下文.md`（patch 后 · 用户选 1/3 时）
 - `.specs/系统架构.md`（patch 后 · 用户选 1/4 时且文件存在）
 - 备份文件（二者之一或两者都有）
-- `.specs/evolve/<YYYY-MM-DD>-EVOLVE.md`（报告 · 必产，使用 `@devflow-kit/flow/templates/架构演进同步.md` 模板）
+- `.specs/evolve/<YYYY-MM-DD>-EVOLVE.md`（报告 · 必产，**必须严格按 `@devflow-kit/flow/templates/架构演进同步.md` 模板完整结构输出**）
 - 更新的 `.specs/项目状态.md`（`last_evolve_at` + `last_evolve_promoted`）
 
 ## 约束

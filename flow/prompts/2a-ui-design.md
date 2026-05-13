@@ -217,8 +217,7 @@ v0 = 占位符 + 关键布局 + 步骤 2 决定的 token + 假设清单。
 
 ## 输出
 
-- `.specs/<id>/02a-UI设计.md`（必填）
-  - 使用 `@devflow-kit/flow/templates/02a-UI设计.md` 模板
+- `.specs/<id>/02a-UI设计.md`（**⚠️ 强制要求**：必须严格按 `@devflow-kit/flow/templates/02a-UI设计.md` 模板的完整结构输出。**不得省略或改写任何段落**。）
   - 包含 frontmatter 形式的 design tokens（颜色 / 字体 / 间距 / 圆角 / 动效）
   - 包含调性声明、5 维决策、组件规约、Do's and Don'ts
 - **更新 `.specs/项目状态.md`**：

@@ -253,7 +253,7 @@ Semgrep / CodeQL / Bandit 选一。无 high；medium 有处理记录。
 
 ## 输出
 
-- `.specs/<req-id>/05-测试报告.md`（用 `@devflow-kit/flow/templates/05-测试报告.md` 模板，含风险驱动测试矩阵、真实命令输出、UAT 脚本和测试质量自检）
+- `.specs/<req-id>/05-测试报告.md`（**⚠️ 强制要求**：必须严格按 `@devflow-kit/flow/templates/05-测试报告.md` 模板的完整结构输出，含风险驱动测试矩阵、真实命令输出、UAT 脚本和测试质量自检。**不得省略或改写任何段落**。）
 - 性能 / 安全扫描的原始输出贴入或链接到附件
 - **更新 `.specs/项目状态.md`**：
   - `当前阶段` 设为 `test`

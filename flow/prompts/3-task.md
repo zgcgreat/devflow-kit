@@ -12,9 +12,24 @@
 - `@.specs/<req-id>/02-方案设计.md`（**必读 `## 0. 技术栈选定`**——任务的 verify 命令、依赖管理、目录结构必须按选定的栈写）
 - `@.specs/上下文.md`
 
+## 入口门禁（Artifact Preflight）
+
+开始拆任务前先检查上游产物，缺任何一项都不要继续：
+
+- 缺 `01-需求分析.md`：停止，回到 `@devflow-kit/flow/prompts/1-analysis.md`。
+- 缺 `02-方案设计.md`：停止，回到 `@devflow-kit/flow/prompts/2-design.md`；即使是精简路径，也必须有能锁定技术栈、触碰模块、禁动清单和写入边界的设计说明。
+- 前端 / UI 项目缺 `02a-UI设计.md`：停止，回到 `@devflow-kit/flow/prompts/2a-ui-design.md`。纯后端 / CLI / lib 项目才可跳过。
+- 禁止 Planner 自己脑补技术栈、触碰模块、禁动清单或 `write_files` 边界。
+
+触发时输出：
+
+```text
+规则 R2.7 触发：3-task 缺少 <产物>。本次先回到 <阶段> 补齐，不能直接拆任务。
+```
+
 ## 你的职责
 
-使用 `@devflow-kit/flow/templates/03-任务拆分.md` 模板产出**原子任务列表**。
+**⚠️ 强制要求**：必须严格按照 `@devflow-kit/flow/templates/03-任务拆分.md` 模板的完整结构产出**原子任务列表**，**不得省略或改写任何段落**。
 
 ### 拆解原则
 
@@ -100,7 +115,7 @@
 
 ## 输出
 
-- `.specs/<req-id>/03-任务拆分.md`，包含所有任务的 XML 块 + 执行顺序
+- `.specs/<req-id>/03-任务拆分.md`（**必须严格按模板格式输出**，包含所有任务的 XML 块 + 执行顺序）
 - **更新 `.specs/项目状态.md`**：
   - `当前阶段` 设为 `task`
   - `阶段状态` 设为 `completed` 或 `blocked`
