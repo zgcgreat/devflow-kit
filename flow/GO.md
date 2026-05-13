@@ -157,7 +157,7 @@ flow-kit 的文件分两类，**加载策略不同**：
 
 ## 第一步 · 读取或创建项目状态（必须，跳过即违反）
 
-1. 尝试读 `.specs/进度跟踪.md`。不存在 → 用 `@devflow-kit/flow/templates/进度跟踪.md` 模板创建空的 `.specs/进度跟踪.md`，然后继续
+1. 尝试读 `.specs/项目状态.md`。不存在 → 用 `@devflow-kit/flow/templates/项目状态.md` 模板创建空的 `.specs/项目状态.md`，然后继续
 2. 关注字段：`活跃 req` / `当前阶段` / `当前 Task` / `中断任务`
 3. 如果存在 `中断任务` 非空 → **优先级最高**，直接走"恢复中断任务"分支（见下表）
 
@@ -191,15 +191,15 @@ Forge adapter: detected / not detected
 | `.github/copilot-instructions.md` | `.github/` | GitHub Copilot |
 | `.clinerules` | 仓库根 | Cline |
 
-读 `.specs/进度跟踪.md` 的 `ai_context_doc`（用户上次指定的替代文档）和 `last_intel_scan` 字段。
+读 `.specs/项目状态.md` 的 `ai_context_doc`（用户上次指定的替代文档）和 `last_intel_scan` 字段。
 
 ### 1.5.2 判决
 
-#### 情况 A · `进度跟踪.md` 已设 `ai_context_doc`
+#### 情况 A · `项目状态.md` 已设 `ai_context_doc`
 
 用户上次明确指定了某文档为 AI 遵守依据。**直接读它**，不再询问。
 
-**更新进度跟踪.md「🔍 入场扫描状态」节**：
+**更新项目状态.md「🔍 入场扫描状态」节**：
 - `项目类型`: brownfield
 - `入场扫描状态`: 已完成
 - `上下文文档`: <用户指定的文档路径>
@@ -211,7 +211,7 @@ Forge adapter: detected / not detected
 
 **直接读 上下文.md**，跳过本步。无需打扰用户。
 
-**更新进度跟踪.md「🔍 入场扫描状态」节**：
+**更新项目状态.md「🔍 入场扫描状态」节**：
 - `项目类型`: brownfield
 - `入场扫描状态`: 已完成
 - `上下文文档`: 上下文.md
@@ -221,7 +221,7 @@ Forge adapter: detected / not detected
 
 读 上下文.md，**提醒用户**："上次扫描已 X 天，可重跑 intel-scan"，但**不强制**。
 
-**更新进度跟踪.md「🔍 入场扫描状态」节**：
+**更新项目状态.md「🔍 入场扫描状态」节**：
 - `项目类型`: brownfield
 - `入场扫描状态`: 已完成
 - `上下文文档`: 上下文.md
@@ -244,8 +244,8 @@ devflow-kit 默认用 上下文.md 作为单一源。请选择：
 ```
 
 - **选 1**：进 `prompts/I-intel-scan.md` 走分支 A，完成后更新入场扫描状态为「已完成」
-- **选 2**：在 `进度跟踪.md` 写 `ai_context_doc: <用户指定路径>` + 更新入场扫描状态为「已完成」，回到原意图
-- **选 3**：在 `进度跟踪.md` 写 `ai_context_doc: none / skip` + 更新入场扫描状态为「已跳过」，回到原意图（带警告）
+- **选 2**：在 `项目状态.md` 写 `ai_context_doc: <用户指定路径>` + 更新入场扫描状态为「已完成」，回到原意图
+- **选 3**：在 `项目状态.md` 写 `ai_context_doc: none / skip` + 更新入场扫描状态为「已跳过」，回到原意图（带警告）
 
 #### 情况 E · 未发现任何 AI 上下文文档（上下文 / AGENTS / CLAUDE / Cursor / Windsurf / Copilot / Cline 全无）
 
@@ -263,14 +263,14 @@ devflow-kit 后续阶段需要项目上下文给 AI 用。请选择：
 ```
 
 - **选 1**：进 `prompts/I-intel-scan.md` 走分支 C，完成后更新入场扫描状态为「已完成」
-- **选 2**：在 `进度跟踪.md` 写 `ai_context_doc: <路径>` + 更新入场扫描状态为「已完成」，回到原意图
-- **选 3**：在 `进度跟踪.md` 写 `ai_context_doc: none` + 更新入场扫描状态为「已跳过」，回到原意图（带警告）
+- **选 2**：在 `项目状态.md` 写 `ai_context_doc: <路径>` + 更新入场扫描状态为「已完成」，回到原意图
+- **选 3**：在 `项目状态.md` 写 `ai_context_doc: none` + 更新入场扫描状态为「已跳过」，回到原意图（带警告）
 
 #### 情况 F · 是刚创新项目（无 `package.json` / `pyproject.toml` / 等代码上下文）
 
 跳过本步。这是 greenfield 项目，上下文.md 会在 0-confirm / 1-analysis / 2-design 过程中逐步沉淀。
 
-**更新进度跟踪.md「🔍 入场扫描状态」节**：
+**更新项目状态.md「🔍 入场扫描状态」节**：
 - `项目类型`: greenfield
 - `入场扫描状态`: 已跳过
 - `上下文文档`: —
@@ -296,12 +296,12 @@ devflow-kit 后续阶段需要项目上下文给 AI 用。请选择：
 |---|---|---|---|
 | 有新想法想做件事 | `.specs/` 下无活跃 req | **0-confirm**（需求确认）| "加个搜索功能"、"想加一个反馈收集组件" |
 | 有新想法想做件事 | `.specs/` 下有活跃 req | **其他路径**：走中断处理分支的规则 | "帮我改一下用户认证" |
-| 恢复中断任务 | `.specs/进度跟踪.md` 存在且 `中断任务` 非空 | **直接恢复中断任务**（按 R1.5 重启协议） | "继续"、"继续刚才的"、"接着做" |
+| 恢复中断任务 | `.specs/项目状态.md` 存在且 `中断任务` 非空 | **直接恢复中断任务**（按 R1.5 重启协议） | "继续"、"继续刚才的"、"接着做" |
 | 不要进入 flow-kit | — | **直接做**，跳过所有 flow 流程 | "不要走流程"、"就直接帮我改一下" |
 | 检查项目健康度 | — | **M-health**（体检）| "帮我看看项目状态"、"健康检查" |
 | 要求 evolve / architect 模式 | — | **A-evolve** 或 **A-architect** | "evolve"、"帮我梳理架构"、"architect" |
 | 纯读代码/技术问题 | — | 不用 flow-kit，直接回答 | "这段代码怎么回事"、"异步怎么实现的" |
-| 新 req 但已有 `.specs/` 下非活跃 req | 非活跃 req 未解锁 | 先归档或关闭旧的 req（更新 `.specs/进度跟踪.md`），再走 0-confirm | "之前那个需求先不做了，我想做新的" |
+| 新 req 但已有 `.specs/` 下非活跃 req | 非活跃 req 未解锁 | 先归档或关闭旧的 req（更新 `.specs/项目状态.md`），再走 0-confirm | "之前那个需求先不做了，我想做新的" |
 | **上传需求文档/PRD** | — | **文档解析模式**（见下方 D 节）| "这是需求文档：[粘贴文档]"、"PRD 见附件" |
 | **上传设计稿** | — | **设计稿解析模式**（见下方 D 节）| "这是 Figma 链接"、"设计稿见截图" |
 | **上传技术方案** | — | **方案解析模式**（见下方 D 节）| "这是技术设计文档" |
@@ -312,7 +312,7 @@ devflow-kit 后续阶段需要项目上下文给 AI 用。请选择：
 
 **⚠️ 文档解析模式仍需遵守以下必选步骤：**
 
-1. **第一步（项目状态）**：必须执行，读取或创建 `.specs/进度跟踪.md`
+1. **第一步（项目状态）**：必须执行，读取或创建 `.specs/项目状态.md`
 2. **第二步（入场检测）**：brownfield 项目必须执行，检测 `上下文.md` / AI 上下文文档
 3. **模式确认**：解析完成后，必须判定 Fast/Standard/Strict 模式并等用户确认
 
@@ -325,7 +325,7 @@ devflow-kit 后续阶段需要项目上下文给 AI 用。请选择：
 │  📋 文档解析通用流程                                          │
 ├─────────────────────────────────────────────────────────────┤
 │  Step 1: 读取项目状态（第一步 · 必须）                        │
-│     └─ 读/创建 `.specs/进度跟踪.md`                          │
+│     └─ 读/创建 `.specs/项目状态.md`                          │
 │                                                              │
 │  Step 2: 入场检测（第二步 · brownfield 必须）                 │
 │     └─ 检测 `上下文.md` / AI 上下文文档                        │
@@ -628,7 +628,7 @@ AI 路由到某个阶段时，必须验证该阶段的前置产物存在。**缺
 
 | 阶段 | 全读（必须读完才能推进） | 查表（只查需要的那节） | 按需（讨论到相应主题再拉） |
 |---|---|---|---|
-| 0 | `.specs/进度跟踪.md` + `.specs/上下文.md` + `.specs/需求LOG.md`（如存在）+ `devflow-kit/flow/templates/00-需求确认.md`（仅模板结构参考，45 行） | — | — |
+| 0 | `.specs/项目状态.md` + `.specs/上下文.md` + `.specs/需求LOG.md`（如存在）+ `devflow-kit/flow/templates/00-需求确认.md`（仅模板结构参考，45 行） | — | — |
 | 1 | `<id>/00-需求确认.md` + `.specs/上下文.md` + `.specs/经验总结.md` | — | — |
 | 2 | `<id>/00-需求确认.md` + `<id>/01-需求分析.md` + `.specs/上下文.md` + `.specs/系统架构.md`（如存在 · brownfield 强烈推荐 · 重点读 § 2/§ 3/§ 4）| `devflow-kit/flow/reference/tech-stacks.md` 只查「适用矩阵」+ 过滤出的 5~6 张卡片 | ADR 阶段某项要深谈时再读 |
 | 2a | `<id>/00-需求确认.md` + `<id>/01-需求分析.md` + `<id>/02-方案设计.md` `## 0` 段 + `.specs/上下文.md` + `devflow-kit/flow/reference/ui-anti-patterns.md`（仅 75 行可全读）| `devflow-kit/flow/reference/ui-aesthetics.md` 查「5 维度」+ 「给 AI 的模板」 | uipro / impeccable 查询（装了才调）|
@@ -638,7 +638,7 @@ AI 路由到某个阶段时，必须验证该阶段的前置产物存在。**缺
 | 6 | `<id>/01-需求分析.md` + `<id>/02-方案设计.md` + `<id>/03-任务拆分.md` + `<id>/05-测试报告.md` + `git diff` | `devflow-kit/flow/reference/ui-anti-patterns.md`（前端项目第三轮 · 75 行可全读）| — |
 | 7 | `.specs/<id>/` 全部产物 + `.specs/经验总结.md` | 产出：`07-发布清单.md`（发布检查 + 回滚方案）| — |
 | **M** (health) | `.specs/上下文.md` + `.specs/经验总结.md` + 最近 1 份 `.specs/health/*.md`（如有，做对比基线）| — | 抽样 5 个最近改动频繁的 src/ 模块 + 5 个测试文件 + 最近 30 天 git log |
-| **A** (evolve) | `.specs/进度跟踪.md` + `.specs/上下文.md` + `.specs/系统架构.md`（如存在）+ 范围内每个 `.specs/archive/<req-id>/02-方案设计.md` 的 § 9 段（仅 § 9，非整份 DESIGN）| — | 仅扫 `last_evolve_at` 之后归档的 req，禁止越界读 § 9 以外的 DESIGN 内容 |
+| **A** (evolve) | `.specs/项目状态.md` + `.specs/上下文.md` + `.specs/系统架构.md`（如存在）+ 范围内每个 `.specs/archive/<req-id>/02-方案设计.md` 的 § 9 段（仅 § 9，非整份 DESIGN）| — | 仅扫 `last_evolve_at` 之后归档的 req，禁止越界读 § 9 以外的 DESIGN 内容 |
 | **A** (architect) | `.specs/上下文.md` + `.specs/系统架构.md`（如存在）+ `.specs/需求LOG.md` + `devflow-kit/flow/templates/系统架构.md`（模板）| — | `src/` 顶层结构 + `package.json` / 依赖文件 + 抽样几份 `.specs/archive/*/02-方案设计.md` |
 
 ### 查 reference 某一节的实际动作示例
@@ -735,7 +735,7 @@ read_file path="devflow-kit/flow/reference/tech-stacks.md" offset=380 limit=60
 
 ## 自检（产出路由声明前）
 
-- [ ] 已读 `.specs/进度跟踪.md`（如果存在）
+- [ ] 已读 `.specs/项目状态.md`（如果存在）
 - [ ] **入场检测已跑**：已按第二步检测 `上下文.md` / AI 上下文文档，未跳过
 - [ ] 已按表格匹配意图，没有跳过
 - [ ] **阶段门已验证**：路由目标 ≠ 0-confirm 时，前置产物已检查；缺失阶段已补跑或用户已显式确认跳过

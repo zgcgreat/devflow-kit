@@ -7,7 +7,7 @@ description: Review current changes through devflow-kit quality gates
 ## 前置检查
 
 Before executing, ensure:
-1. `.specs/进度跟踪.md` exists and reflects current state
+1. `.specs/项目状态.md` exists and reflects current state
 2. Required artifacts exist (`01-需求分析.md`, `05-测试报告.md`)
 3. Git diff is available for review
 

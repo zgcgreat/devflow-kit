@@ -117,7 +117,7 @@ Use devflow-kit.
 ```
 你的项目/
 ├── .specs/
-│   ├── 进度跟踪.md            ← 当前进度（AI 自动维护）
+│   ├── 项目状态.md            ← 当前进度（AI 自动维护）
 │   ├── 上下文.md          ← 项目背景（AI 自动积累）
 │   ├── 经验总结.md        ← 跨任务是失败教训库
 │   └── <req-id>/      ← 本次改动的所有产物
@@ -211,7 +211,7 @@ Use devflow-kit. 继续
 Use devflow-kit. 继续上次的支付模块。
 ```
 
-AI 会读取 `进度跟踪.md` 和 `.specs/` 下已有产物，恢复上次断点继续推进。
+AI 会读取 `项目状态.md` 和 `.specs/` 下已有产物，恢复上次断点继续推进。
 
 ---
 
@@ -463,7 +463,7 @@ bash devflow-kit/scripts/selftest.sh devflow-kit
 不。小改动走 Fast 模式，只做"改 → 验证"两步。只有 Standard / Strict 才走完整阶段链。
 
 **Q：流程产物放在哪？**
-默认存到项目根目录下的 `.specs/<req-id>/`，每个阶段一个 `.md` 文件。跨会话通过 `进度跟踪.md` 恢复状态。
+默认存到项目根目录下的 `.specs/<req-id>/`，每个阶段一个 `.md` 文件。跨会话通过 `项目状态.md` 恢复状态。
 
 **Q：如果只想做 Code Review 不想走流程怎么办？**
 直接：`@devflow-kit/flow/prompts/6-review.md` + 你要审查的代码。

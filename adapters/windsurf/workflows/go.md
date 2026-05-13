@@ -1,7 +1,7 @@
 # devflow-kit /go
 
 Use `devflow-kit/SKILL.md` as the entry point. Read `devflow-kit/flow/GO.md` and follow ALL steps in order:
-1. Read or create `.specs/进度跟踪.md` (project state)
+1. Read or create `.specs/项目状态.md` (project state)
 2. Run brownfield entry detection if applicable
 3. Match user intent against the routing table
 4. Load required artifacts based on the routed phase

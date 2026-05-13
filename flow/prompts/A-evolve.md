@@ -23,12 +23,12 @@ Architect-Evolver。**只读 archived 需求的 02-方案设计.md § 9，聚合
 - **每月 / 每季度**：积累了若干 req 后批量同步一次，避免 上下文 滞后
 - **里程碑后**：版本发布或大功能完成后，把这一阶段的沉淀凝固到项目层
 - **上下文 失准信号**：4-dev 阶段连续多次发现 AI 没沿用既有抽象（说明索引漏了）
-- **`进度跟踪.md` `last_evolve_at` 字段为空 或 距今 > 60 天**：GO.md 在路由时会主动提示
+- **`项目状态.md` `last_evolve_at` 字段为空 或 距今 > 60 天**：GO.md 在路由时会主动提示
 - **M-health 冗余巡检留的尾巴**：若 `.specs/上下文.md`「清理窗口专列」或「技术债」段有标记，A-evolve 扫描时**主动把对应的「既有抽象索引」条目拎出来让用户确认是否删**（闭环 M-health 步骤 5 的"下次同步主动提醒"）
 
 ## 输入
 
-- `@.specs/进度跟踪.md`（读 `last_evolve_at` 字段，决定从哪个时间点之后的 req 开始扫）
+- `@.specs/项目状态.md`（读 `last_evolve_at` 字段，决定从哪个时间点之后的 req 开始扫）
 - `@.specs/上下文.md`（当前快照，patch 目标 · rules 层）
 - `@.specs/系统架构.md`（如存在，则同时是 patch 目标 · structure 层）
 - `@.specs/archive/<YYYY-MM-DD>-<req-id>/02-方案设计.md`（已归档 需求的设计文档 · 只读 § 9 段）
@@ -41,7 +41,7 @@ Architect-Evolver。**只读 archived 需求的 02-方案设计.md § 9，聚合
 
 ### 步骤 1 · 确定扫描范围
 
-读 `进度跟踪.md`：
+读 `项目状态.md`：
 
 - 有 `last_evolve_at: <YYYY-MM-DD>` 字段 → 只扫该日期**之后**归档的 req
 - 无字段（首次跑）→ 扫所有 `.specs/archive/*` 的 02-方案设计.md
@@ -287,7 +287,7 @@ Schema 变更：
 建议 <YYYY-MM-DD>（约 60 天后），或在新增 ≥ 5 个有 § 9 内容的需求 之后
 ```
 
-#### 7.2 更新 `进度跟踪.md`
+#### 7.2 更新 `项目状态.md`
 
 ```yaml
 last_evolve_at: <YYYY-MM-DD>
@@ -306,7 +306,7 @@ last_evolve_promoted:
 - `.specs/系统架构.md`（patch 后 · 用户选 1/4 时且文件存在）
 - 备份文件（二者之一或两者都有）
 - `.specs/evolve/<YYYY-MM-DD>-EVOLVE.md`（报告 · 必产）
-- 更新的 `.specs/进度跟踪.md`（`last_evolve_at` + `last_evolve_promoted`）
+- 更新的 `.specs/项目状态.md`（`last_evolve_at` + `last_evolve_promoted`）
 
 ## 约束
 
@@ -320,7 +320,7 @@ last_evolve_promoted:
 
 ## 自检
 
-- [ ] 已读 `进度跟踪.md` 的 `last_evolve_at` 决定扫描范围
+- [ ] 已读 `项目状态.md` 的 `last_evolve_at` 决定扫描范围
 - [ ] 范围内每个需求 都尝试读了 § 9（即使是"无建议"也已记录跳过）
 - [ ] 五类聚合表完整（抽象 / 决策 / 契约 / 依赖 / 禁动清单）
 - [ ] 冲突项已检测并显式标 ⚠️
@@ -330,7 +330,7 @@ last_evolve_promoted:
 - [ ] 写任何文档前都备份了
 - [ ] ADR 编号顺接现有 max + 1，未二次使用已有编号
 - [ ] EVOLVE 报告已归入 `.specs/evolve/`
-- [ ] 进度跟踪.md `last_evolve_at` + `last_evolve_promoted` 已更新
+- [ ] 项目状态.md `last_evolve_at` + `last_evolve_promoted` 已更新
 - [ ] 遇到架构级冲突未自作主张，已指引用户跑 A-architect
 
 ## 触发下一步

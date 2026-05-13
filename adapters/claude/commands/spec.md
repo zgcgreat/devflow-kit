@@ -5,7 +5,7 @@ description: Start requirements analysis through devflow-kit
 Use the devflow-kit skill.
 
 Route to the requirements analysis path. Before executing, ensure:
-1. `.specs/进度跟踪.md` exists or is created
+1. `.specs/项目状态.md` exists or is created
 2. Brownfield entry detection has run (if applicable)
 3. Mode (Fast/Standard/Strict) is confirmed with user
 

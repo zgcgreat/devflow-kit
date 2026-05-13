@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(git add *)",
-      "Bash(git commit -m ' *)"
+      "Bash(git commit -m ' *)",
+      "Bash(xargs sed -i 's/进度跟踪\\\\.md/项目状态.md/g')"
     ]
   }
 }

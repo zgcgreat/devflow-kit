@@ -229,7 +229,7 @@ grep -rn "router\\.(get|post|put|patch|delete)\\|@(Get|Post|Put|Patch|Delete)" s
 - `.specs/系统架构.md`（必产）
 - `.specs/系统架构.md.bak-<date>`（重构跑必产）
 - 0~1 次对 `.specs/上下文.md` 的同步 patch（仅当步骤 7.3 用户选 1）
-- 在 `进度跟踪.md` 写 `last_architect_at: <YYYY-MM-DD>`
+- 在 `项目状态.md` 写 `last_architect_at: <YYYY-MM-DD>`
 
 ## 约束
 
@@ -250,7 +250,7 @@ grep -rn "router\\.(get|post|put|patch|delete)\\|@(Get|Post|Put|Patch|Delete)" s
 - [ ] § 5 扩展点 / § 6 容量边界（按需，可写 N/A 但不删段）
 - [ ] § 8 修订历史已 append
 - [ ] 重构跑：备份已创建
-- [ ] 进度跟踪.md 已更新 `last_architect_at`
+- [ ] 项目状态.md 已更新 `last_architect_at`
 
 ## 触发下一步
 
