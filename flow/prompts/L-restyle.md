@@ -1,5 +1,10 @@
 # L-restyle — 一键换调性（保留功能，重做视觉）
-> ⚠️ **进入本阶段前，必须先加载**：`devflow-kit/agent-skills/skills/frontend-ui-engineering/_SKILL.md`
+
+> ⚠️ **进入本阶段前，必须先加载**：
+> - **skill**：`devflow-kit/agent-skills/skills/frontend-ui-engineering/_SKILL.md`
+> - **reference**：
+>   - `devflow-kit/flow/reference/ui-aesthetics.md` § 调性（按节读取）
+>   - `devflow-kit/flow/reference/ui-anti-patterns.md`（可全读，111 行）
 
 
 > **L 前缀表示这是 lateral / lifecycle 命令**，不在主流程编号里。

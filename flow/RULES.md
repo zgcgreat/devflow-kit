@@ -29,6 +29,12 @@
   - 未输出检测结果框 → 禁止进入后续阶段
   - brownfield 项目检测结果为"待用户确认"（情况 D/E）→ 禁止继续，必须等用户回复
   - 检测结果为"已跳过"时必须注明跳过原因（用户手动选择 / greenfield 项目）
+- **R1.12** reference 按节读取强制：
+  - 进入阶段后，必须按 GO.md 第四步「查表」列的要求按节读取 reference 文件
+  - **禁止整读**：tech-stacks.md / test-pyramid.md / ui-aesthetics.md / 4-dev-rules.md / frontend-engineer-rules.md 必须用 grep 找节起始行 + read offset/limit 读取
+  - **唯一例外**：ui-anti-patterns.md（仅 111 行）可全读
+  - 路由声明中必须列出已加载的 reference 及其节名和行数
+  - 未在路由声明中列出 → 视为未加载，必须补做
 
 ## R2 · 阶段门
 

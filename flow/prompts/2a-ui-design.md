@@ -1,5 +1,10 @@
 # 阶段 2a · 界面设计 — 把"看起来怎样"决策清楚
-> ⚠️ **进入本阶段前，必须先加载**：`devflow-kit/agent-skills/skills/frontend-ui-engineering/_SKILL.md`
+
+> ⚠️ **进入本阶段前，必须先加载**：
+> - **skill**：`devflow-kit/agent-skills/skills/frontend-ui-engineering/_SKILL.md`
+> - **reference**：
+>   - `devflow-kit/flow/reference/ui-anti-patterns.md`（可全读，111 行）
+>   - `devflow-kit/flow/reference/ui-aesthetics.md` § 调性（按节读取）
 
 
 > **仅前端项目走此阶段**。后端 / CLI / lib 直接跳到 `3-task`。

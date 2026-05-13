@@ -1,6 +1,9 @@
 # 阶段 6 · 审查 — 四轮审查（spec 合规 + 代码质量 + UI + 补充）
 
-## 🎯 审查概览
+> ⚠️ **进入本阶段前，必须先加载**：
+> - **skill**：`devflow-kit/agent-skills/skills/code-review-and-quality/_SKILL.md`
+> - **reference（前端项目）**：`devflow-kit/flow/reference/ui-anti-patterns.md`（可全读，111 行）
+> - **可选 skill（按需加载）**：`security-and-hardening/_SKILL.md`、`performance-optimization/_SKILL.md` 在发现相关问题时再加载
 
 ```
 ┌─────────────────────────────────────────────────────────────┐

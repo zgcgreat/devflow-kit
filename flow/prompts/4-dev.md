@@ -1,5 +1,11 @@
 # 阶段 4 · 开发 — 在 fresh context 中执行单个任务
-> ⚠️ **进入本阶段前，必须先加载**：`devflow-kit/agent-skills/skills/incremental-implementation/_SKILL.md`、`devflow-kit/agent-skills/skills/test-driven-development/_SKILL.md`、`devflow-kit/agent-skills/skills/git-workflow-and-versioning/_SKILL.md`
+> ⚠️ **进入本阶段前，必须先加载**：
+> - **skill**：`devflow-kit/agent-skills/skills/incremental-implementation/_SKILL.md`、`devflow-kit/agent-skills/skills/test-driven-development/_SKILL.md`、`devflow-kit/agent-skills/skills/git-workflow-and-versioning/_SKILL.md`
+> - **reference（按任务类型按节读取）**：
+>   - 所有任务：`devflow-kit/flow/reference/4-dev-rules.md` § 1.4 + § 1.5（按节读取）
+>   - UI 任务：追加 § 1.6 + § 1.8
+>   - Schema 任务：追加 § 1.7 + § 1.8
+>   - 破坏性变更：追加 § 1.8
 
 
 ## 角色

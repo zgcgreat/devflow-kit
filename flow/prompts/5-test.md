@@ -1,5 +1,8 @@
 # 阶段 5 · 测试 — 风险驱动测试矩阵
-> ⚠️ **进入本阶段前，必须先加载**：`devflow-kit/agent-skills/skills/test-driven-development/_SKILL.md`、`devflow-kit/agent-skills/skills/debugging-and-error-recovery/_SKILL.md`（浏览器项目追加 `devflow-kit/agent-skills/skills/browser-testing-with-devtools/_SKILL.md`）
+
+> ⚠️ **进入本阶段前，必须先加载**：
+> - **skill**：`devflow-kit/agent-skills/skills/test-driven-development/_SKILL.md`、`devflow-kit/agent-skills/skills/debugging-and-error-recovery/_SKILL.md`（浏览器项目追加 `devflow-kit/agent-skills/skills/browser-testing-with-devtools/_SKILL.md`）
+> - **reference（按节读取，禁止整读）**：`devflow-kit/flow/reference/test-pyramid.md` § 适用矩阵 + 需要的那几轮详情
 
 
 > **核心思想**：测试从 AC 和风险派生，不从实现派生。功能覆盖必做；性能、安全、兼容、可观测按风险触发，跳过必须有理由。

@@ -857,7 +857,7 @@ read_file path="devflow-kit/flow/reference/tech-stacks.md" offset=380 limit=60
 
 **前置条件：模式已按风险驱动规则确定。** Fast 可在路由声明后直接执行；Standard / Strict 按「模式确认规则」需要确认时，必须等用户确认后再输出路由声明并开始执行。
 
-进入实际工作前，AI 必须输出一段**路由声明**，**必须包含第三步路由表指定的 skill 加载情况**：
+进入实际工作前，AI 必须输出一段**路由声明**，**必须包含第三步路由表指定的 skill 加载情况 + reference 加载情况**：
 
 ```
 ✅ 模式：<已确定的模式>（Fast 自动判定 / 用户已确认 / 用户已显式指定）
@@ -867,6 +867,9 @@ read_file path="devflow-kit/flow/reference/tech-stacks.md" offset=380 limit=60
 ✅ 已加载的 skill：
    - <skill1/_SKILL.md>（全读，N 行）
    - <skill2/_SKILL.md>（全读，N 行）
+✅ 已加载的 reference（按节读取，禁止整读）：
+   - <reference-file.md> § <节名>（read offset=X limit=Y，共 Y 行）
+   - 或「本阶段无需 reference」
 ✅ 已加载的工件（参照上表「全读 / 查表 / 按需」）：
    - <file1>（全读，N 行）
    - <file2>（全读，N 行）
@@ -904,6 +907,8 @@ read_file path="devflow-kit/flow/reference/tech-stacks.md" offset=380 limit=60
    - devflow-kit/agent-skills/skills/incremental-implementation/_SKILL.md（全读，63 行）
    - devflow-kit/agent-skills/skills/test-driven-development/_SKILL.md（全读，42 行）
    - devflow-kit/agent-skills/skills/git-workflow-and-versioning/_SKILL.md（全读，28 行）
+✅ 已加载的 reference（按节读取）：
+   - 本阶段无需 reference（非 UI 任务）
 ✅ 已加载的工件：
    - .specs/add-search-box/02-方案设计.md ## 0 段（全读，15 行）
    - .specs/add-search-box/03-任务拆分.md（仅 T01 块，28 行）
@@ -911,6 +916,27 @@ read_file path="devflow-kit/flow/reference/tech-stacks.md" offset=380 limit=60
    - .specs/经验总结.md（全读，18 行）
 ✅ 未加载：ui-anti-patterns.md（非 UI 任务）
 ✅ 第一动作：按 4-dev 步骤 1，加载上一轮 PROGRESS 续做
+```
+
+**示例（2-design 阶段 · 需要按节读取 reference）**：
+```
+✅ 模式：Standard（用户已确认）
+✅ 当前模式预估：Standard full chain ~240-530k tokens
+✅ 路由：2-design（技术方案设计）
+✅ Req-ID：add-search-box
+✅ 已加载的 skill：
+   - devflow-kit/agent-skills/skills/api-and-interface-design/_SKILL.md（全读，58 行）
+   - devflow-kit/agent-skills/skills/source-driven-development/_SKILL.md（全读，45 行）
+   - devflow-kit/agent-skills/skills/documentation-and-adrs/_SKILL.md（全读，52 行）
+✅ 已加载的 reference（按节读取）：
+   - tech-stacks.md § 适用矩阵（read offset=380 limit=60，共 60 行）
+   - tech-stacks.md § 给 AI 在 2-design 阶段展示用的标准模板（read offset=450 limit=30，共 30 行）
+✅ 已加载的工件：
+   - .specs/add-search-box/00-需求确认.md（全读，28 行）
+   - .specs/add-search-box/01-需求分析.md（全读，85 行）
+   - .specs/上下文.md（全读，41 行）
+✅ 未加载：tech-stacks.md 其他卡片（用户选定后再读）
+✅ 第一动作：按 2-design 步骤 0，展示技术栈卡片供用户选择
 ```
 
 Standard / Strict 需要确认时，模式确认和路由声明是**两条独立消息**。Fast 可直接在路由声明中说明判定和验证方式。用户选了其他模式 → AI 切换模式后再输出路由声明。
@@ -954,10 +980,12 @@ Standard / Strict 需要确认时，模式确认和路由声明是**两条独立
 
 **第五门控（加载检查）**：
 - [ ] **第三步路由表指定的 skill 已全部加载**
+- [ ] **reference 已按节读取**：本阶段需要的 reference 文件已按节读取（禁止整读），并在路由声明中列出
 - [ ] 新需求 已自动生成 ID 并展示
 - [ ] **Token 预算**：本轮加载的 reference/* 总行数 ≤ 150（全读仅 ui-anti-patterns 75 行 · 其他均查节）
 - [ ] **未越界**：没有读上表「查表」或「按需」列中的文件为全文
 
 **第六门控（路由声明完整性）**：
-- [ ] 路由声明含「模式 / 当前模式预估 / 已加载的 skill / 已加载的工件 / 未加载 / 第一动作」六要素
+- [ ] 路由声明含「模式 / 当前模式预估 / 已加载的 skill / 已加载的 reference / 已加载的工件 / 未加载 / 第一动作」七要素
+- [ ] reference 加载情况已声明（按节读取的节名和行数，或"本阶段无需 reference"）
 - [ ] 没有要求用户提供 ID / 路径 / 阶段名（这些 AI 自己决定）
