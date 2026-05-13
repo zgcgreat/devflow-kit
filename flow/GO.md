@@ -199,15 +199,33 @@ Forge adapter: detected / not detected
 
 用户上次明确指定了某文档为 AI 遵守依据。**直接读它**，不再询问。
 
+**更新进度跟踪.md「🔍 入场扫描状态」节**：
+- `项目类型`: brownfield
+- `入场扫描状态`: 已完成
+- `上下文文档`: <用户指定的文档路径>
+- `跳过原因`: 用户指定现有文档
+
 后续阶段（2-design / 4-dev）改读 `<ai_context_doc>` 替代 上下文.md。
 
 #### 情况 B · 已存在 `上下文.md` 且 `last_intel_scan` 在 90 天内
 
 **直接读 上下文.md**，跳过本步。无需打扰用户。
 
+**更新进度跟踪.md「🔍 入场扫描状态」节**：
+- `项目类型`: brownfield
+- `入场扫描状态`: 已完成
+- `上下文文档`: 上下文.md
+- `跳过原因`: —
+
 #### 情况 C · 已存在 `上下文.md` 但超过 90 天
 
 读 上下文.md，**提醒用户**："上次扫描已 X 天，可重跑 intel-scan"，但**不强制**。
+
+**更新进度跟踪.md「🔍 入场扫描状态」节**：
+- `项目类型`: brownfield
+- `入场扫描状态`: 已完成
+- `上下文文档`: 上下文.md
+- `跳过原因`: 上次扫描超过 90 天，用户可选择重扫
 
 #### 情况 D · 未发现 `上下文.md`，但有其他 AI 上下文文档（AGENTS / CLAUDE / Cursor / 等）
 
@@ -225,9 +243,9 @@ devflow-kit 默认用 上下文.md 作为单一源。请选择：
 请选 1/2/3。无人工确认前我不进 0-confirm（避免 AI 在不知项目约定下开始动手）。
 ```
 
-- **选 1**：进 `prompts/I-intel-scan.md` 走分支 A
-- **选 2**：在 `进度跟踪.md` 写 `ai_context_doc: <用户指定路径>`，回到原意图（直接进 0-confirm）
-- **选 3**：在 `进度跟踪.md` 写 `ai_context_doc: none / skip`，回到原意图（带警告）
+- **选 1**：进 `prompts/I-intel-scan.md` 走分支 A，完成后更新入场扫描状态为「已完成」
+- **选 2**：在 `进度跟踪.md` 写 `ai_context_doc: <用户指定路径>` + 更新入场扫描状态为「已完成」，回到原意图
+- **选 3**：在 `进度跟踪.md` 写 `ai_context_doc: none / skip` + 更新入场扫描状态为「已跳过」，回到原意图（带警告）
 
 #### 情况 E · 未发现任何 AI 上下文文档（上下文 / AGENTS / CLAUDE / Cursor / Windsurf / Copilot / Cline 全无）
 
@@ -244,13 +262,19 @@ devflow-kit 后续阶段需要项目上下文给 AI 用。请选择：
 请选 1/2/3。无人工确认前我不开始扫描或进入 0-confirm（避免无意义消耗 token）。
 ```
 
-- **选 1**：进 `prompts/I-intel-scan.md` 走分支 C
-- **选 2**：在 `进度跟踪.md` 写 `ai_context_doc: <路径>`，回到原意图
-- **选 3**：在 `进度跟踪.md` 写 `ai_context_doc: none`，回到原意图（带警告）
+- **选 1**：进 `prompts/I-intel-scan.md` 走分支 C，完成后更新入场扫描状态为「已完成」
+- **选 2**：在 `进度跟踪.md` 写 `ai_context_doc: <路径>` + 更新入场扫描状态为「已完成」，回到原意图
+- **选 3**：在 `进度跟踪.md` 写 `ai_context_doc: none` + 更新入场扫描状态为「已跳过」，回到原意图（带警告）
 
 #### 情况 F · 是刚创新项目（无 `package.json` / `pyproject.toml` / 等代码上下文）
 
 跳过本步。这是 greenfield 项目，上下文.md 会在 0-confirm / 1-analysis / 2-design 过程中逐步沉淀。
+
+**更新进度跟踪.md「🔍 入场扫描状态」节**：
+- `项目类型`: greenfield
+- `入场扫描状态`: 已跳过
+- `上下文文档`: —
+- `跳过原因`: greenfield 项目无需扫描
 
 ### 1.5.3 为什么这步重要
 
