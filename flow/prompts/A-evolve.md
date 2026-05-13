@@ -1,5 +1,7 @@
 # 横向命令 · A-evolve — 把 req 期间的架构沉淀同步到项目级文档
 
+> ⚠️ **进入本阶段前，必须先加载**：`devflow-kit/agent-skills/skills/context-engineering/_SKILL.md`、`devflow-kit/agent-skills/skills/documentation-and-adrs/_SKILL.md`、`devflow-kit/agent-skills/skills/source-driven-development/_SKILL.md`
+
 > **触发方式**：`@devflow-kit/flow/GO.md` + `同步架构 / 整理沉淀 / sediment / evolve / 架构演进 / 同步 上下文`
 > 不属于任何 req，不写 00-需求确认.md / 01-需求分析.md。直接产出沉淀同步报告 + patch 上下文.md（+ 系统架构.md如存在）。
 
@@ -263,29 +265,9 @@ Schema 变更：
 
 #### 7.1 报告写入 `.specs/evolve/<YYYY-MM-DD>-EVOLVE.md`
 
-```markdown
-# 架构演进同步 · YYYY-MM-DD
+使用 `@devflow-kit/flow/templates/架构演进同步.md` 模板，写入 `.specs/evolve/<YYYY-MM-DD>-EVOLVE.md`。
 
-## 扫描范围
-- 起始：上次同步 <date> 之后
-- 涵盖 req：[列表]
-
-## 候选汇总
-- 新抽象：M 条 · 接受 X · 跳过 Y · 编辑 Z
-- 技术决策：M 条 · ...
-- 跨模块契约：...
-- 依赖变动：...
-- 禁动清单：...
-
-## 应用 patch
-[贴步骤 5 的最终 patch]
-
-## 跳过项 + 理由
-- src/utils/date-fmt.ts → 跳过，理由：与既有 date.ts 重复，保留单一源
-
-## 下次建议同步时间
-建议 <YYYY-MM-DD>（约 60 天后），或在新增 ≥ 5 个有 § 9 内容的需求 之后
-```
+必须填齐：元信息、扫描范围、候选汇总、五类候选明细、应用 patch、跳过项与理由、备份记录、状态更新、下次同步建议。步骤 5 的最终 patch 原样贴入模板的「应用 patch」段。
 
 #### 7.2 更新 `项目状态.md`
 
@@ -305,7 +287,7 @@ last_evolve_promoted:
 - `.specs/上下文.md`（patch 后 · 用户选 1/3 时）
 - `.specs/系统架构.md`（patch 后 · 用户选 1/4 时且文件存在）
 - 备份文件（二者之一或两者都有）
-- `.specs/evolve/<YYYY-MM-DD>-EVOLVE.md`（报告 · 必产）
+- `.specs/evolve/<YYYY-MM-DD>-EVOLVE.md`（报告 · 必产，使用 `@devflow-kit/flow/templates/架构演进同步.md` 模板）
 - 更新的 `.specs/项目状态.md`（`last_evolve_at` + `last_evolve_promoted`）
 
 ## 约束

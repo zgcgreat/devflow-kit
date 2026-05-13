@@ -98,6 +98,7 @@ UI Director + Refactor Specialist。**保留功能不变**，只换视觉。
 
 ### 5. 写新 02a-UI设计.md（标 v2）
 
+- 使用 `@devflow-kit/flow/templates/02a-UI设计.md` 模板
 - 路径：`.specs/<req-id>/02a-UI设计.md`
 - 在 frontmatter 加：
   ```yaml
