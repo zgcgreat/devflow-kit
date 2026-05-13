@@ -262,7 +262,13 @@ Forge adapter: detected / not detected
 
 ### 1.5.2 判决
 
+> ⚠️ **判定顺序**：必须按 A → B → C → D → E → F 的顺序依次判定，命中第一个即停止。
+
 #### 情况 A · `项目状态.md` 已设 `ai_context_doc`
+
+**判定条件**：`.specs/项目状态.md` 文件存在 **且** 其中有 `ai_context_doc: <路径>` 字段（非空、非 none）。
+
+> ⚠️ **注意**：仅检测到 CLAUDE.md / AGENTS.md 等文件**不等于**情况 A。必须确认项目状态.md 中有用户上次明确指定的 `ai_context_doc` 字段才走此分支。
 
 用户上次明确指定了某文档为 AI 遵守依据。**直接读它**，不再询问。
 
@@ -289,6 +295,8 @@ Forge adapter: detected / not detected
 
 #### 情况 B · 已存在 `上下文.md` 且 `last_intel_scan` 在 90 天内
 
+**判定条件**：`.specs/上下文.md` 文件存在 **且** 项目状态.md 的 `last_intel_scan` 字段在 90 天内（或字段为空但上下文.md 存在）。
+
 **直接读 上下文.md**，跳过本步。无需打扰用户。
 
 **检测结果框输出**：
@@ -312,6 +320,8 @@ Forge adapter: detected / not detected
 
 #### 情况 C · 已存在 `上下文.md` 但超过 90 天
 
+**判定条件**：`.specs/上下文.md` 文件存在 **且** 项目状态.md 的 `last_intel_scan` 字段超过 90 天。
+
 读 上下文.md，**提醒用户**："上次扫描已 X 天，可重跑 intel-scan"，但**不强制**。
 
 **检测结果框输出**：
@@ -334,6 +344,16 @@ Forge adapter: detected / not detected
 - `跳过原因`: 上次扫描超过 90 天，用户可选择重扫
 
 #### 情况 D · 未发现 `上下文.md`，但有其他 AI 上下文文档（AGENTS / CLAUDE / Cursor / 等）
+
+**判定条件**：`.specs/上下文.md` 不存在 **且** 项目状态.md 无 `ai_context_doc` 字段 **且** 检测到以下任一文件：
+- `AGENTS.md`（仓库根）
+- `CLAUDE.md`（仓库根 / `.claude/`）
+- `.cursor/rules/*.md`
+- `.windsurf/rules/*.md`
+- `.github/copilot-instructions.md`
+- `.clinerules`
+
+> ⚠️ **这是最常见的入场场景**：项目已有 AI 上下文文档，但用户从未在 devflow-kit 中确认使用哪个。
 
 **⚠️ 必须停下来等用户确认**。检测结果框输出：
 
@@ -373,6 +393,8 @@ devflow-kit 默认用 上下文.md 作为单一源。请选择：
 
 #### 情况 E · 未发现任何 AI 上下文文档（上下文 / AGENTS / CLAUDE / Cursor / Windsurf / Copilot / Cline 全无）
 
+**判定条件**：`.specs/上下文.md` 不存在 **且** 项目状态.md 无 `ai_context_doc` 字段 **且** 未检测到任何 AI 上下文文档。
+
 **⚠️ 必须停下来等用户确认**。检测结果框输出：
 
 ```
@@ -405,7 +427,16 @@ devflow-kit 后续阶段需要项目上下文给 AI 用。请选择：
 
 > **⚠️ 重要**：选项 3 是**用户手动选择跳过**，AI 不能自动选择跳过。原因同上。
 
-#### 情况 F · 是刚创新项目（无 `package.json` / `pyproject.toml` / 等代码上下文）
+#### 况况 F · 是刚创新项目（无 `package.json` / `pyproject.toml` / 等代码上下文）
+
+**判定条件**：项目根目录不存在以下任一文件：
+- `package.json`（Node/JS）
+- `pyproject.toml` / `requirements.txt`（Python）
+- `go.mod`（Go）
+- `Cargo.toml`（Rust）
+- `pom.xml` / `build.gradle`（Java/Kotlin）
+- `composer.json`（PHP）
+- `Gemfile`（Ruby）
 
 跳过本步。这是 greenfield 项目，上下文.md 会在 0-confirm / 1-analysis / 2-design 过程中逐步沉淀。
 
