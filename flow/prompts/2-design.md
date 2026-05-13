@@ -8,7 +8,7 @@
 
 ## 输入
 
-- `@.specs/<req-id>/01-需求分析.md`
+- `@.specs/<req-id>/01-需求分析.md`（或 `01-需求分析-Delta.md`）
 - `@.specs/<req-id>/00-需求确认.md`（含项目类型与调性信息）
 - **项目上下文文档**（从 `项目状态.md` 读 `ai_context_doc` 字段决定）：
   - 有 `ai_context_doc: <path>` → 读那个文档（如 `AGENTS.md` / `CLAUDE.md`）
@@ -19,12 +19,22 @@
   - 重点读 `§ 3 ADR 列表`（看本需求 是否撞已有不可逆决策——撞了必须显式说"延续 ADR-NNN"或"申请 supersede ADR-NNN"）
   - 重点读 `§ 4 跨模块契约`（本需求 改 API / 事件 / Schema 时必查）
   - 不存在则跳过；如果用户从未跑过 `A-architect` 但项目复杂度已较高，提醒一句"建议先跑 `@A-architect.md` 建立项目级架构文档"
+- **设计基线**（Delta 模式触发）：`@.specs/设计基线.md`（如存在）
 - `@devflow-kit/flow/reference/tech-stacks.md`（技术栈卡片）
 - 已有项目（如有）：`@02-方案设计.md`、`@.specs/adr/`、相关源码（按需）
 
 ## 你的职责
 
-**⚠️ 强制要求**：必须严格按照 `@devflow-kit/flow/templates/02-方案设计.md` 模板的完整结构输出，**保存到 `.specs/<req-id>/02-方案设计.md`**。**不得省略或改写任何段落**。
+**⚠️ 强制要求**：根据模式选择模板：
+
+| 模式 | 模板 | 说明 |
+|---|---|---|
+| 新需求 | `@devflow-kit/flow/templates/02-方案设计.md` | 完整格式，所有字段必填 |
+| Delta 模式 | `@devflow-kit/flow/templates/02-方案设计-Delta.md` | Delta 格式，只写变更部分 |
+
+**Delta 模式触发条件**：`.specs/设计基线.md` 已存在，且本次需求 是修改/扩展已有设计。
+
+**必须严格按模板完整结构输出，保存到 `.specs/<req-id>/02-方案设计.md`**。**不得省略或改写任何段落**。
 
 模板必须覆盖：
 
@@ -205,6 +215,8 @@
 ## 输出
 
 - `.specs/<req-id>/02-方案设计.md`（**必须严格按模板格式输出**）
+  - 新需求：使用 `02-方案设计.md` 模板
+  - Delta 模式：使用 `02-方案设计-Delta.md` 模板
 - 0~N 个 `.specs/adr/<NNN>-*.md`
 - **更新 `.specs/项目状态.md`**：
   - `当前阶段` 设为 `design`

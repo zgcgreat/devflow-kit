@@ -632,14 +632,14 @@ AI 路由到某个阶段时，必须验证该阶段的前置产物存在。**缺
 | 阶段 | 全读（必须读完才能推进） | 查表（只查需要的那节） | 按需（讨论到相应主题再拉） |
 |---|---|---|---|
 | 0 | `.specs/项目状态.md` + `.specs/上下文.md` + `.specs/需求LOG.md`（如存在）+ `devflow-kit/flow/templates/00-需求确认.md`（仅模板结构参考，45 行） | — | — |
-| 1 | `<id>/00-需求确认.md` + `.specs/上下文.md` + `.specs/经验总结.md` | — | — |
-| 2 | `<id>/00-需求确认.md` + `<id>/01-需求分析.md` + `.specs/上下文.md` + `.specs/系统架构.md`（如存在 · brownfield 强烈推荐 · 重点读 § 2/§ 3/§ 4）| `devflow-kit/flow/reference/tech-stacks.md` 只查「适用矩阵」+ 过滤出的 5~6 张卡片 | ADR 阶段某项要深谈时再读 |
+| 1 | `<id>/00-需求确认.md` + `.specs/上下文.md` + `.specs/经验总结.md` + **`.specs/需求基线.md`（如存在 → Delta 模式）** | — | — |
+| 2 | `<id>/00-需求确认.md` + `<id>/01-需求分析.md`（或 `01-需求分析-Delta.md`）+ `.specs/上下文.md` + `.specs/系统架构.md`（如存在）+ **`.specs/设计基线.md`（如存在 → Delta 模式）**| `devflow-kit/flow/reference/tech-stacks.md` 只查「适用矩阵」+ 过滤出的 5~6 张卡片 | ADR 阶段某项要深谈时再读 |
 | 2a | `<id>/00-需求确认.md` + `<id>/01-需求分析.md` + `<id>/02-方案设计.md` `## 0` 段 + `.specs/上下文.md` + `devflow-kit/flow/reference/ui-anti-patterns.md`（仅 75 行可全读）| `devflow-kit/flow/reference/ui-aesthetics.md` 查「5 维度」+ 「给 AI 的模板」 | uipro / impeccable 查询（装了才调）|
-| 3 | `<id>/01-需求分析.md` + `<id>/02-方案设计.md` + `<id>/02a-UI设计.md`（前端项目）+ `.specs/上下文.md` | — | 任务模板查询 |
+| 3 | `<id>/01-需求分析.md`（或 Delta 版）+ `<id>/02-方案设计.md`（或 Delta 版）+ `<id>/02a-UI设计.md`（前端项目）+ `.specs/上下文.md` | — | 任务模板查询 |
 | 4 | `<id>/03-任务拆分.md`（只读当前 task 块）+ `<id>/02-方案设计.md` `## 0` 段 + `<id>/02a-UI设计.md`（UI 任务）+ `.specs/上下文.md` + `.specs/经验总结.md` | `devflow-kit/flow/reference/ui-anti-patterns.md`（UI 任务 · 75 行可全读）| — |
-| 5 | `<id>/01-需求分析.md` + `<id>/02-方案设计.md` `## 0` 段 + `<id>/03-任务拆分.md` + `<id>/04-开发记录.md` + 各 `*-开发记录.md` | `devflow-kit/flow/reference/test-pyramid.md` 只查「适用矩阵」+ 需要的那几轮详情 | — |
-| 6 | `<id>/01-需求分析.md` + `<id>/02-方案设计.md` + `<id>/03-任务拆分.md` + `<id>/05-测试报告.md` + `git diff` | `devflow-kit/flow/reference/ui-anti-patterns.md`（前端项目第三轮 · 75 行可全读）| — |
-| 7 | `.specs/<id>/` 全部产物 + `.specs/经验总结.md` | 产出：`07-发布清单.md`（发布检查 + 回滚方案）| — |
+| 5 | `<id>/01-需求分析.md`（或 Delta 版）+ `<id>/02-方案设计.md` `## 0` 段 + `<id>/03-任务拆分.md` + `<id>/04-开发记录.md` + 各 `*-开发记录.md` | `devflow-kit/flow/reference/test-pyramid.md` 只查「适用矩阵」+ 需要的那几轮详情 | — |
+| 6 | `<id>/01-需求分析.md`（或 Delta 版）+ `<id>/02-方案设计.md`（或 Delta 版）+ `<id>/03-任务拆分.md` + `<id>/05-测试报告.md` + `git diff` | `devflow-kit/flow/reference/ui-anti-patterns.md`（前端项目第三轮 · 75 行可全读）| — |
+| 7 | `.specs/<id>/` 全部产物 + `.specs/经验总结.md` + **`.specs/需求基线.md` + `.specs/设计基线.md`（Delta 合并用）** | 产出：`07-发布清单.md`（发布检查 + 回滚方案）| — |
 | **M** (health) | `.specs/上下文.md` + `.specs/经验总结.md` + 最近 1 份 `.specs/health/*.md`（如有，做对比基线）| — | 抽样 5 个最近改动频繁的 src/ 模块 + 5 个测试文件 + 最近 30 天 git log |
 | **A** (evolve) | `.specs/项目状态.md` + `.specs/上下文.md` + `.specs/系统架构.md`（如存在）+ 范围内每个 `.specs/archive/<req-id>/02-方案设计.md` 的 § 9 段（仅 § 9，非整份 DESIGN）| — | 仅扫 `last_evolve_at` 之后归档的 req，禁止越界读 § 9 以外的 DESIGN 内容 |
 | **A** (architect) | `.specs/上下文.md` + `.specs/系统架构.md`（如存在）+ `.specs/需求LOG.md` + `devflow-kit/flow/templates/系统架构.md`（模板）| — | `src/` 顶层结构 + `package.json` / 依赖文件 + 抽样几份 `.specs/archive/*/02-方案设计.md` |
