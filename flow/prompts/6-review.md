@@ -334,7 +334,13 @@ UI 审查触发判定：
 → 触发结果：执行/跳过
 ```
 
-**触发条件**：本次需求 含 `02a-UI设计.md` 或 diff 涉及任何 UI 文件（`.css` / `.tsx` / `.vue` / `.html` / `.svelte` 等）。
+**触发条件**（必须同时满足）：
+1. 本次需求 含 `02a-UI设计.md`
+2. **且** diff 涉及任何 UI 文件（`.css` / `.tsx` / `.vue` / `.html` / `.svelte` / `tailwind.config.*` 等）
+
+**跳过条件**：
+- 不存在 `02a-UI设计.md` → 跳过（后端 / CLI / lib 项目）
+- 存在 `02a-UI设计.md` 但 diff 不涉及 UI 文件（如纯后端改动）→ 跳过，输出"本次 diff 无 UI 变更"
 
 **⚠️ 强制读取**：执行前必须读取 `02a-UI设计.md` 和 `ui-anti-patterns.md`。
 

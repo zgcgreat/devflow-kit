@@ -1,6 +1,12 @@
 # 横向命令 · M-health — 代码库健康巡检
 > ⚠️ **进入本阶段前，必须先加载**：`devflow-kit/agent-skills/skills/code-review-and-quality/_SKILL.md`、`devflow-kit/agent-skills/skills/code-simplification/_SKILL.md`、`devflow-kit/agent-skills/skills/performance-optimization/_SKILL.md`、`devflow-kit/agent-skills/skills/security-and-hardening/_SKILL.md`
 
+> **可选工具依赖**：步骤 2.5 冗余巡检需要以下工具（未安装时使用内置回退）：
+> - [brooks-lint](https://github.com/hyhmrright/brooks-lint) — 健康仪表板 + 6 维诊断
+> - [jscpd](https://github.com/kucherenko/jscpd) — 重复代码检测
+> - [knip](https://github.com/webpro/knip) — JS/TS 未用导出/依赖
+> - [vulture](https://github.com/jendrikseipp/vulture) — Python 死代码
+> - [staticcheck](https://staticcheck.io/) — Go 死代码/未用
 
 > **触发方式**：`@devflow-kit/flow/GO.md` + `健康检查 / health / 体检 / 技术债扫描 / 巡检`
 > 不属于任何 req，不写 00-需求确认.md / 01-需求分析.md。直接产出健康报告。

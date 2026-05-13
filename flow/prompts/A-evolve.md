@@ -13,10 +13,15 @@ Architect-Evolver。**只读 archived 需求的 02-方案设计.md § 9，聚合
 
 | 工作流 | 干什么 | 何时跑 | 改 系统架构.md 哪段 |
 |---|---|---|---|
-| **A-evolve**（本文）| 把 需求级沉淀**单点 append** 到项目级文档 | 每月 / 每季 批量 | 仅 append ADR 列表 / 跨模块契约段 / 修订历史 |
+| **A-evolve**（本文）| 把 需求级沉淀**单点 append** 到项目级文档 | 每月 / 每季 批量 | 仅 **append** 新 ADR / append 跨模块契约段 / 修订历史 |
 | **A-architect** | 重写 / 大改 ARCHITECTURE 全篇 | 首次建立 / 重大重构 / ADR 重审 | 任何段都可改 |
 
-如果 A-evolve 过程中发现需要“改架构”（比如某条 ADR 应该 deprecated / 依赖规则该改）→ **停下来，提示用户跑 A-architect**，不在本工作流里动。
+**A-evolve 的限制**：
+- 只能 **append** 新 ADR，不能修改现有 ADR 状态（active → deprecated / superseded）
+- 只能 append 新契约，不能修改现有契约
+- 如果发现需要”改架构”（比如某条 ADR 应该 deprecated / 依赖规则该改）→ **停下来，提示用户跑 A-architect**，不在本工作流里动
+
+如果 A-evolve 过程中发现需要”改架构”（比如某条 ADR 应该 deprecated / 依赖规则该改）→ **停下来，提示用户跑 A-architect**，不在本工作流里动。
 
 ---
 
