@@ -95,11 +95,17 @@
 
 ---
 
-## 第一步 · 读取或创建项目状态（必须，跳过即违反）
+## 第一步 · 读取项目状态和记忆（必须，跳过即违反）
 
 1. 尝试读 `.specs/项目状态.md`。不存在 → 用 `flow/templates/项目状态.md` 模板创建空的 `.specs/项目状态.md`，然后继续
 2. 关注字段：`活跃 req` / `当前阶段` / `当前 Task` / `中断任务`
-3. 如果存在 `中断任务` 非空 → **优先级最高**，直接走"恢复中断任务"分支（见下表）
+3. **新增（v2.0）**：尝试读 `.specs/.memory/PROJECT_CONTEXT.md`
+   - 存在 → 加载到上下文，了解项目背景
+   - 不存在 → 跳过（greenfield项目或尚未初始化记忆系统）
+4. **新增（v2.0）**：尝试读 `.specs/.memory/CURRENT_STATE.md`
+   - 存在 → 了解当前工作重点和最近决策
+   - 不存在 → 跳过
+5. 如果存在 `中断任务` 非空 → **优先级最高**，直接走"恢复中断任务"分支（见下表）
 
 ### 可选 runtime adapter 检测
 
@@ -109,6 +115,18 @@ flow-kit 默认不依赖任何运行时。若项目同时存在 `.claude/hooks/f
 
 ```text
 Forge adapter: detected / not detected
+```
+
+### 记忆系统健康度检查（v2.0 新增）
+
+在第二步入场检测时，额外检查记忆系统状态：
+
+```
+步骤 1.6：检查 .specs/.memory/ 是否存在
+         ├─ 存在 → 检查文件完整性
+         │         ├─ PROJECT_CONTEXT.md 缺失 → 提醒用户创建
+         │         └─ CURRENT_STATE.md 超过7天未更新 → 提醒更新
+         └─ 不存在 → 提示可选安装（不阻塞流程）
 ```
 
 ---
@@ -156,6 +174,7 @@ Forge adapter: detected / not detected
 │  项目类型：<brownfield / greenfield>                         │
 │  上下文文档：<路径 或 "无">                                   │
 │  入场扫描状态：<已完成 / 已跳过 / 待用户确认>                  │
+│  记忆系统状态：<✅ 正常 / ⚠️ 需完善 / ❌ 未安装>              │  ← v2.0 新增
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -417,6 +436,139 @@ Standard / Strict 需要确认时，模式确认和路由声明是**两条独立
 ## 第六步 · 执行对应阶段 prompt
 
 加载 `prompts/<n>-*.md` 的内容并按其指令推进。所有规则（`RULES.md` / `SYSTEM.md`）继续生效。
+
+---
+
+## 第七步 · 会话收尾与记忆更新（v2.0 新增）
+
+**触发条件**（满足任一项即执行）：
+1. 完成了完整的req（到达7-integration阶段）
+2. 做出了重要技术决策（写入ADR）
+3. 遇到了新的失败模式（排查耗时>1小时）
+4. 会话时长 > 1小时
+5. 用户显式要求“更新记忆”
+
+### 7.1 更新 CURRENT_STATE.md
+
+**自动更新逻辑：**
+
+```markdown
+IF 完成了req:
+  - 在“最近完成”中添加条目：日期 + req-id + 简要描述
+  - 清空“当前焦点”或更新为下一个待办
+  - 根据项目 backlog 建议“下一步”
+
+IF 做出了决策:
+  - 在“关键决策”中添加条目
+  - 同步到 DECISIONS.md（如存在）
+
+IF 遇到了问题:
+  - 在“待解决问题”中标记
+  - 评估是否需要写入 KNOWN_FAILURES.md
+```
+
+**示例输出：**
+
+```markdown
+📝 记忆更新
+
+已自动更新 .specs/.memory/CURRENT_STATE.md:
+- 最近完成: 2024-01-15 完成了 add-search-box (商品搜索功能)
+- 当前焦点: [待填写下一个任务]
+- 关键决策: 采用 Elasticsearch 而非 DB LIKE（理由：支持模糊搜索和分词）
+
+请检查更新是否准确，如需调整请直接编辑文件。
+```
+
+### 7.2 创建 session journal（如触发）
+
+**自动生成文件名：**
+```
+session-journal/YYYY-MM-DD-HHMM-<简短描述>.md
+例: session-journal/2024-01-15-1430-add-search-feature.md
+```
+
+**填充模板：**
+- 会话目标：从路由声明中提取
+- 关键活动：从对话历史中总结（时间线）
+- 产出物：列出创建的 `.specs/<req-id>/` 文件
+- 关键决策：提取重要技术决策
+- 遇到的问题：记录bug和解决方案
+- 验证结果：测试通过率、性能指标等
+- 经验提炼：可复用模式和应避免的陷阱
+
+**示例：**
+
+```markdown
+# Session Journal: 2024-01-15 14:30
+
+## 会话目标
+实现商品搜索功能（req-id: add-search-box）
+
+## 关键活动
+1. [14:30-14:45] 需求澄清：确定搜索字段和排序规则
+2. [14:45-15:30] 技术方案：选择Elasticsearch而非DB LIKE
+3. [15:30-16:30] 实现搜索API和前端组件
+4. [16:30-17:00] 编写单元测试和集成测试
+
+## 产出物
+- `.specs/add-search-box/00-需求确认.md`
+- `.specs/add-search-box/02-方案设计.md`
+- `src/components/SearchBox.vue`
+- `src/api/search.ts`
+- `tests/search.spec.ts`
+
+## 关键决策
+- 采用Elasticsearch（理由：支持模糊搜索和分词）
+- 前端使用debounce 300ms（平衡响应速度和服务器负载）
+
+## 遇到的问题
+- ES索引映射配置错误，导致中文分词失败
+  - 解决：改用ik_max_word analyzer
+  - 教训：先写测试再实现
+
+## 验证结果
+- ✅ 单元测试通过率: 100% (12/12)
+- ✅ 集成测试: 搜索响应时间 < 100ms (P95)
+- ✅ 手动测试: 中文/英文/混合搜索均正常
+
+## 经验提炼
+> **可复用模式**: Elasticsearch中文搜索配置模板
+> **应避免**: 在生产环境直接修改索引映射（应通过migration脚本）
+
+---
+*会话时长: 2.5小时*
+*AI助手: devflow-kit v2.0*
+```
+
+### 7.3 提醒用户
+
+```
+📝 记忆更新完成
+
+已更新:
+- .specs/.memory/CURRENT_STATE.md
+- .specs/.memory/session-journal/YYYY-MM-DD-HHMM-xxx.md
+
+建议操作:
+1. 检查 CURRENT_STATE.md 是否准确
+2. 如有重要决策，补充到 DECISIONS.md
+3. 如遇到新问题，考虑添加到 KNOWN_FAILURES.md
+```
+
+**注意**：如果 `.specs/.memory/` 不存在，跳过本步并提示用户可选安装：
+
+```
+💡 提示：检测到未安装记忆系统
+
+记忆系统可以帮助AI在跨会话时保持上下文，避免重复问相同问题。
+
+安装方法：
+1. 运行 scripts/install-memory.ps1 (Windows) 或 install-memory.sh (macOS/Linux)
+2. 或手动创建 .specs/.memory/ 目录并填写模板
+
+详见：docs/MEMORY_INTEGRATION.md
+```
 
 ---
 

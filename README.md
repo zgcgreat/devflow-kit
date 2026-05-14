@@ -2,7 +2,53 @@
 
 一个装好就用的 AI 编程 skill 包。它把 **流程编排**（需求 → 设计 → 任务 → 开发 → 测试 → 审查 → 发布）和 **专业工程 skill**（20 个高质量模块）整合成一个统一入口，对外只暴露一个主 skill：`devflow-kit`。
 
-> **新用户？** 直接看下方「30 秒快速上手」——不用读文档。
+> **🆕 v2.0 新特性**: 记忆系统 + Fast模式checklist + 自动归档 [查看升级说明](docs/CHANGELOG_v2.0.md)
+
+> **新用户？** 直接看 [QUICKSTART.md](QUICKSTART.md) ——5分钟上手，不用读文档。
+
+---
+
+## 📊 完整流程可视化
+
+```mermaid
+graph TB
+    Start[用户提需求] --> Check{是否有<br/>中断任务?}
+    Check -->|是| Resume[恢复中断任务]
+    Check -->|否| Detect[入场检测]
+    
+    Detect --> Brownfield{项目类型?}
+    Brownfield -->|Brownfield| ContextCheck[检查上下文文档]
+    Brownfield -->|Greenfield| Skip[跳过检测]
+    
+    ContextCheck --> ModeSelect[模式判定]
+    Skip --> ModeSelect
+    
+    ModeSelect --> Fast{模式?}
+    Fast -->|Fast| DirectDev[直接开发]
+    Fast -->|Standard| Confirm[需求确认]
+    Fast -->|Strict| Confirm
+    
+    Confirm --> Analysis[需求分析]
+    Analysis --> Design[方案设计]
+    Design --> Task[任务拆分]
+    Task --> Dev[开发TDD]
+    Dev --> Test[风险测试]
+    Test --> Review[四轮审查]
+    Review --> Integration[集成UAT]
+    Integration --> Archive[归档]
+    
+    DirectDev --> Verify[窄验证]
+    Verify --> Archive
+    
+    style Start fill:#e1f5ff
+    style Archive fill:#c8e6c9
+    style Fast fill:#fff9c4
+    style Confirm fill:#fff9c4
+```
+
+**前端项目路径**: `需求确认 → ANALYSIS → DESIGN → 2a UI-DESIGN → TASK → DEV → TEST → REVIEW (3轮) → INTEGRATION`  
+**后端项目路径**: `需求确认 → ANALYSIS → DESIGN → TASK → DEV → TEST → REVIEW → INTEGRATION`  
+**MVP 路径**: `ANALYSIS → TASK → DEV`（只跑这三步，3个文件起步）
 
 ---
 
