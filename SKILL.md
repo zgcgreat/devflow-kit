@@ -11,7 +11,7 @@ description: 引导编程 Agent 走风险驱动的软件工程流程。适用于
 
 ## 唯一入口
 
-`flow/GO.md` 是唯一路由器和流程事实源。它包含：
+`devflow-kit/flow/GO.md` 是唯一路由器和流程事实源。它包含：
 
 - 模式判定规则（Fast / Standard / Strict）
 - 入场检测流程
