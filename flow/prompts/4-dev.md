@@ -1,4 +1,5 @@
 # 阶段 4 · 开发 — 在 fresh context 中执行单个任务
+
 > ⚠️ **进入本阶段前，必须先加载**：
 > - **skill**：`devflow-kit/agent-skills/skills/incremental-implementation/_SKILL.md`、`devflow-kit/agent-skills/skills/test-driven-development/_SKILL.md`、`devflow-kit/agent-skills/skills/git-workflow-and-versioning/_SKILL.md`
 > - **reference（按任务类型按节读取）**：
@@ -7,6 +8,23 @@
 >   - Schema 任务：追加 § 1.7 + § 1.8
 >   - 破坏性变更：追加 § 1.8
 
+---
+
+## 强制检查点（进入本阶段前必须满足）
+
+```
+□ 入场检测已输出检测结果框？
+□ 入场检测结果不是"待用户确认"？
+□ 已读取 .specs/项目状态.md？
+□ 已加载 incremental-implementation/_SKILL.md？
+□ 已加载 test-driven-development/_SKILL.md？
+□ 已加载 git-workflow-and-versioning/_SKILL.md？
+□ 已按节读取 4-dev-rules.md（禁止整读）？
+```
+
+**任一项为否 → 禁止进入本阶段，回到 GO.md 对应步骤**
+
+---
 
 ## 角色
 
