@@ -226,17 +226,17 @@ Forge adapter: detected / not detected
 
 | 用户说 | 需求状态 | 路由到 | 必须加载的 skill | 示例原文 |
 |---|---|---|---|---|
-| 有新想法想做件事 | `.specs/` 下无活跃 req | **0-confirm** | `idea-refine`、`spec-driven-development` | "加个搜索功能"、"想加一个反馈收集组件" |
+| 有新想法想做件事 | `.specs/` 下无活跃 req | **0-confirm** | `idea-refine`、`development-core` | "加个搜索功能"、"想加一个反馈收集组件" |
 | 有新想法想做件事 | `.specs/` 下有活跃 req | **其他路径**：走中断处理分支的规则 | — | "帮我改一下用户认证" |
 | 恢复中断任务 | `.specs/项目状态.md` 存在且 `中断任务` 非空 | **直接恢复中断任务**（按 R1.5 重启协议） | — | "继续"、"继续刚才的"、"接着做" |
 | 不要进入 flow-kit | — | **直接做**，跳过所有 flow 流程 | — | "不要走流程"、"就直接帮我改一下" |
 | 检查项目健康度 | — | **M-health**（体检）| — | "帮我看看项目状态"、"健康检查" |
 | 要求 evolve / architect 模式 | — | **A-evolve** 或 **A-architect** | — | "evolve"、"帮我梳理架构"、"architect" |
 | 纯读代码/技术问题 | — | 不用 flow-kit，直接回答 | — | "这段代码怎么回事"、"异步怎么实现的" |
-| 新 req 但已有 `.specs/` 下非活跃 req | 非活跃 req 未解锁 | 先归档或关闭旧的 req，再走 0-confirm | `idea-refine`、`spec-driven-development` | "之前那个需求先不做了，我想做新的" |
-| **上传需求文档/PRD** | — | **文档解析模式** | `spec-driven-development` | "这是需求文档：[粘贴文档]"、"PRD 见附件" |
-| **上传设计稿** | — | **设计稿解析模式** | `spec-driven-development` | "这是 Figma 链接"、"设计稿见截图" |
-| **上传技术方案** | — | **方案解析模式** | `api-and-interface-design`、`documentation-and-adrs` | "这是技术设计文档" |
+| 新 req 但已有 `.specs/` 下非活跃 req | 非活跃 req 未解锁 | 先归档或关闭旧的 req，再走 0-confirm | `idea-refine`、`development-core` | "之前那个需求先不做了，我想做新的" |
+| **上传需求文档/PRD** | — | **文档解析模式** | `development-core` | "这是需求文档：[粘贴文档]"、"PRD 见附件" |
+| **上传设计稿** | — | **设计稿解析模式** | `development-core` | "这是 Figma 链接"、"设计稿见截图" |
+| **上传技术方案** | — | **方案解析模式** | `design-and-architecture` | "这是技术设计文档" |
 
 ### 阶段与 skill 加载对照表
 
@@ -244,15 +244,15 @@ Forge adapter: detected / not detected
 
 | 阶段 | 必须加载的 skill（全读 `_SKILL.md`） |
 |------|--------------------------------------|
-| **0-confirm** | `idea-refine`、`spec-driven-development` |
-| **1-analysis** | `spec-driven-development` |
-| **2-design** | `api-and-interface-design`、`source-driven-development`、`documentation-and-adrs` |
+| **0-confirm** | `idea-refine`、`development-core` |
+| **1-analysis** | `development-core` |
+| **2-design** | `design-and-architecture` |
 | **2a-ui-design** | `frontend-ui-engineering` |
-| **3-task** | `planning-and-task-breakdown` |
-| **4-dev** | `incremental-implementation`、`test-driven-development`、`git-workflow-and-versioning` |
-| **5-test** | `test-driven-development` |
-| **6-review** | `code-review`、`security-review`（高风险时） |
-| **7-integration** | `shipping-and-release` |
+| **3-task** | `planning-and-context` |
+| **4-dev** | `development-core`、`testing-suite` |
+| **5-test** | `testing-suite` |
+| **6-review** | `code-quality`、`security-and-performance`（高风险时） |
+| **7-integration** | `devops` |
 
 **skill 路径**：`devflow-kit/agent-skills/skills/<skill-name>/_SKILL.md`
 
@@ -396,9 +396,8 @@ read_file path="devflow-kit/flow/reference/tech-stacks.md" offset=380 limit=60
 ✅ 路由：4-dev（执行 T01：实现搜索组件）
 ✅ Req-ID：add-search-box
 ✅ 已加载的 skill：
-   - devflow-kit/agent-skills/skills/incremental-implementation/_SKILL.md（全读，63 行）
-   - devflow-kit/agent-skills/skills/test-driven-development/_SKILL.md（全读，42 行）
-   - devflow-kit/agent-skills/skills/git-workflow-and-versioning/_SKILL.md（全读，28 行）
+   - devflow-kit/agent-skills/skills/development-core/_SKILL.md（全读，55 行）
+   - devflow-kit/agent-skills/skills/testing-suite/_SKILL.md（全读，44 行）
 ✅ 已加载的 reference（按节读取）：
    - 本阶段无需 reference（非 UI 任务）
 ✅ 已加载的工件：
@@ -417,9 +416,7 @@ read_file path="devflow-kit/flow/reference/tech-stacks.md" offset=380 limit=60
 ✅ 路由：2-design（技术方案设计）
 ✅ Req-ID：add-search-box
 ✅ 已加载的 skill：
-   - devflow-kit/agent-skills/skills/api-and-interface-design/_SKILL.md（全读，58 行）
-   - devflow-kit/agent-skills/skills/source-driven-development/_SKILL.md（全读，45 行）
-   - devflow-kit/agent-skills/skills/documentation-and-adrs/_SKILL.md（全读，52 行）
+   - devflow-kit/agent-skills/skills/design-and-architecture/_SKILL.md（全读，89 行）
 ✅ 已加载的 reference（按节读取）：
    - tech-stacks.md § 适用矩阵（read offset=380 limit=60，共 60 行）
    - tech-stacks.md § 给 AI 在 2-design 阶段展示用的标准模板（read offset=450 limit=30，共 30 行）
