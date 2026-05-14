@@ -108,6 +108,24 @@ Use devflow-kit.
 
 ---
 
+## 📚 学习路径
+
+**新手入门**: 
+1. [QUICKSTART.md](QUICKSTART.md) - 5分钟快速上手
+2. [教程 01: 你的第一个需求](docs/tutorials/01-first-req.md) - 实战演练
+3. [教程 02: 理解阶段流程](docs/tutorials/02-understand-phases.md) - 深入学习
+
+**进阶提升**:
+- [教程目录](docs/tutorials/README.md) - 完整教程列表
+- [v2.0 升级说明](docs/CHANGELOG_v2.0.md) - 新特性介绍
+- [记忆系统集成](docs/MEMORY_INTEGRATION.md) - 跨会话上下文
+
+**团队部署**:
+- [实施指南](docs/IMPLEMENTATION_GUIDE.md) - 分层次方案
+- [升级路线图](docs/UPGRADE_ROADMAP.md) - 3个月规划
+
+---
+
 ## 你会听到的词（名词解释）
 
 | 词 | 是什么意思 | 你需要管吗？ |
