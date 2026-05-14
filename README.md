@@ -1,8 +1,8 @@
 # devflow-kit
 
-一个装好就用的 AI 编程 skill 包。它把 **流程编排**（需求 → 设计 → 任务 → 开发 → 测试 → 审查 → 发布）和 **专业工程 skill**（20 个高质量模块）整合成一个统一入口，对外只暴露一个主 skill：`devflow-kit`。
+一个装好就用的 AI 编程 skill 包。它把 **流程编排**（需求 → 设计 → 任务 → 开发 → 测试 → 审查 → 发布）和 **专业工程 skill**（12 个高质量模块）整合成一个统一入口，对外只暴露一个主 skill：`devflow-kit`。
 
-> **🆕 v2.0 新特性**: 记忆系统 + Fast模式checklist + 自动归档 [查看升级说明](docs/CHANGELOG_v2.0.md)
+> **🆕 v2.1 新特性**: Skill重构(22→12) + 智能推荐引擎 + 完整教程体系 [查看升级说明](docs/CHANGELOG_v2.0.md)
 
 > **新用户？** 直接看 [QUICKSTART.md](QUICKSTART.md) ——5分钟上手，不用读文档。
 
