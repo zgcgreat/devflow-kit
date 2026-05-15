@@ -249,6 +249,7 @@ Forge adapter: detected / not detected
 | **2-design** | `design-and-architecture` |
 | **2a-ui-design** | `frontend-ui-engineering` |
 | **3-task** | `planning-and-context` |
+| **3a-实施计划** | `planning-and-context`（可选，Standard/Strict 模式） |
 | **4-dev** | `development-core`、`testing-suite` |
 | **5-test** | `testing-suite` |
 | **6-review** | `code-quality`、`security-and-performance`（高风险时） |
@@ -303,7 +304,7 @@ Forge adapter: detected / not detected
 
 **核心规则**：缺前置产物 → 不允许直接进入，必须先补跑缺失阶段。
 
-**阶段依赖**：`0-confirm → 1-analysis → 2-design → [2a-ui-design] → 3-task → 4-dev → 5-test → 6-review → 7-integration`
+**阶段依赖**：`0-confirm → 1-analysis → 2-design → [2a-ui-design] → 3-task → [3a-实施计划] → 4-dev → 5-test → 6-review → 7-integration`
 
 **Fast 模式例外**：允许跳过 0~3 阶段直接进入 4-dev，但必须：
 1. AI 已明确判定为 Fast 模式
@@ -326,7 +327,8 @@ Forge adapter: detected / not detected
 | 2 | `<id>/00-需求确认.md` + `<id>/01-需求分析.md`（或 `01-需求分析-Delta.md`）+ `.specs/上下文.md` + `.specs/系统架构.md`（如存在）+ **`.specs/设计基线.md`（如存在 → Delta 模式）** + **`<id>/02a-UI设计.md`（如存在 · 前端项目）**| `devflow-kit/flow/reference/tech-stacks.md` 只查「适用矩阵」+ 过滤出的 5~6 张卡片 | ADR 阶段某项要深谈时再读 |
 | 2a | `<id>/00-需求确认.md` + `<id>/01-需求分析.md` + `<id>/02-方案设计.md` `## 0` 段 + `.specs/上下文.md` + `devflow-kit/flow/reference/ui-anti-patterns.md`（仅 75 行可全读）| `devflow-kit/flow/reference/ui-aesthetics.md` 查「5 维度」+ 「给 AI 的模板」 | uipro / impeccable 查询（装了才调）|
 | 3 | `<id>/01-需求分析.md`（或 Delta 版）+ `<id>/02-方案设计.md`（或 Delta 版）+ `<id>/02a-UI设计.md`（前端项目）+ `.specs/上下文.md` | — | 任务模板查询 |
-| 4 | `<id>/03-任务拆分.md`（只读当前 task 块）+ `<id>/02-方案设计.md` `## 0` 段 + `<id>/02a-UI设计.md`（UI 任务）+ `.specs/上下文.md` + `.specs/经验总结.md` | `devflow-kit/flow/reference/ui-anti-patterns.md`（UI 任务 · 75 行可全读）| — |
+| 3a | `<id>/03-任务拆分.md` + `<id>/02-方案设计.md` + `.specs/上下文.md` | — | 实施计划模板查询 |
+| 4 | `<id>/03-任务拆分.md`（只读当前 task 块）+ `<id>/03a-实施计划.md`（如存在）+ `<id>/02-方案设计.md` `## 0` 段 + `<id>/02a-UI设计.md`（UI 任务）+ `.specs/上下文.md` + `.specs/经验总结.md` | `devflow-kit/flow/reference/ui-anti-patterns.md`（UI 任务 · 75 行可全读）| — |
 | 5 | `<id>/01-需求分析.md`（或 Delta 版）+ `<id>/02-方案设计.md` `## 0` 段 + `<id>/03-任务拆分.md` + `<id>/04-开发记录.md` + 各 `*-开发记录.md` | `devflow-kit/flow/reference/test-pyramid.md` 只查「适用矩阵」+ 需要的那几轮详情 | — |
 | 6 | `<id>/01-需求分析.md`（或 Delta 版）+ `<id>/02-方案设计.md`（或 Delta 版）+ `<id>/03-任务拆分.md` + `<id>/05-测试报告.md` + `git diff` | `devflow-kit/flow/reference/ui-anti-patterns.md`（前端项目第三轮 · 75 行可全读）| — |
 | 7 | `.specs/<id>/` 全部产物 + `.specs/经验总结.md` + **`.specs/需求基线.md` + `.specs/设计基线.md`（Delta 合并用）** | 产出：`07-发布清单.md`（发布检查 + 回滚方案）| — |
