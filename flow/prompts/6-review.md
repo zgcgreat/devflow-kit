@@ -1,9 +1,9 @@
 # 阶段 6 · 审查 — 四轮审查（spec 合规 + 代码质量 + UI + 补充）
 
 > ⚠️ **进入本阶段前，必须先加载**：
-> - **skill**：`devflow-kit/agent-skills/skills/code-review-and-quality/_SKILL.md`
+> - **skill**：`devflow-kit/agent-skills/skills/code-quality/_SKILL.md`
 > - **reference（前端项目）**：`devflow-kit/flow/reference/ui-anti-patterns.md`（可全读，111 行）
-> - **可选 skill（按需加载）**：`security-and-hardening/_SKILL.md`、`performance-optimization/_SKILL.md` 在发现相关问题时再加载
+> - **可选 skill（按需加载）**：`security-and-performance/_SKILL.md` 在发现相关问题时再加载
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -41,12 +41,11 @@
 
 ```
 ✅ 必须加载：
-[ ] devflow-kit/agent-skills/skills/code-review-and-quality/_SKILL.md
+[ ] devflow-kit/agent-skills/skills/code-quality/_SKILL.md
 ```
 
 **可选依赖（按需加载）**：
-- `security-and-hardening/_SKILL.md` — 第二轮发现安全相关问题时加载
-- `performance-optimization/_SKILL.md` — 第二轮发现性能相关问题时加载
+- `security-and-performance/_SKILL.md` — 第二轮发现安全或性能相关问题时加载
 
 **缺任一项 → 报错退出**："缺少必要依赖文件 X，请先加载"。
 
@@ -85,9 +84,9 @@
 
 ---
 
-> ⚠️ **进入本阶段前，必须先加载**：`devflow-kit/agent-skills/skills/code-review-and-quality/_SKILL.md`
+> ⚠️ **进入本阶段前，必须先加载**：`devflow-kit/agent-skills/skills/code-quality/_SKILL.md`
 >
-> **按需加载**：`security-and-hardening/_SKILL.md`、`performance-optimization/_SKILL.md` 在发现相关问题时再加载。
+> **按需加载**：`security-and-performance/_SKILL.md` 在发现相关问题时再加载。
 
 
 ## 角色
@@ -146,10 +145,10 @@
 │  diff 涉及以下内容时加载对应 skill：                          │
 │                                                              │
 │  安全相关（auth/login/password/token/session/permission）    │
-│  → 加载 security-and-hardening/_SKILL.md                    │
+│  → 加载 security-and-performance/_SKILL.md                    │
 │                                                              │
 │  性能相关（query/loop/cache/async/render）                   │
-│  → 加载 performance-optimization/_SKILL.md                  │
+│  → 加载 security-and-performance/_SKILL.md                  │
 │                                                              │
 │  无相关内容 → 跳过，使用内置检查清单                          │
 └─────────────────────────────────────────────────────────────┘

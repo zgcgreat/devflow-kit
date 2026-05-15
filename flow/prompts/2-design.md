@@ -1,7 +1,7 @@
 # 阶段 2 · 设计 — 把需求变成可执行的技术设计
 
 > ⚠️ **进入本阶段前，必须先加载**：
-> - **skill**：`devflow-kit/agent-skills/skills/api-and-interface-design/_SKILL.md`、`devflow-kit/agent-skills/skills/source-driven-development/_SKILL.md`、`devflow-kit/agent-skills/skills/documentation-and-adrs/_SKILL.md`
+> - **skill**：`devflow-kit/agent-skills/skills/design-and-architecture/_SKILL.md`
 > - **reference（按节读取，禁止整读）**：`devflow-kit/flow/reference/tech-stacks.md` § 适用矩阵 + § 给 AI 在 2-design 阶段展示用的标准模板
 
 ## 角色

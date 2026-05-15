@@ -2,7 +2,7 @@
 
 一个装好就用的 AI 编程 skill 包。它把 **流程编排**（需求 → 设计 → 任务 → 开发 → 测试 → 审查 → 发布）和 **专业工程 skill**（12 个高质量模块）整合成一个统一入口，对外只暴露一个主 skill：`devflow-kit`。
 
-> **🆕 v2.1 新特性**: Skill重构(22→12) + 智能推荐引擎 + 完整教程体系 [查看升级说明](docs/CHANGELOG_v2.0.md)
+> **🆕 v2.2 新特性**: 智能推荐集成 + 完整教程体系(7个) + 高级技巧 [查看升级说明](docs/CHANGELOG_v2.0.md)
 
 > **新用户？** 直接看 [QUICKSTART.md](QUICKSTART.md) ——5分钟上手，不用读文档。
 
@@ -114,11 +114,14 @@ Use devflow-kit.
 1. [QUICKSTART.md](QUICKSTART.md) - 5分钟快速上手
 2. [教程 01: 你的第一个需求](docs/tutorials/01-first-req.md) - 实战演练
 3. [教程 02: 理解阶段流程](docs/tutorials/02-understand-phases.md) - 深入学习
+4. [教程 03: 模式选择](docs/tutorials/03-fast-vs-standard.md) - 掌握三种模式
 
 **进阶提升**:
-- [教程目录](docs/tutorials/README.md) - 完整教程列表
-- [v2.0 升级说明](docs/CHANGELOG_v2.0.md) - 新特性介绍
-- [记忆系统集成](docs/MEMORY_INTEGRATION.md) - 跨会话上下文
+- [教程目录](docs/tutorials/README.md) - 完整教程列表(7个)
+- [教程 04: 常见问题调试](docs/tutorials/04-debug-common-issues.md) - 问题排查
+- [教程 05: 记忆系统](docs/tutorials/05-memory-system.md) - 跨会话上下文
+- [教程 06: 高级技巧](docs/tutorials/06-advanced-tips.md) - 自定义扩展
+- [教程 07: 智能推荐](docs/tutorials/07-smart-recommendation.md) - 算法详解
 
 **团队部署**:
 - [实施指南](docs/IMPLEMENTATION_GUIDE.md) - 分层次方案

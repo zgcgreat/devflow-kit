@@ -1,7 +1,7 @@
 # 阶段 0 · Confirm — 把模糊想法变成一份需求确认书
 
 > ⚠️ **进入本阶段前，必须先加载**：
-> - **skill**：`devflow-kit/agent-skills/skills/idea-refine/_SKILL.md`、`devflow-kit/agent-skills/skills/spec-driven-development/_SKILL.md`
+> - **skill**：`devflow-kit/agent-skills/skills/idea-refine/_SKILL.md`、`devflow-kit/agent-skills/skills/development-core/_SKILL.md`
 > - **reference（前端项目按节读取）**：`devflow-kit/flow/reference/ui-aesthetics.md` § 调性（用于展示调性卡片）
 
 ---
@@ -13,7 +13,7 @@
 □ 入场检测结果不是"待用户确认"？
 □ 已读取 .specs/项目状态.md（如存在）？
 □ 已加载 idea-refine/_SKILL.md？
-□ 已加载 spec-driven-development/_SKILL.md？
+□ 已加载 development-core/_SKILL.md？
 ```
 
 **任一项为否 → 禁止进入本阶段，回到 GO.md 对应步骤**

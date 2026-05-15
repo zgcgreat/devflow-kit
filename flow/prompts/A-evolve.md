@@ -1,6 +1,6 @@
 # 横向命令 · A-evolve — 把 req 期间的架构沉淀同步到项目级文档
 
-> ⚠️ **进入本阶段前，必须先加载**：`devflow-kit/agent-skills/skills/context-engineering/_SKILL.md`、`devflow-kit/agent-skills/skills/documentation-and-adrs/_SKILL.md`、`devflow-kit/agent-skills/skills/source-driven-development/_SKILL.md`
+> ⚠️ **进入本阶段前，必须先加载**：`devflow-kit/agent-skills/skills/planning-and-context/_SKILL.md`
 
 > **触发方式**：`@devflow-kit/flow/GO.md` + `同步架构 / 整理沉淀 / sediment / evolve / 架构演进 / 同步 上下文`
 > 不属于任何 req，不写 00-需求确认.md / 01-需求分析.md。直接产出沉淀同步报告 + patch 上下文.md（+ 系统架构.md如存在）。

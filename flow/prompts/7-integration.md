@@ -1,6 +1,6 @@
 # 阶段 7 · 集成投产 — 集成验证 + UAT + 发布清单 + 归档
 
-> ⚠️ **进入本阶段前，必须先加载**：`devflow-kit/agent-skills/skills/shipping-and-launch/_SKILL.md`、`devflow-kit/agent-skills/skills/ci-cd-and-automation/_SKILL.md`、`devflow-kit/agent-skills/skills/deprecation-and-migration/_SKILL.md`
+> ⚠️ **进入本阶段前，必须先加载**：`devflow-kit/agent-skills/skills/devops/_SKILL.md`
 
 ## 角色
 
