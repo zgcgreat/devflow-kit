@@ -1,6 +1,6 @@
 ---
 name: devflow-kit
-description: 引导编程 Agent 走风险驱动的软件工程流程。适用于启动功能、澄清需求、拆任务、写代码、测试、审查、迁移或发布非平凡改动。
+description: 结构化AI编程工作流系统
 ---
 
 # DevFlow Kit
@@ -15,9 +15,9 @@ description: 引导编程 Agent 走风险驱动的软件工程流程。适用于
 
 - 模式判定规则（Fast / Standard / Strict）
 - 入场检测流程
-- 路由表与 skill 加载对照表
+- 路由表与 stage skill 加载对照表
 - 阶段门验证规则
-- 自检清单（6 个门控 + 产物输出前模板校验）
+- 自检清单
 
 ## 模板强制规则
 
@@ -41,14 +41,18 @@ description: 引导编程 Agent 走风险驱动的软件工程流程。适用于
 |------|------|
 | `flow/GO.md` | **唯一路由器**，必须先读 |
 | `flow/RULES.md` | 全局红线与状态纪律 |
-| `flow/prompts/*.md` | 各阶段执行 prompt |
+| `flow/stage-skills/` | Stage Skills（各阶段执行逻辑） |
+| `flow/prompts/*.md` | 各阶段执行 prompt（后备） |
 | `flow/templates/*.md` | 阶段产物模板 |
 | `flow/reference/*.md` | 按需查阅的参考资料 |
-| `flow/mode-rules.md` | 模式判定详细规则 |
-| `flow/entry-check.md` | 入场检测详细规则 |
-| `flow/gate-rules.md` | 阶段门验证详细规则 |
 | `agent-skills/skills/*/_SKILL.md` | 专业工程 skill |
 
 ## 开始
 
 读取 `flow/GO.md`，按它完成路由、模式判定、状态检查和阶段执行。
+
+## 版本
+
+v2.3 - Stage Skill架构
+- Stage Skills: v1.0.0（稳定）
+- 向后兼容：是
