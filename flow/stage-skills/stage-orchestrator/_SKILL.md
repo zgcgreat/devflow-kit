@@ -117,14 +117,14 @@ dependencies:
 下一阶段: dev
 
 阶段进度:
-- [x] 需求确认 → 00-requirements.md
-- [x] 需求分析 → 01-analysis.md
-- [x] 方案设计 → 02-design.md
-- [x] 任务拆分 → 03-tasks.md
-- [ ] 开发执行
-- [ ] 测试验证
-- [ ] 代码审查
-- [ ] 集成发布
+- ✅ 需求确认 → 00-requirements.md
+- ✅ 需求分析 → 01-analysis.md
+- ✅ 方案设计 → 02-design.md
+- ✅ 任务拆分 → 03-tasks.md
+- ⏳ 开发执行
+- ⏳ 测试验证
+- ⏳ 代码审查
+- ⏳ 集成发布
 ```
 
 **每个stage完成后必须更新此文件**

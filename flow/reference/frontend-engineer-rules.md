@@ -311,17 +311,17 @@ CSS / HTML / JS / SVG 能做的远超大多数人想象。
 
 ## 10. 交付前清单（**提交 PR / 合并前逐项过**）
 
-- [ ] 浏览器 console **无错误 / 无警告**（至少 info 级以下）
-- [ ] 在**目标设备 / 视口**渲染正确（响应式 Web → mobile / tablet / desktop；移动原型 → 目标设备；定尺幻灯 / 视频 → 缩放容器不失真）
-- [ ] **交互组件**（button / link / input / card 等）按需包含状态：hover / focus / active / disabled / loading；按场景加 empty / error
-- [ ] 文字无溢出 / 截断；已用 `text-wrap: pretty`
-- [ ] **所有颜色来自 02a-UI设计.md**（无新 hue 被悄悄引入）
-- [ ] 没用 `scrollIntoView`
-- [ ] React 任务无 `const styles = {...}`；跨文件组件用 `Object.assign(window, {...})` 暴露
-- [ ] 没有 AI-slop（紫粉渐变 / emoji 凑图标 / 左彩边卡片 / Inter/Roboto）
-- [ ] 无凑字数内容 / 无编造数据（见 02a-UI设计.md 第 8 节占位符策略）
-- [ ] 语义化命名 / 结构干净 / 后续易改
-- [ ] 视觉质量达到 Dribbble / Behance 展示级别
+- ⏳ 浏览器 console **无错误 / 无警告**（至少 info 级以下）
+- ⏳ 在**目标设备 / 视口**渲染正确（响应式 Web → mobile / tablet / desktop；移动原型 → 目标设备；定尺幻灯 / 视频 → 缩放容器不失真）
+- ⏳ **交互组件**（button / link / input / card 等）按需包含状态：hover / focus / active / disabled / loading；按场景加 empty / error
+- ⏳ 文字无溢出 / 截断；已用 `text-wrap: pretty`
+- ⏳ **所有颜色来自 02a-UI设计.md**（无新 hue 被悄悄引入）
+- ⏳ 没用 `scrollIntoView`
+- ⏳ React 任务无 `const styles = {...}`；跨文件组件用 `Object.assign(window, {...})` 暴露
+- ⏳ 没有 AI-slop（紫粉渐变 / emoji 凑图标 / 左彩边卡片 / Inter/Roboto）
+- ⏳ 无凑字数内容 / 无编造数据（见 02a-UI设计.md 第 8 节占位符策略）
+- ⏳ 语义化命名 / 结构干净 / 后续易改
+- ⏳ 视觉质量达到 Dribbble / Behance 展示级别
 
 ---
 

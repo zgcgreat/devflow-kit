@@ -34,27 +34,27 @@
 ## 加载记录
 
 ### 核心依赖（必须加载）
-- [x] code-review-and-quality/_SKILL.md (347 行)
+- ✅ code-review-and-quality/_SKILL.md (347 行)
 
 ### 按需加载
-- [x] security-and-hardening/_SKILL.md (349 行) — 触发原因：diff 含 auth
-- [ ] performance-optimization/_SKILL.md — 未触发
+- ✅ security-and-hardening/_SKILL.md (349 行) — 触发原因：diff 含 auth
+- ⏳ performance-optimization/_SKILL.md — 未触发
 
 ---
 
 ## 前置检查
 
 ### P1. 依赖文件加载
-- [x] code-review-and-quality/_SKILL.md
+- ✅ code-review-and-quality/_SKILL.md
 
 ### P2. 输入文件读取
-- [x] 01-analysis.md — 必须
-- [x] 05-test-report.md — 必须
-- [ ] 02-design.md — 如有
-- [ ] 02a-UI设计.md — 前端项目必须
+- ✅ 01-analysis.md — 必须
+- ✅ 05-test-report.md — 必须
+- ⏳ 02-design.md — 如有
+- ⏳ 02a-UI设计.md — 前端项目必须
 
 ### P3. Git diff 获取
-- [x] 已获取本次变更
+- ✅ 已获取本次变更
 
 ---
 

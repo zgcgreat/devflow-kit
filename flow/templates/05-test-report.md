@@ -200,16 +200,16 @@ $ trufflehog filesystem .
 
 ### 4.3 数据迁移（涉及 schema 变更必填）
 
-- [ ] 生产数据快照预演通过
-- [ ] 实测耗时：<X 分钟>
-- [ ] 回滚脚本就位且测过
-- [ ] 灰度 / 双写方案验证通过
+- ⏳ 生产数据快照预演通过
+- ⏳ 实测耗时：<X 分钟>
+- ⏳ 回滚脚本就位且测过
+- ⏳ 灰度 / 双写方案验证通过
 
 ### 4.4 跨版本
 
-- [ ] 旧 schema 数据兼容
-- [ ] API v1 client → v2 server
-- [ ] 编码 / locale
+- ⏳ 旧 schema 数据兼容
+- ⏳ API v1 client → v2 server
+- ⏳ 编码 / locale
 
 ---
 
@@ -217,29 +217,29 @@ $ trufflehog filesystem .
 
 ### 5.1 日志
 
-- [ ] 关键路径有 log（入口 / 出口 / 异常）
-- [ ] 含 trace-id
-- [ ] 结构化 JSON
-- [ ] grep 验证不含 PII / 秘钥 / token
-- [ ] 错误日志上下文充分
+- ⏳ 关键路径有 log（入口 / 出口 / 异常）
+- ⏳ 含 trace-id
+- ⏳ 结构化 JSON
+- ⏳ grep 验证不含 PII / 秘钥 / token
+- ⏳ 错误日志上下文充分
 
 ### 5.2 指标
 
-- [ ] 业务 metric：<列出>
-- [ ] RED 指标覆盖关键 endpoint
-- [ ] USE 指标覆盖关键资源
+- ⏳ 业务 metric：<列出>
+- ⏳ RED 指标覆盖关键 endpoint
+- ⏳ USE 指标覆盖关键资源
 
 ### 5.3 链路追踪
 
-- [ ] 跨服务 trace 串通
-- [ ] 慢操作能被定位
+- ⏳ 跨服务 trace 串通
+- ⏳ 慢操作能被定位
 
 ### 5.4 告警 + 健康检查
 
-- [ ] 关键失败有告警
-- [ ] 每个告警有 runbook 链接
-- [ ] `/health` 区分 liveness / readiness
-- [ ] 无噪音告警（命中率 > 50%）
+- ⏳ 关键失败有告警
+- ⏳ 每个告警有 runbook 链接
+- ⏳ `/health` 区分 liveness / readiness
+- ⏳ 无噪音告警（命中率 > 50%）
 
 ---
 

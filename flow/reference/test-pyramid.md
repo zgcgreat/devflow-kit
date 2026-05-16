@@ -21,11 +21,11 @@
 
 ### 通过标准
 
-- [ ] 每条 AC 至少 1 条测试或 UAT 项
-- [ ] 关键路径行覆盖率 ≥ 项目门槛（默认 80%；core 模块 ≥ 90%）
-- [ ] 错误路径有显式测试（不只是 happy path）
-- [ ] 边界值（空 / 极大 / 极小 / Unicode / 负数 / null）至少 3 条
-- [ ] 异步 / 并发场景有 race condition 测试
+- ⏳ 每条 AC 至少 1 条测试或 UAT 项
+- ⏳ 关键路径行覆盖率 ≥ 项目门槛（默认 80%；core 模块 ≥ 90%）
+- ⏳ 错误路径有显式测试（不只是 happy path）
+- ⏳ 边界值（空 / 极大 / 极小 / Unicode / 负数 / null）至少 3 条
+- ⏳ 异步 / 并发场景有 race condition 测试
 
 ### 反模式（命中即不通过）
 
@@ -127,16 +127,16 @@ performance:
 
 按当年版本对照（当前 2021 版）：
 
-- [ ] A01 Broken Access Control — 越权测试（横向 / 纵向）
-- [ ] A02 Cryptographic Failures — 敏感数据传输 / 存储加密
-- [ ] A03 Injection — SQL / NoSQL / Command / LDAP 注入测试
-- [ ] A04 Insecure Design — 设计阶段威胁建模
-- [ ] A05 Security Misconfig — CORS / CSP / Cookie flag / Headers
-- [ ] A06 Vulnerable Components — 见上面"依赖漏洞"
-- [ ] A07 Auth & Session — 弱密码 / brute force / session fixation
-- [ ] A08 Software & Data Integrity — CI/CD 完整性 / 反序列化
-- [ ] A09 Logging & Monitoring — 见第 5 轮可观测性
-- [ ] A10 SSRF — URL 输入校验 / 内网保护
+- ⏳ A01 Broken Access Control — 越权测试（横向 / 纵向）
+- ⏳ A02 Cryptographic Failures — 敏感数据传输 / 存储加密
+- ⏳ A03 Injection — SQL / NoSQL / Command / LDAP 注入测试
+- ⏳ A04 Insecure Design — 设计阶段威胁建模
+- ⏳ A05 Security Misconfig — CORS / CSP / Cookie flag / Headers
+- ⏳ A06 Vulnerable Components — 见上面"依赖漏洞"
+- ⏳ A07 Auth & Session — 弱密码 / brute force / session fixation
+- ⏳ A08 Software & Data Integrity — CI/CD 完整性 / 反序列化
+- ⏳ A09 Logging & Monitoring — 见第 5 轮可观测性
+- ⏳ A10 SSRF — URL 输入校验 / 内网保护
 
 每项给"已测 / 不适用 / 待补"三态，不允许跳过。
 
@@ -174,17 +174,17 @@ performance:
 
 ### 后端跨版本兼容
 
-- [ ] 数据库迁移：旧 schema 数据能否被新代码正确读写
-- [ ] API 版本：v1 客户端访问 v2 服务端能否优雅降级
-- [ ] 协议兼容：HTTP/1.1 / HTTP/2 / HTTP/3
-- [ ] 编码兼容：UTF-8 / UTF-16 / 不同 locale
+- ⏳ 数据库迁移：旧 schema 数据能否被新代码正确读写
+- ⏳ API 版本：v1 客户端访问 v2 服务端能否优雅降级
+- ⏳ 协议兼容：HTTP/1.1 / HTTP/2 / HTTP/3
+- ⏳ 编码兼容：UTF-8 / UTF-16 / 不同 locale
 
 ### 数据迁移测试（涉及 schema 变更必跑）
 
-- [ ] 在生产数据快照上预演迁移脚本
-- [ ] 迁移耗时实测（决定是否需要 maintenance window）
-- [ ] 回滚脚本就位且测过
-- [ ] 双写期 / 灰度方案有验证步骤
+- ⏳ 在生产数据快照上预演迁移脚本
+- ⏳ 迁移耗时实测（决定是否需要 maintenance window）
+- ⏳ 回滚脚本就位且测过
+- ⏳ 双写期 / 灰度方案有验证步骤
 
 ### 反模式
 
@@ -201,37 +201,37 @@ performance:
 
 ### 日志（Logs）
 
-- [ ] 关键路径的入口 / 出口 / 异常都有日志
-- [ ] 日志级别正确（DEBUG / INFO / WARN / ERROR / FATAL）
-- [ ] 日志含 trace-id（可串到分布式追踪）
-- [ ] **不含敏感信息**（密码 / token / 身份证 / 卡号 / 邮件正文等）
-- [ ] 结构化日志（JSON）而非纯文本（便于查询）
-- [ ] 错误日志含足够上下文（user-id / request-id / 关键参数）
+- ⏳ 关键路径的入口 / 出口 / 异常都有日志
+- ⏳ 日志级别正确（DEBUG / INFO / WARN / ERROR / FATAL）
+- ⏳ 日志含 trace-id（可串到分布式追踪）
+- ⏳ **不含敏感信息**（密码 / token / 身份证 / 卡号 / 邮件正文等）
+- ⏳ 结构化日志（JSON）而非纯文本（便于查询）
+- ⏳ 错误日志含足够上下文（user-id / request-id / 关键参数）
 
 ### 指标（Metrics）
 
-- [ ] 业务关键 metric 有打点（如订单完成率、登录成功率、关键转化）
-- [ ] 系统级 metric 完备（CPU / 内存 / 连接池 / 队列深度）
-- [ ] RED 指标（Rate / Errors / Duration）覆盖关键 endpoint
-- [ ] USE 指标（Utilization / Saturation / Errors）覆盖关键资源
+- ⏳ 业务关键 metric 有打点（如订单完成率、登录成功率、关键转化）
+- ⏳ 系统级 metric 完备（CPU / 内存 / 连接池 / 队列深度）
+- ⏳ RED 指标（Rate / Errors / Duration）覆盖关键 endpoint
+- ⏳ USE 指标（Utilization / Saturation / Errors）覆盖关键资源
 
 ### 链路追踪（Traces）
 
-- [ ] 跨服务调用 trace 串通
-- [ ] 慢操作 / 失败操作能被 trace 定位
-- [ ] 采样率合理（生产 1~10%，故障期可临时拉高）
+- ⏳ 跨服务调用 trace 串通
+- ⏳ 慢操作 / 失败操作能被 trace 定位
+- ⏳ 采样率合理（生产 1~10%，故障期可临时拉高）
 
 ### 告警（Alerts）
 
-- [ ] 关键失败有告警（不仅监控面板）
-- [ ] 告警分级（P0 立即响应 / P1 工作时段 / P2 周报）
-- [ ] 无"狼来了"（噪音告警必须降级或清除）
-- [ ] 每个告警有 runbook 链接（"收到这个告警怎么办"）
+- ⏳ 关键失败有告警（不仅监控面板）
+- ⏳ 告警分级（P0 立即响应 / P1 工作时段 / P2 周报）
+- ⏳ 无"狼来了"（噪音告警必须降级或清除）
+- ⏳ 每个告警有 runbook 链接（"收到这个告警怎么办"）
 
 ### 健康检查
 
-- [ ] `/health` 端点存在且区分 liveness / readiness
-- [ ] 关键依赖（DB / cache / 上游 API）的可用性反映在健康检查里
+- ⏳ `/health` 端点存在且区分 liveness / readiness
+- ⏳ 关键依赖（DB / cache / 上游 API）的可用性反映在健康检查里
 
 ### 反模式
 

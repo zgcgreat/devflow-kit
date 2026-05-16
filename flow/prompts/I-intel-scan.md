@@ -285,15 +285,15 @@ grep -l "DATABASE_URL\|REDIS_URL" .env*    → 服务依赖
 
 ## 自检
 
-- [ ] **步骤 0 既有文档探测做了**：找到的标准 AI 上下文文档已列出，用户已选定分支（A/B/C），决策已写入扫描总结
-- [ ] **未经用户同意没自动开始扫描**（分支 C 必须等用户回复 1/2/3）
-- [ ] 用户选 4「不生成 CONTEXT.md」时已写 `STATE.md` 的 `ai_context_doc` 字段并跳过剩余步骤
-- [ ] 1.0~1.7 各段都有 grep / read 输出（不靠猜），多子项目时每个 frontend / backend / shared 都有记录
-- [ ] CONTEXT.md 同时包含「项目地图表」和「项目结构树」，且前端 / 后端 / shared 关键目录未被省略
-- [ ] CONTEXT.md 的每个字段都有文件路径 / 行号引用
-- [ ] CONTEXT.md 顶部「源文档」段列出引用的 AGENTS / CLAUDE / 等（如适用）
-- [ ] STATE.md 的 `last_intel_scan` 已更新
-- [ ] 扫描总结贴出关键发现 + 对后续 需求的影响
+- ⏳ **步骤 0 既有文档探测做了**：找到的标准 AI 上下文文档已列出，用户已选定分支（A/B/C），决策已写入扫描总结
+- ⏳ **未经用户同意没自动开始扫描**（分支 C 必须等用户回复 1/2/3）
+- ⏳ 用户选 4「不生成 CONTEXT.md」时已写 `STATE.md` 的 `ai_context_doc` 字段并跳过剩余步骤
+- ⏳ 1.0~1.7 各段都有 grep / read 输出（不靠猜），多子项目时每个 frontend / backend / shared 都有记录
+- ⏳ CONTEXT.md 同时包含「项目地图表」和「项目结构树」，且前端 / 后端 / shared 关键目录未被省略
+- ⏳ CONTEXT.md 的每个字段都有文件路径 / 行号引用
+- ⏳ CONTEXT.md 顶部「源文档」段列出引用的 AGENTS / CLAUDE / 等（如适用）
+- ⏳ STATE.md 的 `last_intel_scan` 已更新
+- ⏳ 扫描总结贴出关键发现 + 对后续 需求的影响
 
 ## 触发下一步
 

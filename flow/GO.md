@@ -1,4 +1,4 @@
-# GO — devflow-kit 统一路由器（v2.4）
+﻿# GO — devflow-kit 统一路由器（v2.4）
 
 > **AI指令**：
 > 1. 本文件是路由入口，读完后按第三步路由表匹配用户意图
@@ -201,13 +201,13 @@ Stage Skill: <path>
 ```
 
 **自检清单**：
-- [ ] 已读 STATE.md
-- [ ] **已 read_file entry-check.md**
-- [ ] **入场检测按决策树执行**（情况 D/E/C 已等待用户确认）
-- [ ] 路由匹配正确
-- [ ] Stage Skill已加载
-- [ ] 模式已确认
-- [ ] 路由声明已输出
+- ⏳ 已读 STATE.md
+- ⏳ **已 read_file entry-check.md**
+- ⏳ **入场检测按决策树执行**（情况 D/E/C 已等待用户确认）
+- ⏳ 路由匹配正确
+- ⏳ Stage Skill已加载
+- ⏳ 模式已确认
+- ⏳ 路由声明已输出
 
 ---
 
