@@ -6,15 +6,15 @@
 > 3. **所有产物必须保存到 `.specs/<req-id>/` 下**
 > 4. **⚠️ 所有产物必须严格按模板输出**（见 RULES.md R13.9）
 >
-> 用户使用方式：`Use superflow-kit` 或 `@superflow-kit/flow/GO.md` + 一句话需求
+> 用户使用方式：`Use devflow-kit` 或 `@devflow-kit/flow/GO.md` + 一句话需求
 
 ---
 
-## ⚡ 执行顺序清单（简化版）
+## ⚡ 执行顺序清单
 
 ```
 第一步：读取项目状态 (.specs/项目状态.md)
-第二步：入场检测（brownfield必跑，见 entry-check.md）
+第二步：入场检测（brownfield必跑）
 第三步：路由匹配 → 确定目标 stage skill
 第四步：加载 Stage Skill（全读 _SKILL.md）
 第五步：模式确认（Fast/Standard/Strict）
@@ -33,14 +33,7 @@
 
 ## 模式与风险分级
 
-**⚠️ 强制规则**：必须使用 `read_file` 工具读取 `mode-rules.md`。
-
-```python
-# 伪代码示例
-read_file("flow/mode-rules.md")
-```
-
-核心要点：
+**⚠️ 强制规则**：必须使用 `read_file` 读取 `mode-rules.md`。
 
 | 模式 | 适用 | 是否停等用户 |
 |------|------|--------------|
@@ -55,11 +48,6 @@ read_file("flow/mode-rules.md")
 ## Token预算
 
 **⚠️ 强制规则**：必须使用 `read_file` 工具读取 `token-budget.md`。
-
-```python
-# 伪代码示例
-read_file("flow/token-budget.md")
-```
 
 核心规则：基础预算200行/轮，必须产物豁免。
 
@@ -80,13 +68,6 @@ read_file("flow/token-budget.md")
 ## 第二步 · 入场检测
 
 **⚠️ 强制规则**：必须使用 `read_file` 工具读取 `entry-check.md` 并按其决策树执行。
-
-```python
-# 伪代码示例
-read_file("flow/entry-check.md")
-# 按 entry-check.md 的决策树逐步执行
-# 情况 D/E/C 必须停等用户确认，不得自动继续
-```
 
 **核心要点**：
 
@@ -112,7 +93,7 @@ read_file("flow/entry-check.md")
 **⚠️ 关键约束**：
 - 情况 B/C/D/E **必须等待用户回复**，不得自动继续
 - 如果检测到 CLAUDE.md/AGENTS.md 等文档，**必须询问用户是否重新扫描**
-- 不得因为“已有文档”就跳过用户确认
+- 不得因为"已有文档"就跳过用户确认
 
 ---
 
@@ -143,11 +124,6 @@ read_file("flow/entry-check.md")
 ### C. 阶段门验证
 
 **⚠️ 强制规则**：必须使用 `read_file` 工具读取 `gate-rules.md`。
-
-```python
-# 伪代码示例
-read_file("flow/gate-rules.md")
-```
 
 核心规则：缺前置产物 → 不允许直接进入，必须先补跑缺失阶段。
 
@@ -254,22 +230,12 @@ Stage Skill: <path>
 ## 第七步 · 执行Stage Skill
 
 Stage Skill按**其内部定义的Step流程**执行（非GO.md的7步）：
-1. 入口门禁检查（见stage skill的「## 入口门禁」章节）
+1. 入口门禁检查
 2. 执行Step 1-N（见stage skill的「## 执行流程」章节）
 3. 产物输出前读模板
-4. 执行自检清单（见stage skill的「## 自检清单」章节）
+4. 执行自检清单
 5. 更新项目状态
-6. 路由到下一阶段（见stage skill的「## 触发下一步」章节）
-
----
-
-## 详细规则参考
-
-- **模式判定**: `mode-rules.md`
-- **入场检测**: `entry-check.md`
-- **阶段门**: `gate-rules.md`
-- **Token预算**: `token-budget.md`
-- **全局红线**: `RULES.md`
+6. 路由到下一阶段
 
 ---
 
