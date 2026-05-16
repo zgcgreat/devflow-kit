@@ -1,4 +1,4 @@
-﻿# GO — devflow-kit 统一路由器（v2.4）
+# GO — devflow-kit 统一路由器（v2.4）
 
 > **AI指令**：
 > 1. 本文件是路由入口，读完后按第三步路由表匹配用户意图
@@ -59,6 +59,10 @@
      └── journals/             # 会话日志目录
      ```
    - **如存在** → 加载 PROJECT_CONTEXT.md、DECISIONS.md、KNOWN_FAILURES.md
+5. **多项目支持说明**：
+   - DevFlow Kit **支持多项目并行**，每个项目有独立的 `.devflow-kit/` 目录
+   - 记忆系统按项目隔离，不会跨项目共享
+   - 如需切换项目，只需切换到对应项目根目录即可
 
 ---
 
@@ -145,9 +149,16 @@ devflow-kit 默认用 `.devflow-kit/CONTEXT.md` 作为单一源。请选择：
 
 **加载规则**：
 1. 根据 Step 3 路由表确定目标 Stage
-2. 只加载该 Stage 的 _SKILL.md（不要加载其他 Stage）
-3. 如声明 dependencies，先加载依赖 Skills
-4. 如 Stage Skill 不可用，降级到 Prompt 文件
+2. **输出加载声明**（必须包含以下信息）：
+   ```markdown
+   📦 正在加载 Stage Skill: <stage-name>
+   - Skill路径: flow/stage-skills/<path>/_SKILL.md
+   - 依赖Skills: <dependency-list 或 "无">
+   - 本阶段目标: <简要描述>
+   ```
+3. 只加载该 Stage 的 _SKILL.md（不要加载其他 Stage）
+4. 如声明 dependencies，先加载依赖 Skills
+5. 如 Stage Skill 不可用，降级到 Prompt 文件
 
 **路径模板**：
 ```

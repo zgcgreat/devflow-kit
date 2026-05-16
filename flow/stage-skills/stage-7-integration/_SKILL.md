@@ -1,4 +1,4 @@
-﻿# devflow-kit Stage: 7-Integration（集成发布）
+# devflow-kit Stage: 7-Integration（集成发布）
 
 > **阶段定位**：生成发布清单，准备上线
 > **前置条件**：06-review审查通过
@@ -370,33 +370,135 @@ mv .devflow-kit/<req-id>/ .devflow-kit/archive/<req-id>/
 
 需求已完成，等待下一个需求。
 
-**自动触发记忆更新** (如果启用了记忆系统):
+### Step 8: 更新记忆系统（强制执行）
+
+**⚠️ 强制规则**：每个需求完成后，必须更新记忆系统。
+
+#### 8.1 检查记忆系统是否存在
+
+```python
+# 伪代码
+if exists(".devflow-kit/memory/"):
+    print("✅ 检测到记忆系统，开始更新...")
+else:
+    print("ℹ️ 未检测到记忆系统，跳过更新")
+    print("💡 提示：运行 `Use manage-memory` 初始化记忆系统")
+    return
+```
+
+#### 8.2 更新 CURRENT_STATE.md
+
+**提取本次需求的关键信息**：
+- 需求ID和名称
+- 完成时间
+- 主要变更内容
+- 下一步建议
+
+**更新格式**：
+```markdown
+# Current State
+
+**最后更新**: YYYY-MM-DD HH:mm:ss
+
+## 当前焦点
+<下一个待开发的需求 或 "无">
+
+## 最近完成
+- ✅ <本次需求名称> (<req-id>) - YYYY-MM-DD
+  - 主要功能：<简要描述>
+  - 关键决策：<如有>
+
+## 待解决问题
+- <从06-code-review.md提取的遗留问题>
+
+## 下一步
+- <建议的下一个需求>
+```
+
+#### 8.3 追加 DECISIONS.md（如有新决策）
+
+**从 02-design.md 和 06-code-review.md 提取重要决策**：
 
 ```markdown
-🧠 检测到 .superpowers-memory/ 目录存在
+## [YYYY-MM-DD] <决策标题>
 
-正在执行会话收尾检查...
-→ 加载 skills/manage-memory/_SKILL.md
-→ 执行 Step 2: 更新记忆 (会话收尾)
+**背景**: <为什么做这个决策>
 
-检查项:
-- ⏳ 是否有持久化事实变化?
-- ⏳ 当前工作状态是否变化?
-- ⏳ 是否有重要决策?
-- ⏳ 是否发现失败模式?
-- ⏳ 是否有可复用经验?
+**决策**: <具体决策内容>
 
-→ 自动更新 CURRENT_STATE.md
-→ 追加 DECISIONS.md (如有新决策)
-→ 追加 KNOWN_FAILURES.md (如有新失败模式)
-→ 创建 session-journal/<date>-<req-id>.md
+**理由**: <为什么选这个方案>
 
-✅ 记忆更新完成
+**影响**: <对未来的影响>
+
+**来源**: `.devflow-kit/<req-id>/02-design.md`
 ```
 
-**用户也可以手动触发**:
+#### 8.4 追加 KNOWN_FAILURES.md（如有新失败模式）
+
+**从 05-test-report.md 和 06-code-review.md 提取失败模式**：
+
+```markdown
+## [YYYY-MM-DD] <失败模式标题>
+
+**现象**: <出了什么问题>
+
+**根因**: <根本原因是什么>
+
+**解决方案**: <如何修复>
+
+**预防措施**: <如何避免再次发生>
+
+**来源**: `.devflow-kit/<req-id>/05-test-report.md`
 ```
-Use superpowers-learning workflow
+
+#### 8.5 创建会话日志
+
+**在 `.devflow-kit/memory/journals/` 下创建日志文件**：
+
+文件名格式：`YYYY-MM-DD-<req-id>.md`
+
+```markdown
+# Session Journal: <req-id>
+
+**日期**: YYYY-MM-DD
+**需求**: <需求名称>
+**模式**: <Fast/Standard/Strict>
+**耗时**: <总耗时>
+
+## 阶段记录
+- 0-confirm: <开始时间> → <结束时间>
+- 1-analysis: <开始时间> → <结束时间>
+- ...
+
+## 关键决策
+- <决策1>
+- <决策2>
+
+## 遇到的问题
+- <问题1> → <解决方案>
+- <问题2> → <解决方案>
+
+## 经验教训
+- <教训1>
+- <教训2>
+
+## 产物清单
+- 00-requirements.md
+- 01-analysis.md
+- ...
+```
+
+#### 8.6 输出更新摘要
+
+```markdown
+🧠 **记忆系统已更新**
+
+✅ CURRENT_STATE.md - 已更新当前状态
+✅ DECISIONS.md - 已追加 X 个新决策
+✅ KNOWN_FAILURES.md - 已追加 Y 个新失败模式
+✅ journals/YYYY-MM-DD-<req-id>.md - 已创建会话日志
+
+💡 **下次会话时**，AI会自动读取这些记忆，无需重复沟通。
 ```
 
 ## 错误处理

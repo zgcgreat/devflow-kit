@@ -1,4 +1,4 @@
-﻿# devflow-kit Stage: 3-Task（任务拆分）
+# devflow-kit Stage: 3-Task（任务拆分）
 
 > **阶段定位**：将设计拆分为可并行的原子任务
 > **前置条件**：02-design.md 已完成
@@ -231,14 +231,18 @@ read_file("flow/templates/03-tasks.md")
 
 ### Step 8: 询问是否生成实施计划
 
-**Standard/Strict 模式**：
+**Standard/Strict 模式建议**：
 ```markdown
-是否生成详细实施计划（03a-实施计划.md）？
-- 是 → 路由到 3a-plan stage
-- 否 → 直接进入 4-dev stage
+✅ 任务拆分完成，共X个任务。
+
+💡 **提示**：对于复杂项目或多任务并行场景，建议生成详细实施计划（03a-实施计划.md），包含时间规划、资源分配和风险预案。
+
+是否生成实施计划？
+- 回复 "是" 或 "1" → 生成实施计划
+- 回复 "否" 或 "2" → 直接进入开发
 ```
 
-**Fast 模式**：直接进入 4-dev
+**Fast 模式**：直接进入 4-dev（不询问）
 
 ### Step 9: 完整性自检
 
@@ -287,19 +291,10 @@ read_file("flow/templates/03-tasks.md")
 
 ## 触发下一步
 
-**输出任务列表后，必须等待用户确认**：
+**输出任务列表后，根据用户选择路由**：
 
-```markdown
-任务拆分完成，共X个任务。
-
-请确认或选择：
-1. ✅ 开始执行（进入4-dev）
-2. 📋 生成实施计划（进入3a-plan）
-3. ✏️ 修改任务（说明需要调整的部分）
-```
-
-- Fast模式 / 用户确认直接进入 → 加载 `flow/stage-skills/stage-4-dev/_SKILL.md`
-- 用户要求生成实施计划 → 加载 `flow/stage-skills/stage-3a-plan/_SKILL.md`
+- 用户选择 1（生成实施计划）→ 加载 `flow/stage-skills/stage-3a-plan/_SKILL.md`
+- 用户选择 2（直接开发）或 Fast 模式 → 加载 `flow/stage-skills/stage-4-dev/_SKILL.md`
 
 ## 错误处理
 

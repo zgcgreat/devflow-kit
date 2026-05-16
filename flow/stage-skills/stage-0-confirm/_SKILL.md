@@ -1,4 +1,4 @@
-﻿# devflow-kit Stage: 0-Confirm（需求确认）
+# devflow-kit Stage: 0-Confirm（需求确认）
 
 > **阶段定位**：工作流入口，澄清需求并判定执行模式
 > **前置条件**：无
@@ -43,12 +43,15 @@ dependencies:
 |---------|--------|--------|----------|
 | STATE.md | ✅/❌ | 🔴 必须 | 活跃req、中断任务、当前阶段 |
 | CONTEXT.md | ✅/❌ | 🟡 建议 | 技术栈、编码规范、禁动清单 |
+| **memory/PROJECT_CONTEXT.md** | ✅/❌ | 🟡 建议 | **项目背景、历史决策、已知失败** |
 | lessons-learned.md | ✅/❌ | 🟢 可选 | 历史教训、最佳实践 |
 
 **扫描结果输出**：
 ```markdown
 ✅ 检测到 STATE.md → 提取：无活跃req
 ✅ 检测到 CONTEXT.md → 提取技术栈：Vue3 + TypeScript
+✅ 检测到 memory/PROJECT_CONTEXT.md → 提取项目背景：B2C电商平台
+✅ 检测到 memory/DECISIONS.md → 提取历史决策：2条
 ❌ 未检测到 lessons-learned.md → 使用通用最佳实践
 ```
 
@@ -60,7 +63,10 @@ dependencies:
 
 **🟡 建议读取**（缺失采用降级策略）：
 - **CONTEXT.md**：提供项目技术背景
-  - 如果缺失 → 使用通用技术假设，在产物中增加"技术假设"章节
+  - 如果缺失 → 使用通用技术假设，在产物中增加“技术假设”章节
+- **memory/PROJECT_CONTEXT.md**：提供项目历史和背景
+  - 如果存在 → **自动加载**，AI会记住项目背景、历史决策、已知失败
+  - 如果缺失 → 提示用户初始化记忆系统（`Use manage-memory`）
 
 **🟢 可选读取**（补充信息）：
 - **lessons-learned.md**：提供历史教训
