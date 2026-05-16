@@ -48,7 +48,17 @@
 1. 尝试读 `.devflow-kit/STATE.md`。不存在 → 用模板创建
 2. 关注字段：`活跃 req` / `当前阶段` / `中断任务`
 3. 如存在 `中断任务` 非空 → **优先级最高**，直接走恢复分支
-4. **检查记忆系统** (可选): 如 `.devflow-kit/memory/` 存在 → 加载 PROJECT_CONTEXT.md、DECISIONS.md、KNOWN_FAILURES.md
+4. **初始化记忆系统**（首次使用必跑）:
+   - 检查 `.devflow-kit/memory/` 是否存在
+   - **如不存在** → 创建目录并初始化基础文件：
+     ```
+     .devflow-kit/memory/
+     ├── PROJECT_CONTEXT.md    # 项目背景（待填充）
+     ├── DECISIONS.md          # 历史决策（空）
+     ├── KNOWN_FAILURES.md     # 已知失败（空）
+     └── journals/             # 会话日志目录
+     ```
+   - **如存在** → 加载 PROJECT_CONTEXT.md、DECISIONS.md、KNOWN_FAILURES.md
 
 ---
 
