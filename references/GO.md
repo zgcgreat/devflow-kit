@@ -1,180 +1,239 @@
-﻿# GO 鈥?devflow-kit 缁熶竴璺敱鍣紙v2.4锛?
-> **AI鎸囦护**锛?> 1. 鏈枃浠舵槸璺敱鍏ュ彛锛岃瀹屽悗鎸夌涓夋璺敱琛ㄥ尮閰嶇敤鎴锋剰鍥?> 2. **绗竴鏉″洖澶嶅繀椤昏緭鍑鸿矾鐢卞０鏄?*锛堝惈閫夊畾鐨勬ā寮?Fast/Standard/Strict + 鐞嗙敱锛?> 3. **鎵€鏈変骇鐗╁繀椤讳繚瀛樺埌 `.devflow-kit/<req-id>/` 涓?*
-> 4. **鈿狅笍 鎵€鏈変骇鐗╁繀椤讳弗鏍兼寜妯℃澘杈撳嚭**锛堣 RULES.md R13.9锛?>
-> 鐢ㄦ埛浣跨敤鏂瑰紡锛歚Use devflow-kit` 鎴?`@devflow-kit/references/GO.md` + 涓€鍙ヨ瘽闇€姹?
----
+# GO — devflow-kit 统一路由器（v2.4）
 
-## 馃摎 蹇€熺储寮?
-| 闇€瑕?.. | 璇诲彇... |
-|---|---------|
-| 妯″紡鍒ゅ畾瑙勫垯 | `references/mode-rules.md` |
-| 鍏ュ満妫€娴嬫祦绋?| `references/entry-check.md` |
-| 闃舵闂ㄩ獙璇?| `references/gate-rules.md` |
-| Token棰勭畻 | `references/token-budget.md` |
-| 瀹屾暣瑙勫垯闆?| `references/RULES.md` |
+> **AI指令**：
+> 1. 本文件是路由入口，读完后按第三步路由表匹配用户意图
+> 2. **第一条回复必须输出路由声明**（含选定的模式 Fast/Standard/Strict + 理由）
+> 3. **所有产物必须保存到 `.devflow-kit/<req-id>/` 下**
+> 4. **⚠️ 所有产物必须严格按模板输出**（见 RULES.md R13.9）
+>
+> 用户使用方式：`Use devflow-kit` 或 `@devflow-kit/flow/GO.md` + 一句话需求
 
 ---
 
-## 鈿?鎵ц娴佺▼锛?姝ワ級
+## 📚 快速索引
+
+| 需要... | 读取... |
+|---------|---------|
+| 模式判定规则 | `flow/mode-rules.md` |
+| 入场检测流程 | `flow/entry-check.md` |
+| 阶段门验证 | `flow/gate-rules.md` |
+| Token预算 | `flow/token-budget.md` |
+| 完整规则集 | `flow/RULES.md` |
+
+---
+
+## ⚡ 执行流程（7步）
 
 ```
-1. 璇诲彇椤圭洰鐘舵€?(.devflow-kit/STATE.md)
-2. 鍏ュ満妫€娴嬶紙brownfield蹇呰窇锛宺ead_file entry-check.md锛?3. 璺敱鍖归厤 鈫?纭畾鐩爣 stage skill
-4. 鍔犺浇 Stage Skill锛堝彧鍔犺浇褰撳墠闇€瑕佺殑锛屼笉鍔犺浇鍏ㄩ儴锛?5. 妯″紡纭锛坮ead_file mode-rules.md锛屽己鍒跺仠绛夌敤鎴凤級
-6. 杈撳嚭璺敱澹版槑
-7. 鎵ц stage skill锛堟寜鍏跺唴閮⊿tep娴佺▼锛?```
+1. 读取项目状态 (.devflow-kit/STATE.md)
+2. 入场检测（brownfield必跑，read_file entry-check.md）
+3. 路由匹配 → 确定目标 stage skill
+4. 加载 Stage Skill（只加载当前需要的，不加载全部）
+5. 模式确认（read_file mode-rules.md，强制停等用户）
+6. 输出路由声明
+7. 执行 stage skill（按其内部Step流程）
+```
 
-**鍏抽敭妫€鏌ョ偣**锛?- Step 2 鏈緭鍑烘娴嬬粨鏋滄 鈫?**绂佹杩涘叆 Step 3**
-- 鎯呭喌 D/E 鏈瓑鐢ㄦ埛纭 鈫?**绂佹缁х画**
-- Step 4 stage skill 鏈姞杞?鈫?**绂佹杈撳嚭璺敱澹版槑**
-- Step 5 妯″紡鎺ㄨ崘鍚?鈫?**寮哄埗鍋滅瓑鐢ㄦ埛纭**
-- Step 7 鏈妯℃澘 鈫?**绂佹杈撳嚭浜х墿**
-
----
-
-## Step 1 路 璇诲彇椤圭洰鐘舵€?
-1. 灏濊瘯璇?`.devflow-kit/STATE.md`銆備笉瀛樺湪 鈫?鐢ㄦā鏉垮垱寤?2. 鍏虫敞瀛楁锛歚娲昏穬 req` / `褰撳墠闃舵` / `涓柇浠诲姟`
-3. 濡傚瓨鍦?`涓柇浠诲姟` 闈炵┖ 鈫?**浼樺厛绾ф渶楂?*锛岀洿鎺ヨ蛋鎭㈠鍒嗘敮
-4. **鍒濆鍖栬蹇嗙郴缁?*锛堥娆′娇鐢ㄥ繀璺戯級:
-   - 妫€鏌?`.devflow-kit/memory/` 鏄惁瀛樺湪
-   - **濡備笉瀛樺湪** 鈫?鍒涘缓鐩綍骞跺垵濮嬪寲鍩虹鏂囦欢锛?     ```
-     .devflow-kit/memory/
-     鈹溾攢鈹€ PROJECT_CONTEXT.md    # 椤圭洰鑳屾櫙锛堝緟濉厖锛?     鈹溾攢鈹€ DECISIONS.md          # 鍘嗗彶鍐崇瓥锛堢┖锛?     鈹溾攢鈹€ KNOWN_FAILURES.md     # 宸茬煡澶辫触锛堢┖锛?     鈹斺攢鈹€ journals/             # 浼氳瘽鏃ュ織鐩綍
-     ```
-   - **濡傚瓨鍦?* 鈫?鍔犺浇 PROJECT_CONTEXT.md銆丏ECISIONS.md銆並NOWN_FAILURES.md
-5. **澶氶」鐩敮鎸佽鏄?*锛?   - DevFlow Kit **鏀寔澶氶」鐩苟琛?*锛屾瘡涓」鐩湁鐙珛鐨?`.devflow-kit/` 鐩綍
-   - 璁板繂绯荤粺鎸夐」鐩殧绂伙紝涓嶄細璺ㄩ」鐩叡浜?   - 濡傞渶鍒囨崲椤圭洰锛屽彧闇€鍒囨崲鍒板搴旈」鐩牴鐩綍鍗冲彲
+**关键检查点**：
+- Step 2 未输出检测结果框 → **禁止进入 Step 3**
+- 情况 D/E 未等用户确认 → **禁止继续**
+- Step 4 stage skill 未加载 → **禁止输出路由声明**
+- Step 5 模式推荐后 → **强制停等用户确认**
+- Step 7 未读模板 → **禁止输出产物**
 
 ---
 
-## Step 2 路 鍏ュ満妫€娴?
-**鈿狅笍 寮哄埗瑙勫垯**锛氬繀椤讳娇鐢?`read_file` 宸ュ叿璇诲彇 `entry-check.md` 骞舵寜鍏跺喅绛栨爲鎵ц銆?
-**妫€娴嬫楠?*锛堟寜椤哄簭鎵ц锛屽懡涓嵆鍋滄锛夛細
-1. 妫€鏌ユ槸鍚︽湁 ai_context_doc 瀛楁 鈫?鎯呭喌A
-2. 妫€鏌?CONTEXT.md 鏄惁瀛樺湪 + 鎵弿鏃堕棿 鈫?鎯呭喌B/C
-3. 妫€鏌ュ叾浠朅I涓婁笅鏂囨枃妗?鈫?鎯呭喌D锛?*鈿狅笍 鍋滅瓑鐢ㄦ埛纭**锛?4. 妫€鏌ユ槸鍚reenfield 鈫?鎯呭喌F锛堣烦杩囷級鎴朎锛?*鈿狅笍 鍋滅瓑鐢ㄦ埛纭**锛?
-**蹇呴』杈撳嚭妫€娴嬬粨鏋滄**锛?```
-鈹屸攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹?鈹? 馃攳 鍏ュ満妫€娴?                                 鈹?鈹溾攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹?鈹? 妫€娴嬬粨鏋滐細<鎯呭喌 A/B/C/D/E/F>                 鈹?鈹? 椤圭洰绫诲瀷锛?brownfield / greenfield>         鈹?鈹? 涓婁笅鏂囨枃妗ｏ細<璺緞 鎴?"鏃?>                   鈹?鈹斺攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹?```
+## Step 1 · 读取项目状态
 
-**鈿狅笍 鍏抽敭绾︽潫**锛氭儏鍐?B/C/D/E **蹇呴』绛夊緟鐢ㄦ埛鍥炲**锛屼笉寰楄嚜鍔ㄧ户缁€?
-**鎯呭喌 D 鎻愮ず鏂囨**锛堟爣鍑嗗寲锛夛細
+1. 尝试读 `.devflow-kit/STATE.md`。不存在 → 用模板创建
+2. 关注字段：`活跃 req` / `当前阶段` / `中断任务`
+3. 如存在 `中断任务` 非空 → **优先级最高**，直接走恢复分支
+4. **初始化记忆系统**（首次使用必跑）:
+    - 检查 `.devflow-kit/memory/` 是否存在
+    - **如不存在** → 创建目录并初始化基础文件：
+      ```
+      .devflow-kit/memory/
+      ├── PROJECT_CONTEXT.md    # 项目背景（待填充）
+      ├── DECISIONS.md          # 历史决策（空）
+      ├── KNOWN_FAILURES.md     # 已知失败（空）
+      └── journals/             # 会话日志目录
+      ```
+    - **如存在** → 加载 PROJECT_CONTEXT.md、DECISIONS.md、KNOWN_FAILURES.md
+5. **多项目支持说明**：
+    - DevFlow Kit **支持多项目并行**，每个项目有独立的 `.devflow-kit/` 目录
+    - 记忆系统按项目隔离，不会跨项目共享
+    - 如需切换项目，只需切换到对应项目根目录即可
+
+---
+
+## Step 2 · 入场检测
+
+**⚠️ 强制规则**：必须使用 `read_file` 工具读取 `entry-check.md` 并按其决策树执行。
+
+**检测步骤**（按顺序执行，命中即停止）：
+1. 检查是否有 ai_context_doc 字段 → 情况A
+2. 检查 CONTEXT.md 是否存在 + 扫描时间 → 情况B/C
+3. 检查其他AI上下文文档 → 情况D（**⚠️ 停等用户确认**）
+4. 检查是否greenfield → 情况F（跳过）或E（**⚠️ 停等用户确认**）
+
+**必须输出检测结果框**：
+```
+┌─────────────────────────────────────────────┐
+│  🔍 入场检测                                  │
+├─────────────────────────────────────────────┤
+│  检测结果：<情况 A/B/C/D/E/F>                 │
+│  项目类型：<brownfield / greenfield>         │
+│  上下文文档：<路径 或 "无">                   │
+└─────────────────────────────────────────────┘
+```
+
+**⚠️ 关键约束**：情况 B/C/D/E **必须等待用户回复**，不得自动继续。
+
+**情况 D 提示文案**（标准化）：
 ```markdown
-馃攳 妫€娴嬪埌鏈」鐩凡鏈変互涓?AI 涓婁笅鏂囨枃妗ｏ細
-- `<鏂囦欢鍚?>` (<澶у皬>)
-- `<鏂囦欢鍚?>` (<澶у皬>)
+🔍 检测到本项目已有以下 AI 上下文文档：
+- `<文件名1>` (<大小>)
+- `<文件名2>` (<大小>)
 
-devflow-kit 榛樿鐢?`.devflow-kit/CONTEXT.md` 浣滀负鍗曚竴婧愩€傝閫夋嫨锛?1. 璺戦」鐩壂鎻忥紝缁煎悎鐜版湁鏂囨。 + 浠ｇ爜鎵弿锛岀敓鎴?`.devflow-kit/CONTEXT.md`锛堟帹鑽愶級
-2. 浠ョ幇鏈夋枃妗ｄ负鍑嗭紙鍛婅瘔鎴戝摢涓級锛岃烦杩囨壂鎻?3. 璺宠繃鎵弿锛岀洿鎺ヨ繘 0-confirm锛堜笉鎺ㄨ崘 路 AI 浼?鐩查"锛?
-璇烽€?1/2/3銆?```
+devflow-kit 默认用 `.devflow-kit/CONTEXT.md` 作为单一源。请选择：
+1. 跑项目扫描，综合现有文档 + 代码扫描，生成 `.devflow-kit/CONTEXT.md`（推荐）
+2. 以现有文档为准（告诉我哪个），跳过扫描
+3. 跳过扫描，直接进 0-confirm（不推荐 · AI 会"盲飞"）
+
+请选 1/2/3。
+```
 
 ---
 
-## Step 3 路 璺敱琛?
-### A. 鐢ㄦ埛鎰忓浘璺敱
+## Step 3 · 路由表
 
-| 鐢ㄦ埛璇?| 闇€姹傜姸鎬?| Stage Skill | 渚濊禆 Skills |
+### A. 用户意图路由
+
+| 用户说 | 需求状态 | Stage Skill | 依赖 Skills |
 |---|---|---|---|
-| 鏈夋柊鎯虫硶鎯冲仛浠朵簨 | 鏃犳椿璺價eq | `stage-0-confirm` | idea-refine, development-core |
-| 鎭㈠涓柇浠诲姟 | 鏈変腑鏂换鍔?| 鎸塕1.5閲嶅惎 | - |
-| 涓嶈杩涘叆flow-kit | - | 鐩存帴鍋氾紝璺宠繃 | - |
-| 鍋ュ悍妫€鏌?| - | `stage-m-health` | code-quality |
-| evolve/architect | - | `stage-a-evolve` 鎴?`stage-a-architect` | design-and-architecture |
-| 绾妧鏈棶棰?| - | 鐩存帴鍥炵瓟 | - |
-| 涓婁紶鏂囨。/PRD | - | 鏂囨。瑙ｆ瀽妯″紡 鈫?00-requirements | development-core |
+| 有新想法想做件事 | 无活跃req | `stage-0-confirm` | idea-refine, development-core |
+| 恢复中断任务 | 有中断任务 | 按R1.5重启 | - |
+| 不要进入flow-kit | - | 直接做，跳过 | - |
+| 健康检查 | - | `stage-m-health` | code-quality |
+| evolve/architect | - | `stage-a-evolve` 或 `stage-a-architect` | design-and-architecture |
+| 纯技术问题 | - | 直接回答 | - |
+| 上传文档/PRD | - | 文档解析模式 → 00-requirements | development-core |
 
-### B. 鍙€夊懡浠?
-| 鐢ㄦ埛璇?| Stage Skill | 璇存槑 |
+### B. 可选命令
+
+| 用户说 | Stage Skill | 说明 |
 |---|---|---|
-| "鎹釜鏂规" | `stage-2-design` | 瑙﹀彂鏂癆DR |
-| "architect" | `stage-a-architect` | 鏋舵瀯姊崇悊 |
-| "鎵弿浠ｇ爜" | `stage-i-intel-scan` | 鍏ュ満鎵弿 |
-| "鎴戠殑闇€姹傚彉浜? | `stage-0-confirm` | 褰掓。鏃eq锛岄噸鏂扮‘璁?|
-| "缁х画" | 涓嬩竴闃舵stage skill | 鎸塕1.5鎵ц |
+| "换个方案" | `stage-2-design` | 触发新ADR |
+| "architect" | `stage-a-architect` | 架构梳理 |
+| "扫描代码" | `stage-i-intel-scan` | 入场扫描 |
+| "我的需求变了" | `stage-0-confirm` | 归档旧req，重新确认 |
+| "继续" | 下一阶段stage skill | 按R1.5执行 |
 
-### C. 闃舵闂ㄩ獙璇?
-**鈿狅笍 寮哄埗瑙勫垯**锛氬繀椤讳娇鐢?`read_file` 宸ュ叿璇诲彇 `gate-rules.md`銆?
-鏍稿績瑙勫垯锛氱己鍓嶇疆浜х墿 鈫?涓嶅厑璁哥洿鎺ヨ繘鍏ワ紝蹇呴』鍏堣ˉ璺戠己澶遍樁娈点€?
-**闃舵渚濊禆**锛歚0鈫?鈫?鈫抂2a]鈫?鈫抂3a]鈫?鈫?鈫?鈫?`
+### C. 阶段门验证
 
-**鍙€夐樁娈?*:
-- **[2a] UI璁捐**: 浠呭墠绔?UI椤圭洰闇€瑕侊紙task娑夊強UI鏂囦欢鏃惰Е鍙戯級
-- **[3a] 瀹炴柦璁″垝**: 澶嶆潅椤圭洰寤鸿浣跨敤锛堝浠诲姟骞惰銆侀渶璇︾粏鏃堕棿瑙勫垝锛?
+**⚠️ 强制规则**：必须使用 `read_file` 工具读取 `gate-rules.md`。
+
+核心规则：缺前置产物 → 不允许直接进入，必须先补跑缺失阶段。
+
+**阶段依赖**：`0→1→2→[2a]→3→[3a]→4→5→6→7`
+
+**可选阶段**:
+- **[2a] UI设计**: 仅前端/UI项目需要（task涉及UI文件时触发）
+- **[3a] 实施计划**: 复杂项目建议使用（多任务并行、需详细时间规划）
+
 ---
 
-## Step 4 路 鍔犺浇Stage Skill
+## Step 4 · 加载Stage Skill
 
-**鈿狅笍 娓愯繘寮忔姭闇插師鍒?*锛氬彧鍔犺浇褰撳墠璺敱鍖归厤鐨?Stage Skill锛屼笉鍔犺浇鍏ㄩ儴銆?
-**鍔犺浇瑙勫垯**锛?1. 鏍规嵁 Step 3 璺敱琛ㄧ‘瀹氱洰鏍?Stage
-2. **杈撳嚭鍔犺浇澹版槑**锛堝繀椤诲寘鍚互涓嬩俊鎭級锛?   ```markdown
-   馃摝 姝ｅ湪鍔犺浇 Stage Skill: <stage-name>
-   - Skill璺緞: skills/stage-skills/<path>/_SKILL.md
-   - 渚濊禆Skills: <dependency-list 鎴?"鏃?>
-   - 鏈樁娈电洰鏍? <绠€瑕佹弿杩?
+**⚠️ 渐进式披露原则**：只加载当前路由匹配的 Stage Skill，不加载全部。
+
+**加载规则**：
+1. 根据 Step 3 路由表确定目标 Stage
+2. **输出加载声明**（必须包含以下信息）：
+   ```markdown
+   📦 正在加载 Stage Skill: <stage-name>
+   - Skill路径: flow/stage-skills/<path>/_SKILL.md
+   - 依赖Skills: <dependency-list 或 "无">
+   - 本阶段目标: <简要描述>
    ```
-3. 鍙姞杞借 Stage 鐨?_SKILL.md锛堜笉瑕佸姞杞藉叾浠?Stage锛?4. 濡傚０鏄?dependencies锛屽厛鍔犺浇渚濊禆 Skills
-5. 濡?Stage Skill 涓嶅彲鐢紝闄嶇骇鍒?Prompt 鏂囦欢
+3. 只加载该 Stage 的 _SKILL.md（不要加载其他 Stage）
+4. 如声明 dependencies，先加载依赖 Skills
+5. 如 Stage Skill 不可用，降级到 Prompt 文件
 
-**璺緞妯℃澘**锛?```
-涓绘祦绋? skills/stage-skills/stage-{0|1|2|2a|3|3a|4|5|6|7}-*/_SKILL.md
-鍙€夊懡浠? skills/stage-skills/stage-{a|m|i}-*/_SKILL.md
+**路径模板**：
+```
+主流程: flow/stage-skills/stage-{0|1|2|2a|3|3a|4|5|6|7}-*/_SKILL.md
+可选命令: flow/stage-skills/stage-{a|m|i}-*/_SKILL.md
 ```
 
-**绀轰緥**锛氳矾鐢卞埌 `stage-0-confirm` 鈫?鍔犺浇 `skills/stage-skills/stage-0-confirm/_SKILL.md`
+**示例**：路由到 `stage-0-confirm` → 加载 `flow/stage-skills/stage-0-confirm/_SKILL.md`
 
 ---
 
-## Step 5 路 妯″紡纭
+## Step 5 · 模式确认
 
-**鈿狅笍 寮哄埗瑙勫垯**锛氬繀椤讳娇鐢?`read_file` 宸ュ叿璇诲彇 `mode-rules.md`锛堝Step 2鏈锛夈€?
-**蹇呴』杈撳嚭**锛堥噰鐢?stage-0-confirm 浼樺寲鍚庣殑鏍煎紡锛夛細
+**⚠️ 强制规则**：必须使用 `read_file` 工具读取 `mode-rules.md`（如Step 2未读）。
+
+**必须输出**（采用 stage-0-confirm 优化后的格式）：
 ```markdown
-馃幆 寤鸿妯″紡锛?Standard / Strict>
-   鐞嗙敱锛?绠€瑕佽鏄庝负浠€涔堟槸杩欎釜妯″紡>
+🎯 建议模式：<Standard / Strict>
+   理由：<简要说明为什么是这个模式>
 
-   馃搵 <妯″紡> 瀹屾暣娴佺▼锛?   <娴佺▼姝ラ绠€杩?
+   📋 <模式> 完整流程：
+   <流程步骤简述>
    
-   浜х墿锛?鍏抽敭浜х墿鍒楄〃>
+   产物：<关键产物列表>
 
-   鍏朵粬鍙€夋ā寮忥細
-   鈥?Fast 鈥?鈮? 鏂囦欢銆?50 琛屻€佷綆椋庨櫓
-   鈥?Strict 鈥?楂橀闄?鐢熶骇鏁忔劅/鏋舵瀯鎴栨暟鎹奖鍝?
-   璇风‘璁ゆ垨閫夋嫨鍏朵粬妯″紡锛?   1. 鉁?<寤鸿妯″紡>锛堟帹鑽愶級
+   其他可选模式：
+   • Fast — ≤2 文件、<50 行、低风险
+   • Strict — 高风险/生产敏感/架构或数据影响
+
+   请确认或选择其他模式：
+   1. ✅ <建议模式>（推荐）
    2. Fast
    3. Strict
 ```
 
-**鈿狅笍 寮哄埗鍋滅瓑**锛氳緭鍑哄悗**蹇呴』绛夊緟鐢ㄦ埛纭**鎵嶈兘杩涘叆 Step 6銆?
+**⚠️ 强制停等**：输出后**必须等待用户确认**才能进入 Step 6。
+
 ---
 
-## Step 6 路 杈撳嚭璺敱澹版槑
+## Step 6 · 输出路由声明
 
-**妯℃澘**锛?```markdown
-馃殌 璺敱澹版槑
+**模板**：
+```markdown
+🚀 路由声明
 
-闃舵: <stage-name>
+阶段: <stage-name>
 Mode: <Fast/Standard/Strict>
 Stage Skill: <path>
-鍏ュ彛闂ㄧ: 閫氳繃
-鑷娓呭崟: 寰呮墽琛?```
+入口门禁: 通过
+自检清单: 待执行
+```
 
-**鑷娓呭崟**锛?- 鈴?宸茶 STATE.md
-- 鈴?**宸?read_file entry-check.md**
-- 鈴?**鍏ュ満妫€娴嬫寜鍐崇瓥鏍戞墽琛?*锛堟儏鍐?D/E/C 宸茬瓑寰呯敤鎴风‘璁わ級
-- 鈴?璺敱鍖归厤姝ｇ‘
-- 鈴?Stage Skill宸插姞杞?- 鈴?妯″紡宸茬‘璁?- 鈴?璺敱澹版槑宸茶緭鍑?
----
-
-## Step 7 路 鎵цStage Skill
-
-Stage Skill鎸?*鍏跺唴閮ㄥ畾涔夌殑Step娴佺▼**鎵ц锛堥潪GO.md鐨?姝ワ級锛?1. 鍏ュ彛闂ㄧ妫€鏌?2. 鎵цStep 1-N锛堣stage skill鐨勩€?# 鎵ц娴佺▼銆嶇珷鑺傦級
-3. 浜х墿杈撳嚭鍓?read_file 妯℃澘
-4. 鎵ц鑷娓呭崟
-5. 鏇存柊 STATE.md
-6. 璺敱鍒颁笅涓€闃舵
+**自检清单**：
+- ⏳ 已读 STATE.md
+- ⏳ **已 read_file entry-check.md**
+- ⏳ **入场检测按决策树执行**（情况 D/E/C 已等待用户确认）
+- ⏳ 路由匹配正确
+- ⏳ Stage Skill已加载
+- ⏳ 模式已确认
+- ⏳ 路由声明已输出
 
 ---
 
-## 鐗堟湰
+## Step 7 · 执行Stage Skill
 
-v2.4 - 绮剧畝浼樺寲鐗堬紙<200琛岋級锛屽鍔犲揩閫熺储寮曡〃
+Stage Skill按**其内部定义的Step流程**执行（非GO.md的7步）：
+1. 入口门禁检查
+2. 执行Step 1-N（见stage skill的「## 执行流程」章节）
+3. 产物输出前 read_file 模板
+4. 执行自检清单
+5. 更新 STATE.md
+6. 路由到下一阶段
 
+---
+
+## 版本
+
+v2.4 - 精简优化版（<200行），增加快速索引表
