@@ -1,4 +1,4 @@
-﻿# devflow-kit Stage: I-Intel-Scan（入场扫描）
+# devflow-kit Stage: I-Intel-Scan（项目扫描）
 
 > **阶段定位**：新项目或大改动前的代码库扫描，生成上下文
 > **前置条件**：无（首次执行或项目结构大变化时执行）
