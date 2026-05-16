@@ -1,4 +1,4 @@
-﻿---
+---
 name: devflow-kit
 description: |
   AI-powered software development workflow system with structured processes, 
@@ -8,6 +8,11 @@ description: |
   (3) Need staged execution with gate checks, 
   (4) Need cross-session memory for long-running projects,
   (5) User explicitly requests "devflow", "structured workflow", or "staged development".
+dependencies:
+  - brainstorming
+  - writing-plans
+  - systematic-debugging
+  - verification-before-completion
 ---
 
 # DevFlow Kit
@@ -90,7 +95,7 @@ Load the appropriate stage skill based on user intent:
 2. **Output loading declaration** (must include following info):
    ```markdown
    📦 Loading Stage Skill: <stage-name>
-   - Skill path: skills/<stage-name>/_SKILL.md
+   - Skill path: skills/stage-skills/<stage-name>/_SKILL.md
    - Dependencies: <dependency-list or "none">
    - Stage goal: <brief description>
    ```
