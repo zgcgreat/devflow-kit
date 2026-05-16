@@ -2,7 +2,7 @@
 
 [English](./README.en.md) | [中文](./README.md)
 
-DevFlow Kit（原名 DevFlow / SuperFlow）是一套 AI 驱动的软件开发工作流系统，提供**结构化流程**、**工程规范**和**跨会话记忆**，用于 AI 辅助的软件开发项目。
+DevFlow Kit是一套 AI 驱动的软件开发工作流系统，提供**结构化流程**、**工程规范**和**跨会话记忆**，用于 AI 辅助的软件开发项目。
 
 ## 什么是 DevFlow Kit？
 
