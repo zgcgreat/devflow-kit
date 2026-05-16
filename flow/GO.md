@@ -33,7 +33,14 @@
 
 ## 模式与风险分级
 
-详见 `mode-rules.md`。核心要点：
+**⚠️ 强制规则**：必须使用 `read_file` 工具读取 `mode-rules.md`。
+
+```python
+# 伪代码示例
+read_file("flow/mode-rules.md")
+```
+
+核心要点：
 
 | 模式 | 适用 | 是否停等用户 |
 |------|------|--------------|
@@ -47,7 +54,14 @@
 
 ## Token预算
 
-详见 `token-budget.md`。核心规则：基础预算200行/轮，必须产物豁免。
+**⚠️ 强制规则**：必须使用 `read_file` 工具读取 `token-budget.md`。
+
+```python
+# 伪代码示例
+read_file("flow/token-budget.md")
+```
+
+核心规则：基础预算200行/轮，必须产物豁免。
 
 ---
 
@@ -128,7 +142,14 @@ read_file("flow/entry-check.md")
 
 ### C. 阶段门验证
 
-详见 `gate-rules.md`。核心规则：缺前置产物 → 不允许直接进入，必须先补跑缺失阶段。
+**⚠️ 强制规则**：必须使用 `read_file` 工具读取 `gate-rules.md`。
+
+```python
+# 伪代码示例
+read_file("flow/gate-rules.md")
+```
+
+核心规则：缺前置产物 → 不允许直接进入，必须先补跑缺失阶段。
 
 **阶段依赖**：`0→1→2→[2a]→3→[3a]→4→5→6→7`
 
@@ -183,7 +204,9 @@ read_file("flow/entry-check.md")
 
 ## 第五步 · 模式确认
 
-详见 `mode-rules.md`。
+**⚠️ 强制规则**：必须使用 `read_file` 工具读取 `mode-rules.md`（如Step 2未读）。
+
+核心要点已在 Step 2 加载，此处直接使用。
 
 **必须输出**：
 ```markdown
