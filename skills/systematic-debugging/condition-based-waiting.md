@@ -1,4 +1,4 @@
-# Condition-Based Waiting
+﻿# Condition-Based Waiting
 
 ## Overview
 
@@ -48,7 +48,7 @@ expect(result).toBeDefined();
 ## Quick Patterns
 
 | Scenario | Pattern |
-|----------|---------|
+|---|---------|
 | Wait for event | `waitFor(() => events.find(e => e.type === 'DONE'))` |
 | Wait for state | `waitFor(() => machine.state === 'ready')` |
 | Wait for count | `waitFor(() => items.length >= 5)` |

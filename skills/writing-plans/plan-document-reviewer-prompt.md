@@ -1,4 +1,4 @@
-# Plan Document Reviewer Prompt Template
+﻿# Plan Document Reviewer Prompt Template
 
 Use this template when dispatching a plan document reviewer subagent.
 
@@ -18,7 +18,7 @@ Task tool (general-purpose):
     ## What to Check
 
     | Category | What to Look For |
-    |----------|------------------|
+    |---|------------------|
     | Completeness | TODOs, placeholders, incomplete tasks, missing steps |
     | Spec Alignment | Plan covers spec requirements, no major scope creep |
     | Task Decomposition | Tasks have clear boundaries, steps are actionable |

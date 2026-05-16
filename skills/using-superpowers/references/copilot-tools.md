@@ -1,9 +1,9 @@
-# Copilot CLI Tool Mapping
+﻿# Copilot CLI Tool Mapping
 
 Skills use Claude Code tool names. When you encounter these in a skill, use your platform equivalent:
 
 | Skill references | Copilot CLI equivalent |
-|-----------------|----------------------|
+|---|----------------------|
 | `Read` (file reading) | `view` |
 | `Write` (file creation) | `create` |
 | `Edit` (file editing) | `edit` |
@@ -24,7 +24,7 @@ Skills use Claude Code tool names. When you encounter these in a skill, use your
 Copilot CLI supports persistent async shell sessions, which have no direct Claude Code equivalent:
 
 | Tool | Purpose |
-|------|---------|
+|---|---------|
 | `bash` with `async: true` | Start a long-running command in the background |
 | `write_bash` | Send input to a running async session |
 | `read_bash` | Read output from an async session |
@@ -34,7 +34,7 @@ Copilot CLI supports persistent async shell sessions, which have no direct Claud
 ## Additional Copilot CLI tools
 
 | Tool | Purpose |
-|------|---------|
+|---|---------|
 | `store_memory` | Persist facts about the codebase for future sessions |
 | `report_intent` | Update the UI status line with current intent |
 | `sql` | Query the session's SQLite database (todos, metadata) |

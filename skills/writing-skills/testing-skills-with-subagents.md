@@ -1,4 +1,4 @@
-# Testing Skills With Subagents
+﻿# Testing Skills With Subagents
 
 **Load this reference when:** creating or editing skills, before deployment, to verify they work under pressure and resist rationalization.
 
@@ -30,7 +30,7 @@ Don't test:
 ## TDD Mapping for Skill Testing
 
 | TDD Phase | Skill Testing | What You Do |
-|-----------|---------------|-------------|
+|---|---------------|---|
 | **RED** | Baseline test | Run scenario WITHOUT skill, watch agent fail |
 | **Verify RED** | Capture rationalizations | Document exact failures verbatim |
 | **GREEN** | Write skill | Address specific baseline failures |
@@ -128,7 +128,7 @@ Forces explicit choice.
 ### Pressure Types
 
 | Pressure | Example |
-|----------|---------|
+|---|---------|
 | **Time** | Emergency, deadline, deploy window closing |
 | **Sunk cost** | Hours of work, "waste" to delete |
 | **Authority** | Senior says skip it, manager overrides |
@@ -203,7 +203,7 @@ Write code before test? Delete it. Start over.
 
 ```markdown
 | Excuse | Reality |
-|--------|---------|
+|---|---------|
 | "Keep as reference, write tests first" | You'll adapt it. That's testing after. Delete means delete. |
 ```
 
@@ -358,7 +358,7 @@ Tests pass once ≠ bulletproof.
 ## Quick Reference (TDD Cycle)
 
 | TDD Phase | Skill Testing | Success Criteria |
-|-----------|---------------|------------------|
+|---|---------------|---|
 | **RED** | Run scenario without skill | Agent fails, document rationalizations |
 | **Verify RED** | Capture exact wording | Verbatim documentation of failures |
 | **GREEN** | Write skill addressing failures | Agent now complies with skill |

@@ -1,59 +1,209 @@
----
+﻿---
 name: devflow-kit
-description: 整合结构化流程、工程纪律与跨会话记忆的AI编程工作流系统
+description: |
+  AI-powered software development workflow system with structured processes, 
+  engineering discipline, and cross-session memory. 
+  Use when: (1) Starting a new development project or feature, 
+  (2) Need structured workflow (requirement → design → dev → test → review), 
+  (3) Need staged execution with gate checks, 
+  (4) Need cross-session memory for long-running projects,
+  (5) User explicitly requests "devflow", "structured workflow", or "staged development".
 ---
 
 # DevFlow Kit
 
-> ⚠️ **本文件只是入口引导。真正执行流程必须读取 `flow/GO.md` 并严格按其步骤执行。**
->
-> **不读 GO.md 直接动手 = 违反流程。**
+Structured AI programming workflow system with cross-session memory.
 
-## 唯一入口
+## Quick Start
 
-`flow/GO.md` 是唯一路由器和流程事实源。它包含:
+### Step 1: Read Project State
 
-- 模式判定规则（Fast / Standard / Strict）
-- 入场检测流程
-- 路由表与 stage skill 加载对照表
-- 阶段门验证规则
-- 自检清单
+1. Try to read `.devflow-kit/STATE.md`. If not exists → create from template
+2. Check field: `活跃 req` / `当前阶段` / `中断任务`
+3. If `中断任务` is not empty → **highest priority**, go to recovery branch
+4. **Initialize memory system** (first use must run):
+   - Check if `.devflow-kit/memory/` exists
+   - If NOT exists → create directory and initialize base files:
+     ```
+     .devflow-kit/memory/
+     ├── PROJECT_CONTEXT.md    # Project background (to be filled)
+     ├── DECISIONS.md          # Historical decisions (empty)
+     ├── KNOWN_FAILURES.md     # Known failures (empty)
+     └── journals/             # Session log directory
+     ```
+   - If EXISTS → load PROJECT_CONTEXT.md, DECISIONS.md, KNOWN_FAILURES.md
 
-## 模板强制规则
+---
 
-> **⚠️ 所有产物必须严格按模板输出**：
-> - 输出前必须先读取对应模板文件（`flow/templates/*.md`）
-> - 产物必须包含模板所有段落，不得省略或改写
-> - 占位符（如 `<req-id>`）必须替换为实际值
-> - 详见 RULES.md R13.9 / R13.10
+### Step 2: Entry Detection (Mandatory)
 
-## 执行步骤
+**⚠️ Mandatory rule**: Must use `read_file` tool to read `references/entry-check.md` and execute according to its decision tree.
 
+**Detection steps** (execute in order, stop when hit):
+1. Check if there's `ai_context_doc` field → Case A
+2. Check if CONTEXT.md exists + scan time → Case B/C
+3. Check other AI context docs → Case D (**⚠️ STOP AND WAIT for user confirmation**)
+4. Check if greenfield → Case F (skip) or E (**⚠️ STOP AND WAIT for user confirmation**)
+
+**Must output detection result box**:
 ```
-1. 读取 flow/GO.md（必须，不可跳过）
-2. 严格按 GO.md 的步骤执行
-3. 不要凭本文件的引导内容直接开始工作
+┌─────────────────────────────────────────────┐
+│  🔍 Entry Detection                        │
+├─────────────────────────────────────────────┤
+│  Detection result: <Case A/B/C/D/E/F>     │
+│  Project type: <brownfield / greenfield>   │
+│  Context document: <path or "none">        │
+└─────────────────────────────────────────────┘
 ```
 
-## 核心目录
+**⚠️ Key constraint**: Case B/C/D/E **MUST wait for user reply**, do not auto-continue.
 
-| 文件 | 用途 |
-|------|------|
-| `flow/GO.md` | **唯一路由器**，必须先读 |
-| `flow/RULES.md` | 全局红线与状态纪律 |
-| `flow/stage-skills/` | Stage Skills（各阶段执行逻辑） |
-| `flow/prompts/*.md` | 各阶段执行 prompt（后备） |
-| `flow/templates/*.md` | 阶段产物模板 |
-| `flow/reference/*.md` | 按需查阅的参考资料 |
-| `agent-skills/skills/*/_SKILL.md` | 专业工程 skill |
+---
 
-## 开始
+### Step 3: Routing Table
 
-读取 `flow/GO.md`，按它完成路由、模式判定、状态检查和阶段执行。
+Load the appropriate stage skill based on user intent:
 
-## 版本
+| User says | Requirement status | Stage Skill | Dependencies |
+|---|---|---|---|
+| Have new idea for a project | No active req | `stage-0-confirm` | brainstorming, writing-plans |
+| Resume interrupted task | Has interrupted task | Restart per R1.5 | - |
+| Don't enter flow-kit | - | Direct execution, skip | - |
+| Health check | - | `stage-m-health` | systematic-debugging, verification-before-completion |
+| evolve/architect | - | `stage-a-evolve` or `stage-a-architect` | — |
+| Pure technical question | - | Direct answer | - |
+| Upload doc/PRD | - | Doc parsing mode → 00-requirements | writing-plans |
+| intel-scan / scan project | - | `stage-i-intel-scan` | planning-and-context |
 
-v1.0.0 - DevFlow Kit 初始版本
-- 整合 devflow-kit v2.3 + superpowers + team-skills
-- Stage Skills: v1.0.0(稳定)
-- 向后兼容: 是
+**Stage gate validation** (read `references/gate-rules.md`):
+- Missing prerequisite artifacts → not allowed to enter directly, must complete missing stage first
+- **Stage dependency**: `0→1→2→[2a]→3→[3a]→4→5→6→7`
+
+---
+
+### Step 4: Load Stage Skill (Progressive Disclosure)
+
+**⚠️ Load only the currently matched Stage Skill, do NOT load all.**
+
+**Loading rules**:
+1. Determine target Stage according to Step 3 routing table
+2. **Output loading declaration** (must include following info):
+   ```markdown
+   📦 Loading Stage Skill: <stage-name>
+   - Skill path: skills/<stage-name>/_SKILL.md
+   - Dependencies: <dependency-list or "none">
+   - Stage goal: <brief description>
+   ```
+3. Only load that Stage's `_SKILL.md` (do NOT load other Stages)
+4. If dependencies declared, load dependency Skills first
+5. If Stage Skill unavailable, degrade to Prompt file
+
+---
+
+### Step 5: Mode Confirmation (Mandatory Stop & Wait)
+
+**⚠️ Mandatory rule**: Must use `read_file` tool to read `references/mode-rules.md`.
+
+**Must output** (adopt optimized format from stage-0-confirm):
+```markdown
+🎯 Suggested mode: <Standard / Strict>
+   Reason: <brief explanation why this mode>
+
+📋 <mode> complete workflow:
+<workflow steps summary>
+
+Artifacts: <key artifacts list>
+
+Other optional modes:
+• Fast — ≤2 files, <50 lines, low risk
+• Strict — high risk/production sensitive/architecture or data impact
+
+Please confirm or select other mode:
+1. ✅ <suggested mode> (recommended)
+2. Fast
+3. Strict
+```
+
+**⚠️ Mandatory stop & wait**: After outputting, **MUST wait for user confirmation** before entering Step 6.
+
+---
+
+### Step 6: Output Routing Declaration
+
+**Template**:
+```markdown
+🚀 Routing Declaration
+
+Stage: <stage-name>
+Mode: <Fast/Standard/Strict>
+Stage Skill: <path>
+Entry gate: Passed
+Self-check list: To be executed
+```
+
+**Self-check list**:
+- ⏳ Read STATE.md
+- ⏳ **Read references/entry-check.md**
+- ⏳ Entry detection executed per decision tree (Case D/E/C waited for user confirmation)
+- ⏳ Routing matched correctly
+- ⏳ Stage Skill loaded
+- ⏳ Mode confirmed
+- ⏳ Routing declaration outputted
+
+---
+
+### Step 7: Execute Stage Skill
+
+Stage Skill executes according to **its internally defined Step workflow** (not GO.md's 7 steps):
+1. Entry gate check
+2. Execute Step 1-N (see stage skill's `## Execution Workflow` section)
+3. Read template before artifact output
+4. Execute self-check list
+5. Update STATE.md
+6. Route to next stage
+
+---
+
+## Core Reference Documents
+
+Load these files as needed (all in `references/` directory):
+
+| File | Purpose |
+|---|---|
+| `references/GO.md` | **Complete workflow details** (if need more than this SKILL.md) |
+| `references/RULES.md` | Global red lines and state discipline |
+| `references/gate-rules.md` | Stage gate validation rules |
+| `references/mode-rules.md` | Mode determination rules (Fast/Standard/Strict) |
+| `references/token-budget.md` | Token budget management |
+| `references/templates/` | Stage artifact templates (load before output) |
+| `references/prompts/` | Stage execution prompts (fallback) |
+| `references/reference/` | Additional reference material (load as needed) |
+| `skills/` | Stage Skills (load on demand per Step 4) |
+
+---
+
+## Template Enforcement Rules
+
+> **⚠️ All artifacts MUST be output strictly according to templates**:
+> - Must read corresponding template file before output (`references/templates/*.md`)
+> - Artifacts MUST include all sections from template, do not omit or rewrite
+> - Placeholders (e.g., `<req-id>`) MUST be replaced with actual values
+> - See `references/RULES.md` R13.9 / R13.10 for details
+
+---
+
+## Multi-Project Support
+
+DevFlow Kit **supports parallel multi-project**, each project has independent `.devflow-kit/` directory:
+- Memory system isolated per project, will not share across projects
+- To switch projects, just switch to the corresponding project root directory
+
+---
+
+## Version
+
+v2.4.1 - Refactored for skill-creator compliance
+- Flattened directory structure (references/ instead of flow/)
+- Improved description with trigger conditions
+- Core workflow in SKILL.md, details in references/GO.md
+- Progressive disclosure: only load needed stage skills

@@ -1,4 +1,4 @@
-# Visual Companion Guide
+﻿# Visual Companion Guide
 
 Browser-based visual brainstorming companion for showing mockups, diagrams, and options.
 

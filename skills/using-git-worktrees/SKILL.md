@@ -1,4 +1,4 @@
----
+﻿---
 name: using-git-worktrees
 description: Use when starting feature work that needs isolation from current workspace or before executing implementation plans - ensures an isolated workspace exists via native tools or git worktree fallback
 ---
@@ -154,7 +154,7 @@ Ready to implement <feature-name>
 ## Quick Reference
 
 | Situation | Action |
-|-----------|--------|
+|---|--------|
 | Already in linked worktree | Skip creation (Step 0) |
 | In a submodule | Treat as normal repo (Step 0 guard) |
 | Native worktree tool available | Use it (Step 1a) |

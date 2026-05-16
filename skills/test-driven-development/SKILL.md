@@ -1,4 +1,4 @@
----
+﻿---
 name: test-driven-development
 description: Use when implementing any feature or bugfix, before writing implementation code
 ---
@@ -198,7 +198,7 @@ Next failing test for next feature.
 ## Good Tests
 
 | Quality | Good | Bad |
-|---------|------|-----|
+|---|------|---|
 | **Minimal** | One thing. "and" in name? Split it. | `test('validates email and domain and whitespace')` |
 | **Clear** | Name describes behavior | `test('test1')` |
 | **Shows intent** | Demonstrates desired API | Obscures what code should do |
@@ -256,7 +256,7 @@ Tests-first force edge case discovery before implementing. Tests-after verify yo
 ## Common Rationalizations
 
 | Excuse | Reality |
-|--------|---------|
+|---|---------|
 | "Too simple to test" | Simple code breaks. Test takes 30 seconds. |
 | "I'll test after" | Tests passing immediately prove nothing. |
 | "Tests after achieve same goals" | Tests-after = "what does this do?" Tests-first = "what should this do?" |
@@ -342,7 +342,7 @@ Can't check all boxes? You skipped TDD. Start over.
 ## When Stuck
 
 | Problem | Solution |
-|---------|----------|
+|---|----------|
 | Don't know how to test | Write wished-for API. Write assertion first. Ask your human partner. |
 | Test too complicated | Design too complicated. Simplify interface. |
 | Must mock everything | Code too coupled. Use dependency injection. |

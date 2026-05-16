@@ -1,4 +1,4 @@
-# Spec Document Reviewer Prompt Template
+﻿# Spec Document Reviewer Prompt Template
 
 Use this template when dispatching a spec document reviewer subagent.
 
@@ -17,7 +17,7 @@ Task tool (general-purpose):
     ## What to Check
 
     | Category | What to Look For |
-    |----------|------------------|
+    |---|------------------|
     | Completeness | TODOs, placeholders, "TBD", incomplete sections |
     | Consistency | Internal contradictions, conflicting requirements |
     | Clarity | Requirements ambiguous enough to cause someone to build the wrong thing |

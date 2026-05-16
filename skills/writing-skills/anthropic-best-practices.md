@@ -1,4 +1,4 @@
-# Skill authoring best practices
+﻿# Skill authoring best practices
 
 > Learn how to write effective Skills that Claude can discover and use successfully.
 
