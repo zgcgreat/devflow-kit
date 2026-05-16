@@ -1,4 +1,4 @@
-# UI 反模式清单（grep 用）
+﻿# UI 反模式清单（grep 用）
 
 > 来源：Anthropic `frontend-design` skill + impeccable 项目的 anti-pattern 库。
 > 用法：每个 UI 任务进入实现前 grep 此文件；提交前再扫一遍。

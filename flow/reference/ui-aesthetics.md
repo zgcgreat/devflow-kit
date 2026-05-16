@@ -1,4 +1,4 @@
-# UI 美学决策框架（精简版）
+﻿# UI 美学决策框架（精简版）
 
 > 融合自 Anthropic 原版 `frontend-design` skill + 社区 `impeccable` 项目精华。
 > **本文件是 flow-kit 内置的"够用"基线**。如果装了下面任一外部 skill，优先用它们的更精细数据。

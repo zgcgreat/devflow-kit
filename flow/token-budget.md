@@ -1,4 +1,4 @@
-# Token 预算估算
+﻿# Token 预算估算
 
 > 本文件是 GO.md 的参考文档，按需加载。
 
@@ -115,7 +115,7 @@
 
 | 类型 | 路径 | 加载方式 |
 |------|------|----------|
-| SPEC（项目产物）| `.specs/<id>/*.md` | 整读OK，但优先读取关键段落 |
+| SPEC（项目产物）| `.devflow-kit/<id>/*.md` | 整读OK，但优先读取关键段落 |
 | REFERENCE（查阅型）| `flow/reference/*.md` | **禁止整读**，只读需要的节 |
 | TEMPLATE / PROMPT | `flow/templates\|prompts/*.md` | 整读OK（必须确保格式正确） |
 | STAGE SKILL | `flow/stage-skills/stage-*/*_SKILL.md` | 整读OK（执行逻辑所在） |

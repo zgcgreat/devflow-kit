@@ -1,8 +1,8 @@
-# devflow-kit Stage: 2-Design（方案设计）
+﻿# devflow-kit Stage: 2-Design（方案设计）
 
 > **阶段定位**：将需求转化为可执行的技术设计
 > **前置条件**：01-需求分析.md 已完成
-> **后置产物**：`.specs/<req-id>/02-方案设计.md` + ADRs
+> **后置产物**：`.devflow-kit/<req-id>/02-方案设计.md` + ADRs
 
 ## Skill元信息
 
@@ -17,18 +17,18 @@ dependencies:
 
 ## 输入
 
-- `.specs/<req-id>/01-需求分析.md`（或Delta版）
-- `.specs/<req-id>/00-需求确认.md`
-- `.specs/上下文.md`（或ai_context_doc指定文档）
-- `.specs/系统架构.md`（如存在·brownfield项目）
-- `.specs/设计基线.md`（如存在·Delta模式）
+- `.devflow-kit/<req-id>/01-需求分析.md`（或Delta版）
+- `.devflow-kit/<req-id>/00-需求确认.md`
+- `.devflow-kit/上下文.md`（或ai_context_doc指定文档）
+- `.devflow-kit/系统架构.md`（如存在·brownfield项目）
+- `.devflow-kit/设计基线.md`（如存在·Delta模式）
 - `devflow-kit/flow/reference/tech-stacks.md`（按节读取）
 
 ## 输出
 
-- `.specs/<req-id>/02-方案设计.md`
-- `.specs/adr/<NNN>-<title>.md`（如有架构决策）
-- 更新 `.specs/项目状态.md`
+- `.devflow-kit/<req-id>/02-方案设计.md`
+- `.devflow-kit/adr/<NNN>-<title>.md`（如有架构决策）
+- 更新 `.devflow-kit/项目状态.md`
 
 ## 入口门禁
 
@@ -164,10 +164,10 @@ IF 前端项目 AND 缺 00-需求确认.md 中的项目类型:
 
 **首次到这步**：
 ```markdown
-IF 命中 AND .specs/系统架构.md 存在:
+IF 命中 AND .devflow-kit/系统架构.md 存在:
   检查ADR是否冲突 → 提示在§1显式声明supersede关系
   
-IF 命中 AND .specs/系统架构.md 不存在:
+IF 命中 AND .devflow-kit/系统架构.md 不存在:
   反问用户:
   "🏛️ 本次设计涉及项目级架构变更，但项目无系统架构.md。
   
@@ -308,7 +308,7 @@ IF 未命中:
 
 凡是「以后可能被推翻」的决策，单独写ADR：
 
-保存到 `.specs/adr/<NNN>-<title>.md`，结构：
+保存到 `.devflow-kit/adr/<NNN>-<title>.md`，结构：
 - Context（背景）
 - Decision（决策）
 - Consequences（后果）
@@ -362,7 +362,7 @@ read_file("flow/templates/02-方案设计.md")
 
 ### Step 11: 生成产物并逐项核对
 
-按模板生成 `.specs/<req-id>/02-方案设计.md`：
+按模板生成 `.devflow-kit/<req-id>/02-方案设计.md`：
 - **必须包含模板所有8个段落**（见 Step 10 提取的清单）
 - **所有 `<...>` 占位符必须替换为实际值**
 - **ADR编号必须连续**

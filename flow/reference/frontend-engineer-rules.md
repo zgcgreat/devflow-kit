@@ -1,4 +1,4 @@
-# Frontend Engineer Rules — 前端任务实现硬规则
+﻿# Frontend Engineer Rules — 前端任务实现硬规则
 
 > 4-dev 阶段处理任何涉及 HTML / CSS / JavaScript / React 的任务时**必读**此文件。
 > 提炼自 garden-skills `web-design-engineer`（基于 Anthropic Claude Design 系统提示词），针对 flow-kit 上下文做了简化。

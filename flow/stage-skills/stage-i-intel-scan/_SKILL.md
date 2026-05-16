@@ -1,8 +1,8 @@
-# devflow-kit Stage: I-Intel-Scan（入场扫描）
+﻿# devflow-kit Stage: I-Intel-Scan（入场扫描）
 
 > **阶段定位**：新项目或大改动前的代码库扫描，生成上下文
 > **前置条件**：无（首次执行或项目结构大变化时执行）
-> **后置产物**：`.specs/上下文.md`
+> **后置产物**：`.devflow-kit/上下文.md`
 
 ## Skill元信息
 
@@ -24,7 +24,7 @@ dependencies:
 
 ## 输出
 
-- `.specs/上下文.md`（新建或更新）
+- `.devflow-kit/上下文.md`（新建或更新）
 
 ## 入口门禁
 
@@ -204,7 +204,7 @@ read_file("flow/templates/上下文.md")
 
 ### Step 9: 生成产物并逐项核对
 
-按模板生成 `.specs/上下文.md`：
+按模板生成 `.devflow-kit/上下文.md`：
 - **必须包含所有15个必填段落**（见 Step 8 提取的清单）
 - **所有 `<...>` 占位符必须替换为实际值**
 - **必须基于实际扫描结果**（禁止编造）
@@ -256,7 +256,7 @@ read_file("flow/templates/上下文.md")
 1. 创建 AGENTS.md 固化AI规则
 2. 补充部署流程文档
 
-是否保存为 .specs/上下文.md？
+是否保存为 .devflow-kit/上下文.md？
 1. ✅ 是，保存
 2. ✏️ 否，先修改
 3. ↩️ 重新扫描
@@ -265,8 +265,8 @@ read_file("flow/templates/上下文.md")
 ### Step 11: 根据用户选择执行
 
 **选项1**：保存
-- 写入 `.specs/上下文.md`
-- 更新 `.specs/项目状态.md` 的 `ai_context_doc: 上下文.md`
+- 写入 `.devflow-kit/上下文.md`
+- 更新 `.devflow-kit/项目状态.md` 的 `ai_context_doc: 上下文.md`
 
 **选项2**：修改
 - 展示完整内容

@@ -1,8 +1,8 @@
-# devflow-kit Stage: A-Architect（架构梳理）
+﻿# devflow-kit Stage: A-Architect（架构梳理）
 
 > **阶段定位**：建立或更新项目级架构文档
 > **前置条件**：无（可随时执行）
-> **后置产物**：`.specs/系统架构.md`
+> **后置产物**：`.devflow-kit/系统架构.md`
 
 ## Skill元信息
 
@@ -17,15 +17,15 @@ dependencies:
 
 ## 输入
 
-- `.specs/上下文.md`
-- `.specs/需求LOG.md`（如存在）
-- `.specs/archive/*/02-方案设计.md`（抽样读取§9段）
+- `.devflow-kit/上下文.md`
+- `.devflow-kit/需求LOG.md`（如存在）
+- `.devflow-kit/archive/*/02-方案设计.md`（抽样读取§9段）
 - `src/` 顶层结构
 - `package.json` / 依赖文件
 
 ## 输出
 
-- `.specs/系统架构.md`（新建或更新）
+- `.devflow-kit/系统架构.md`（新建或更新）
 
 ## 入口门禁
 
@@ -54,10 +54,10 @@ cat go.mod
 
 ### Step 2: 读取历史ADR
 
-从 `.specs/archive/*/02-方案设计.md` 的 `## 9. 架构沉淀建议` 段提取：
+从 `.devflow-kit/archive/*/02-方案设计.md` 的 `## 9. 架构沉淀建议` 段提取：
 
 ```markdown
-grep -r "## 9" .specs/archive/*/02-方案设计.md
+grep -r "## 9" .devflow-kit/archive/*/02-方案设计.md
 ```
 
 **汇总**：
@@ -69,7 +69,7 @@ grep -r "## 9" .specs/archive/*/02-方案设计.md
 
 **⚠️ 强制规则**：输出前必须先读取模板文件 `flow/templates/系统架构.md`。
 
-按模板生成 `.specs/系统架构.md`：
+按模板生成 `.devflow-kit/系统架构.md`：
 - **必须包含模板所有6个章节**（§1-§6）
 - **所有 `<...>` 占位符必须替换为实际值**
 - **不得省略任何章节**
@@ -99,7 +99,7 @@ grep -r "## 9" .specs/archive/*/02-方案设计.md
 | ADR-001 | 使用PostgreSQL | Accepted | REQ-001 |
 | ADR-002 | Redis缓存策略 | Accepted | REQ-003 |
 
-**每个ADR链接到详细文档**：`.specs/adr/NNN-title.md`
+**每个ADR链接到详细文档**：`.devflow-kit/adr/NNN-title.md`
 
 #### §4 跨模块契约
 
@@ -184,7 +184,7 @@ grep -r "## 9" .specs/archive/*/02-方案设计.md
 - 需求描述："修复架构Critical问题：循环依赖"
 
 **选项2**：仅记录
-- 将问题清单追加到 `.specs/系统架构.md` 末尾
+- 将问题清单追加到 `.devflow-kit/系统架构.md` 末尾
 - 标记为「待优化」
 
 **选项3**：重新扫描

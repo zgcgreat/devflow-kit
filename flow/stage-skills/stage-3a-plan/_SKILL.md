@@ -1,8 +1,8 @@
-# devflow-kit Stage: 3a-Plan（实施计划）
+﻿# devflow-kit Stage: 3a-Plan（实施计划）
 
 > **阶段定位**：为每个任务提供详细技术方案
 > **前置条件**：03-任务拆分.md 已完成
-> **后置产物**：`.specs/<req-id>/03a-实施计划.md`
+> **后置产物**：`.devflow-kit/<req-id>/03a-实施计划.md`
 
 ## Skill元信息
 
@@ -17,13 +17,13 @@ dependencies:
 
 ## 输入
 
-- `.specs/<req-id>/03-任务拆分.md`（必读全部任务）
-- `.specs/<req-id>/02-方案设计.md`（必读 `## 0` + `## 9`）
-- `.specs/上下文.md`
+- `.devflow-kit/<req-id>/03-任务拆分.md`（必读全部任务）
+- `.devflow-kit/<req-id>/02-方案设计.md`（必读 `## 0` + `## 9`）
+- `.devflow-kit/上下文.md`
 
 ## 输出
 
-- `.specs/<req-id>/03a-实施计划.md`
+- `.devflow-kit/<req-id>/03a-实施计划.md`
 
 ## 入口门禁
 

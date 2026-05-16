@@ -1,4 +1,4 @@
-# 阶段 5 · 测试 — 风险驱动测试矩阵
+﻿# 阶段 5 · 测试 — 风险驱动测试矩阵
 
 > ⚠️ **进入本阶段前，必须先加载**：
 > - **skill**：`devflow-kit/agent-skills/skills/testing-suite/_SKILL.md`、`devflow-kit/agent-skills/skills/debugging-and-error-recovery/_SKILL.md`
@@ -14,9 +14,9 @@ Test Engineer。
 
 ## 输入
 
-- `@.specs/<req-id>/01-需求分析.md`（AC + 非功能性需求）
-- `@.specs/<req-id>/02-方案设计.md`（**必读 `## 0. 技术栈选定`**——5 轮各项的工具选择必须匹配栈：JS 用 Vitest / Playwright / k6，Python 用 pytest / locust，Go 用 testing / vegeta）
-- `@.specs/<req-id>/03-任务拆分.md`
+- `@.devflow-kit/<req-id>/01-需求分析.md`（AC + 非功能性需求）
+- `@.devflow-kit/<req-id>/02-方案设计.md`（**必读 `## 0. 技术栈选定`**——5 轮各项的工具选择必须匹配栈：JS 用 Vitest / Playwright / k6，Python 用 pytest / locust，Go 用 testing / vegeta）
+- `@.devflow-kit/<req-id>/03-任务拆分.md`
 - 各任务的 `*-开发记录.md`
 - 已存在的测试代码
 - `@devflow-kit/flow/reference/test-pyramid.md`（5 轮的工具 / 标准 / 清单）
@@ -256,9 +256,9 @@ Semgrep / CodeQL / Bandit 选一。无 high；medium 有处理记录。
 
 ## 输出
 
-- `.specs/<req-id>/05-测试报告.md`（**⚠️ 强制要求**：必须严格按 `@devflow-kit/flow/templates/05-测试报告.md` 模板的完整结构输出，含风险驱动测试矩阵、真实命令输出、UAT 脚本和测试质量自检。**不得省略或改写任何段落**。）
+- `.devflow-kit/<req-id>/05-测试报告.md`（**⚠️ 强制要求**：必须严格按 `@devflow-kit/flow/templates/05-测试报告.md` 模板的完整结构输出，含风险驱动测试矩阵、真实命令输出、UAT 脚本和测试质量自检。**不得省略或改写任何段落**。）
 - 性能 / 安全扫描的原始输出贴入或链接到附件
-- **更新 `.specs/项目状态.md`**：
+- **更新 `.devflow-kit/项目状态.md`**：
   - `当前阶段` 设为 `test`
   - `阶段状态` 设为 `completed` 或 `blocked`
   - `上次完成阶段` 设为 `test`
@@ -268,7 +268,7 @@ Semgrep / CodeQL / Bandit 选一。无 high；medium 有处理记录。
 ## 约束（强制）
 
 - **R5.1**：测试用例从 AC 派生，不从实现派生
-- **R5.2**：bug 修复必伴随回归测试，加入 `.specs/经验总结.md`
+- **R5.2**：bug 修复必伴随回归测试，加入 `.devflow-kit/经验总结.md`
 - **R5.3**：禁止通过删除 / 弱化测试来"修复"失败
 - **R5.4**：不允许跳过风险触发的测试轮次而没有显式理由（在范围声明里写明）
 - **R5.5**：性能 / 安全 / 兼容轮次的"通过 / 失败"必须基于**可量化指标**或工具输出，不允许"看起来没问题"
@@ -290,7 +290,7 @@ Semgrep / CodeQL / Bandit 选一。无 high；medium 有处理记录。
 
 ```
 ✅ 测试 完成
-📝 产物：.specs/<req-id>/05-测试报告.md
+📝 产物：.devflow-kit/<req-id>/05-测试报告.md
 📊 项目状态.md 阶段进度已更新：[x] 测试 → 05-测试报告.md
 
 测试统计：

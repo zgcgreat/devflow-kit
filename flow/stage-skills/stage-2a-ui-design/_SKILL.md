@@ -1,8 +1,8 @@
-# devflow-kit Stage: 2a-UI Design（UI设计）
+﻿# devflow-kit Stage: 2a-UI Design（UI设计）
 
 > **阶段定位**：前端项目的视觉和交互设计
 > **前置条件**：02-方案设计.md 已完成，项目类型为前端
-> **后置产物**：`.specs/<req-id>/02a-UI设计.md`
+> **后置产物**：`.devflow-kit/<req-id>/02a-UI设计.md`
 
 ## Skill元信息
 
@@ -17,17 +17,17 @@ dependencies:
 
 ## 输入
 
-- `.specs/<req-id>/00-需求确认.md`
-- `.specs/<req-id>/01-需求分析.md`
-- `.specs/<req-id>/02-方案设计.md`（必读 `## 0` 段）
-- `.specs/上下文.md`
+- `.devflow-kit/<req-id>/00-需求确认.md`
+- `.devflow-kit/<req-id>/01-需求分析.md`
+- `.devflow-kit/<req-id>/02-方案设计.md`（必读 `## 0` 段）
+- `.devflow-kit/上下文.md`
 - `devflow-kit/flow/reference/ui-aesthetics.md`（按节读取）
 - `devflow-kit/flow/reference/ui-anti-patterns.md`（75行可全读）
 
 ## 输出
 
-- `.specs/<req-id>/02a-UI设计.md`
-- 更新 `.specs/项目状态.md`
+- `.devflow-kit/<req-id>/02a-UI设计.md`
+- 更新 `.devflow-kit/项目状态.md`
 
 ## 入口门禁
 
@@ -260,7 +260,7 @@ read_file("flow/templates/02a-UI设计.md")
 
 ### Step 10: 生成产物并逐项核对
 
-按模板生成 `.specs/<req-id>/02a-UI设计.md`：
+按模板生成 `.devflow-kit/<req-id>/02a-UI设计.md`：
 - **必须包含模板所有7个段落**（见 Step 9 提取的清单）
 - **所有 `<...>` 占位符必须替换为实际值**
 - **反模式检查必须全部通过**

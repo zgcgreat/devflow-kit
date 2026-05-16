@@ -1,8 +1,8 @@
-# devflow-kit Stage: 5-Test（测试验证）
+﻿# devflow-kit Stage: 5-Test（测试验证）
 
 > **阶段定位**：验证所有AC是否通过
 > **前置条件**：4-dev阶段所有任务完成
-> **后置产物**：`.specs/<req-id>/05-测试报告.md`
+> **后置产物**：`.devflow-kit/<req-id>/05-测试报告.md`
 
 ## Skill元信息
 
@@ -17,16 +17,16 @@ dependencies:
 
 ## 输入
 
-- `.specs/<req-id>/01-需求分析.md`（或Delta版）
-- `.specs/<req-id>/02-方案设计.md`（必读 `## 0. 技术栈选定`）
-- `.specs/<req-id>/03-任务拆分.md`
-- `.specs/<req-id>/04-开发记录.md` + 各 `<task-id>-开发记录.md`
-- `.specs/上下文.md`
+- `.devflow-kit/<req-id>/01-需求分析.md`（或Delta版）
+- `.devflow-kit/<req-id>/02-方案设计.md`（必读 `## 0. 技术栈选定`）
+- `.devflow-kit/<req-id>/03-任务拆分.md`
+- `.devflow-kit/<req-id>/04-开发记录.md` + 各 `<task-id>-开发记录.md`
+- `.devflow-kit/上下文.md`
 
 ## 输出
 
-- `.specs/<req-id>/05-测试报告.md`
-- 更新 `.specs/项目状态.md`
+- `.devflow-kit/<req-id>/05-测试报告.md`
+- 更新 `.devflow-kit/项目状态.md`
 
 ## 入口门禁
 
@@ -364,7 +364,7 @@ read_file("flow/templates/05-测试报告.md")
 
 ### Step 9: 生成测试报告并逐项核对
 
-按模板生成 `.specs/<req-id>/05-测试报告.md`：
+按模板生成 `.devflow-kit/<req-id>/05-测试报告.md`：
 - **必须包含模板所有6个段落**（见 Step 8 提取的清单）
 - **所有 `<...>` 占位符必须替换为实际值**
 - **AC覆盖率必须100%**

@@ -1,8 +1,8 @@
-# devflow-kit Stage: 7-Integration（集成发布）
+﻿# devflow-kit Stage: 7-Integration（集成发布）
 
 > **阶段定位**：生成发布清单，准备上线
 > **前置条件**：06-review审查通过
-> **后置产物**：`.specs/<req-id>/07-发布清单.md`
+> **后置产物**：`.devflow-kit/<req-id>/07-发布清单.md`
 
 ## Skill元信息
 
@@ -17,16 +17,16 @@ dependencies:
 
 ## 输入
 
-- `.specs/<req-id>/` 全部产物
-- `.specs/经验总结.md`
-- `.specs/需求基线.md` + `.specs/设计基线.md`（Delta合并用）
+- `.devflow-kit/<req-id>/` 全部产物
+- `.devflow-kit/经验总结.md`
+- `.devflow-kit/需求基线.md` + `.devflow-kit/设计基线.md`（Delta合并用）
 - `git log`（本次改动的commit历史）
 
 ## 输出
 
-- `.specs/<req-id>/07-发布清单.md`
-- 更新 `.specs/项目状态.md`
-- 归档当前需求到 `.specs/archive/<req-id>/`
+- `.devflow-kit/<req-id>/07-发布清单.md`
+- 更新 `.devflow-kit/项目状态.md`
+- 归档当前需求到 `.devflow-kit/archive/<req-id>/`
 
 ## 入口门禁
 
@@ -44,7 +44,7 @@ IF 缺 06-review审查结论 OR 审查结论为"不通过":
 
 #### 1.1 读取需求分析（AC基线）
 
-从 `.specs/<req-id>/01-需求分析.md` 提取：
+从 `.devflow-kit/<req-id>/01-需求分析.md` 提取：
 - **AC列表**：所有验收标准（用于验证发布前是否全部通过）
 - **非功能需求**：性能/安全要求（用于验证是否达标）
 
@@ -54,7 +54,7 @@ IF 缺 06-review审查结论 OR 审查结论为"不通过":
 
 #### 1.2 读取测试报告与审查报告
 
-从 `.specs/<req-id>/05-测试报告.md` 和 `06-审查报告.md` 提取：
+从 `.devflow-kit/<req-id>/05-测试报告.md` 和 `06-审查报告.md` 提取：
 - **测试结果**：各轮测试通过率、AC覆盖矩阵
 - **审查结论**：代码审查是否通过、遗留问题清单
 
@@ -259,11 +259,11 @@ DELETE FROM notifications WHERE created_at > '2026-01-15 14:30:00';
 
 **需求基线合并**:
 - 将 01-需求分析-Delta.md 的变更合并到基线
-- 生成新的需求基线: `.specs/需求基线.md`
+- 生成新的需求基线: `.devflow-kit/需求基线.md`
 
 **设计基线合并**:
 - 将 02-方案设计-Delta.md 的变更合并到基线
-- 生成新的设计基线: `.specs/设计基线.md`
+- 生成新的设计基线: `.devflow-kit/设计基线.md`
 
 **命令**:
 ```bash
@@ -298,13 +298,13 @@ DELETE FROM notifications WHERE created_at > '2026-01-15 14:30:00';
 2. 🔧 可增加WebSocket实时推送
 ```
 
-追加到 `.specs/经验总结.md`。
+追加到 `.devflow-kit/经验总结.md`。
 
 ### Step 7: 生成发布清单
 
 **⚠️ 强制规则**：输出前必须先读取模板文件 `flow/templates/07-发布清单.md`。
 
-按模板生成 `.specs/<req-id>/07-发布清单.md`，包含：
+按模板生成 `.devflow-kit/<req-id>/07-发布清单.md`，包含：
 - **必须包含模板所有段落**（不得省略或改写）
 - **所有 `<...>` 占位符必须替换为实际值**
 - 变更汇总
@@ -320,7 +320,7 @@ DELETE FROM notifications WHERE created_at > '2026-01-15 14:30:00';
 
 ```bash
 # 移动产物到archive
-mv .specs/<req-id>/ .specs/archive/<req-id>/
+mv .devflow-kit/<req-id>/ .devflow-kit/archive/<req-id>/
 
 # 更新项目状态
 ```

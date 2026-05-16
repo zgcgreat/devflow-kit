@@ -1,4 +1,4 @@
-# devflow-kit Stage: 4-Dev（开发执行）
+﻿# devflow-kit Stage: 4-Dev（开发执行）
 
 > **阶段定位**：在fresh context中执行单个任务
 > **前置条件**：03-任务拆分.md 已完成，用户指定task id
@@ -18,16 +18,16 @@ dependencies:
 
 ## 输入
 
-- `.specs/<req-id>/03-任务拆分.md`
+- `.devflow-kit/<req-id>/03-任务拆分.md`
 - 要执行的 task id（用户指定，如 T03）
-- `.specs/<req-id>/02-方案设计.md`（必读 `## 0. 技术栈选定` + `## 0.5 既有架构对齐`）
-- `.specs/上下文.md`
-- `.specs/经验总结.md`
+- `.devflow-kit/<req-id>/02-方案设计.md`（必读 `## 0. 技术栈选定` + `## 0.5 既有架构对齐`）
+- `.devflow-kit/上下文.md`
+- `.devflow-kit/经验总结.md`
 
 ## 输出
 
 - 代码文件（按任务的write_files）
-- `.specs/<req-id>/<task-id>-开发记录.md`
+- `.devflow-kit/<req-id>/<task-id>-开发记录.md`
 
 > **注意**: 模板文件名为 `04-开发记录.md`,但实际产物会根据task id命名为 `<task-id>-开发记录.md` (如 `T03-开发记录.md`)。每个任务都有独立的开发记录。
 
@@ -35,7 +35,7 @@ dependencies:
 
 **必须满足以下条件之一**：
 
-1. **正式流程**：存在 `.specs/<req-id>/03-任务拆分.md`，且包含指定的task
+1. **正式流程**：存在 `.devflow-kit/<req-id>/03-任务拆分.md`，且包含指定的task
 2. **单点调用**：用户提供临时最小TASK（必须包含7字段：id/name/read_files/write_files/action/verify/done）
 
 **前端项目额外检查**：
@@ -277,7 +277,7 @@ if template_exists("flow/templates/XX-开发记录.md"):
 
 ### Step 9: 生成开发记录并逐项核对
 
-创建 `.specs/<req-id>/<task-id>-开发记录.md`：
+创建 `.devflow-kit/<req-id>/<task-id>-开发记录.md`：
 - **必须包含所有6个章节**（见 Step 8 提取的清单）
 - **所有占位符必须替换为实际值**
 - **Verify输出必须是真实执行结果**

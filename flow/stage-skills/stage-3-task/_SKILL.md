@@ -1,8 +1,8 @@
-# devflow-kit Stage: 3-Task（任务拆分）
+﻿# devflow-kit Stage: 3-Task（任务拆分）
 
 > **阶段定位**：将设计拆分为可并行的原子任务
 > **前置条件**：02-方案设计.md 已完成
-> **后置产物**：`.specs/<req-id>/03-任务拆分.md`
+> **后置产物**：`.devflow-kit/<req-id>/03-任务拆分.md`
 
 ## Skill元信息
 
@@ -17,14 +17,14 @@ dependencies:
 
 ## 输入
 
-- `.specs/<req-id>/01-需求分析.md`
-- `.specs/<req-id>/02-方案设计.md`（必读 `## 0. 技术栈选定` + `## 0.5.1 触碰模块`）
-- `.specs/上下文.md`
+- `.devflow-kit/<req-id>/01-需求分析.md`
+- `.devflow-kit/<req-id>/02-方案设计.md`（必读 `## 0. 技术栈选定` + `## 0.5.1 触碰模块`）
+- `.devflow-kit/上下文.md`
 
 ## 输出
 
-- `.specs/<req-id>/03-任务拆分.md`
-- 更新 `.specs/项目状态.md`
+- `.devflow-kit/<req-id>/03-任务拆分.md`
+- 更新 `.devflow-kit/项目状态.md`
 
 ## 入口门禁
 
@@ -202,7 +202,7 @@ read_file("flow/templates/03-任务拆分.md")
 
 ### Step 6: 生成产物并逐项核对
 
-按模板生成 `.specs/<req-id>/03-任务拆分.md`：
+按模板生成 `.devflow-kit/<req-id>/03-任务拆分.md`：
 - **必须包含模板所有6个段落**（见 Step 5 提取的清单）
 - **所有 `<...>` 占位符必须替换为实际值**
 - **每个任务必须有完整的7字段**（id/name/read_files/write_files/action/verify/done）

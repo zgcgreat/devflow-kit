@@ -1,8 +1,8 @@
-# devflow-kit Stage: 0-Confirm（需求确认）
+﻿# devflow-kit Stage: 0-Confirm（需求确认）
 
 > **阶段定位**：工作流入口，澄清需求并判定执行模式
 > **前置条件**：无
-> **后置产物**：`.specs/<req-id>/00-需求确认.md`
+> **后置产物**：`.devflow-kit/<req-id>/00-需求确认.md`
 
 ## Skill元信息
 
@@ -19,13 +19,13 @@ dependencies:
 ## 输入
 
 - 用户原始需求描述
-- `.specs/项目状态.md`（如存在）
-- `.specs/上下文.md`（如存在）
+- `.devflow-kit/项目状态.md`（如存在）
+- `.devflow-kit/上下文.md`（如存在）
 
 ## 输出
 
-- `.specs/<req-id>/00-需求确认.md`
-- 更新 `.specs/项目状态.md`
+- `.devflow-kit/<req-id>/00-需求确认.md`
+- 更新 `.devflow-kit/项目状态.md`
 
 ## 入口门禁
 
@@ -191,7 +191,7 @@ read_file("flow/templates/00-需求确认.md")
 
 ### Step 6: 生成产物并逐项核对
 
-按模板生成 `.specs/<req-id>/00-需求确认.md`：
+按模板生成 `.devflow-kit/<req-id>/00-需求确认.md`：
 - **必须包含所有12个必填段落**（见 Step 5 提取的清单）
 - **所有 `<...>` 占位符必须替换为实际值**
 - **不得省略或改写任何段落**

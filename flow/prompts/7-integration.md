@@ -1,4 +1,4 @@
-# 阶段 7 · 集成投产 — 集成验证 + UAT + 发布清单 + 归档
+﻿# 阶段 7 · 集成投产 — 集成验证 + UAT + 发布清单 + 归档
 
 > ⚠️ **进入本阶段前，必须先加载**：`devflow-kit/agent-skills/skills/devops/_SKILL.md`
 
@@ -8,14 +8,14 @@
 
 ## 输入
 
-- `@.specs/<req-id>/00-需求确认.md`
-- `@.specs/<req-id>/01-需求分析.md`
-- `@.specs/<req-id>/02-方案设计.md`
-- `@.specs/<req-id>/03-任务拆分.md`
-- `@.specs/<req-id>/04-开发记录.md`
-- `@.specs/<req-id>/05-测试报告.md`（含 UAT 脚本）
-- `@.specs/<req-id>/06-代码审查.md`
-- `@.specs/经验总结.md`
+- `@.devflow-kit/<req-id>/00-需求确认.md`
+- `@.devflow-kit/<req-id>/01-需求分析.md`
+- `@.devflow-kit/<req-id>/02-方案设计.md`
+- `@.devflow-kit/<req-id>/03-任务拆分.md`
+- `@.devflow-kit/<req-id>/04-开发记录.md`
+- `@.devflow-kit/<req-id>/05-测试报告.md`（含 UAT 脚本）
+- `@.devflow-kit/<req-id>/06-代码审查.md`
+- `@.devflow-kit/经验总结.md`
 - 当前已合并/待合并的代码
 
 ## 你的职责
@@ -36,11 +36,11 @@
 > UAT-1：深色模式手动切换。请按以下步骤操作：……
 > 通过 / 失败 / 描述问题：
 
-记录每条 UAT 的结果到 `.specs/<req-id>/UAT.md`。
+记录每条 UAT 的结果到 `.devflow-kit/<req-id>/UAT.md`。
 
 ### 3. 编制发布清单
 
-**⚠️ 强制要求**：必须严格按照 `@devflow-kit/flow/templates/07-发布清单.md` 模板的完整结构输出，**保存到 `.specs/<req-id>/07-发布清单.md`**。**不得省略或改写任何段落**。
+**⚠️ 强制要求**：必须严格按照 `@devflow-kit/flow/templates/07-发布清单.md` 模板的完整结构输出，**保存到 `.devflow-kit/<req-id>/07-发布清单.md`**。**不得省略或改写任何段落**。
 
 逐项与用户确认：
 
@@ -78,7 +78,7 @@
 - 6 个月内有合理概率被再次尝试 → 提名
 - 否则不入库（避免污染）
 
-把入选的失败按 经验总结.md 的条目格式追加到 `.specs/经验总结.md`，编号续上 `L-NNN`，必须填齐：标签 / 关键词 / 适用栈 / 状态。
+把入选的失败按 经验总结.md 的条目格式追加到 `.devflow-kit/经验总结.md`，编号续上 `L-NNN`，必须填齐：标签 / 关键词 / 适用栈 / 状态。
 **复核**：扫一眼现有 active 条目，看是否有本次需求 让它们 `superseded` 或 `deprecated`，标注上。
 
 ### 6. 归档（ARCHIVE）
@@ -88,8 +88,8 @@
 #### 6.1 Delta 合并（如适用）
 
 **触发条件**（必须同时满足）：
-1. `.specs/<req-id>/01-需求分析-Delta.md` 或 `02-方案设计-Delta.md` 存在
-2. 对应的基线文件（`.specs/需求基线.md` 或 `.specs/设计基线.md`）存在
+1. `.devflow-kit/<req-id>/01-需求分析-Delta.md` 或 `02-方案设计-Delta.md` 存在
+2. 对应的基线文件（`.devflow-kit/需求基线.md` 或 `.devflow-kit/设计基线.md`）存在
 
 **如果 Delta 文件存在但基线不存在**：
 - 跳过 Delta 合并，输出警告：
@@ -103,8 +103,8 @@
 **执行步骤**：
 
 1. **需求 Delta 合并**：
-   - 读取 `.specs/需求基线.md`（如不存在，创建空基线）
-   - 读取 `.specs/<req-id>/01-需求分析-Delta.md`
+   - 读取 `.devflow-kit/需求基线.md`（如不存在，创建空基线）
+   - 读取 `.devflow-kit/<req-id>/01-需求分析-Delta.md`
    - 按 Delta 操作合并：
      - **ADDED** → 追加到基线，分配新编号
      - **MODIFIED** → 更新基线中对应条目，记录修改历史
@@ -112,8 +112,8 @@
    - 更新基线的「合并历史」段
 
 2. **设计 Delta 合并**：
-   - 读取 `.specs/设计基线.md`（如不存在，创建空基线）
-   - 读取 `.specs/<req-id>/02-方案设计-Delta.md`
+   - 读取 `.devflow-kit/设计基线.md`（如不存在，创建空基线）
+   - 读取 `.devflow-kit/<req-id>/02-方案设计-Delta.md`
    - 按 Delta 操作合并：
      - **ADDED** → 追加到基线
      - **MODIFIED** → 更新基线中对应条目
@@ -130,11 +130,11 @@
 
 #### 6.2 归档文件
 
-- 把 `.specs/<req-id>/` 移动到 `.specs/archive/<YYYY-MM-DD>-<req-id>/`
-- 在 `.specs/需求LOG.md` 里追加一行（日期 / req-id / 一句话摘要 / PR 链接 / 新增 LESSONS 条目编号）
-- 更新 `.specs/项目状态.md`
-- **不要归档 `.specs/经验总结.md`**——它是项目级常驻文件，跨 req 累积
-- **不要归档 `.specs/需求基线.md` 和 `.specs/设计基线.md`**——它们是项目级常驻文件
+- 把 `.devflow-kit/<req-id>/` 移动到 `.devflow-kit/archive/<YYYY-MM-DD>-<req-id>/`
+- 在 `.devflow-kit/需求LOG.md` 里追加一行（日期 / req-id / 一句话摘要 / PR 链接 / 新增 LESSONS 条目编号）
+- 更新 `.devflow-kit/项目状态.md`
+- **不要归档 `.devflow-kit/经验总结.md`**——它是项目级常驻文件，跨 req 累积
+- **不要归档 `.devflow-kit/需求基线.md` 和 `.devflow-kit/设计基线.md`**——它们是项目级常驻文件
 
 #### 6.3 项目级架构文档同步（不在本步做 · 走 A-evolve）
 
@@ -146,7 +146,7 @@
 - 在归档完成提示里告诉用户：
 
   ```
-  ✅ 已归档到 .specs/archive/<YYYY-MM-DD>-<req-id>/
+  ✅ 已归档到 .devflow-kit/archive/<YYYY-MM-DD>-<req-id>/
      本需求 的 02-方案设计.md § 9 架构沉淀建议有 N 条候选项，已留待批量同步。
      建议在积累 ≥ 5 个 req 或满 60 天后跑：
      @devflow-kit/flow/GO.md 同步架构
@@ -154,24 +154,24 @@
   ```
 
   N = `grep -c '^### 9\\.' 02-方案设计.md`，如果整段是"无架构层面沉淀建议"则 N=0，不必提示
-- **禁止**在本步直接修改 `.specs/上下文.md`——它的更新统一走 `A-evolve` 或 `I-intel-scan`
+- **禁止**在本步直接修改 `.devflow-kit/上下文.md`——它的更新统一走 `A-evolve` 或 `I-intel-scan`
 
 ### 7. 出 PR（可选）
 
 如果用户用 git 流水线：
 - 检查 PR 标题/正文已自动从 00-需求确认.md + 04-开发记录.md 拼装
 - 列出涉及的文件、AC 覆盖、UAT 结论
-- 把 `.specs/` 内的文件归类到 PR 描述（不污染代码 diff）
+- 把 `.devflow-kit/` 内的文件归类到 PR 描述（不污染代码 diff）
 
 ## 输出
 
-- `.specs/<req-id>/07-发布清单.md`（**必须严格按模板格式输出** — 发布检查清单 + 回滚方案）
-- `.specs/<req-id>/UAT.md`
-- 归档后的 `.specs/archive/<...>/`
-- 更新的 `.specs/需求LOG.md` 与 `.specs/项目状态.md`
-- **Delta 合并后的 `.specs/需求基线.md` 和 `.specs/设计基线.md`**（如适用）
+- `.devflow-kit/<req-id>/07-发布清单.md`（**必须严格按模板格式输出** — 发布检查清单 + 回滚方案）
+- `.devflow-kit/<req-id>/UAT.md`
+- 归档后的 `.devflow-kit/archive/<...>/`
+- 更新的 `.devflow-kit/需求LOG.md` 与 `.devflow-kit/项目状态.md`
+- **Delta 合并后的 `.devflow-kit/需求基线.md` 和 `.devflow-kit/设计基线.md`**（如适用）
 - 0~N 个 fix-plan（如有失败）
-- **更新 `.specs/项目状态.md`**：
+- **更新 `.devflow-kit/项目状态.md`**：
   - `当前阶段` 设为 `integration`
   - `阶段状态` 设为 `completed` 或 `blocked`
   - `上次完成阶段` 设为 `integration`
@@ -202,7 +202,7 @@
 
 ```
 ✅ 集成 完成
-📝 产物：.specs/<req-id>/07-发布清单.md
+📝 产物：.devflow-kit/<req-id>/07-发布清单.md
 📊 项目状态.md 阶段进度已更新：[x] 集成 → 07-发布清单.md
 
 集成统计：

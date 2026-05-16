@@ -1,4 +1,4 @@
-# devflow-kit Stage Skills
+﻿# devflow-kit Stage Skills
 
 > **模块化工作流设计** - 将devflow-kit各阶段封装为独立skill
 
@@ -59,8 +59,8 @@ flow/stage-skills/
 ↓ 路由到: stage-0-confirm
 ↓ 加载: flow/stage-skills/stage-0-confirm/_SKILL.md
 ↓ 执行: 需求澄清 + 模式判定
-↓ 产物: .specs/REQ-001/00-需求确认.md
-↓ 更新: .specs/项目状态.md → 下一阶段: analysis
+↓ 产物: .devflow-kit/REQ-001/00-需求确认.md
+↓ 更新: .devflow-kit/项目状态.md → 下一阶段: analysis
 ```
 
 ### 方式2：直接调用stage skill
@@ -71,7 +71,7 @@ flow/stage-skills/
 ↓ 直接加载: flow/stage-skills/stage-3-task/_SKILL.md
 ↓ 执行入口门禁检查
 ↓ 如缺前置产物，提示补齐
-↓ 生成: .specs/REQ-001/03-任务拆分.md
+↓ 生成: .devflow-kit/REQ-001/03-任务拆分.md
 ```
 
 ## Stage Skill结构规范

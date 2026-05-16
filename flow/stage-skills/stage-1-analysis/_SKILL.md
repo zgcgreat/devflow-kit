@@ -1,8 +1,8 @@
-# devflow-kit Stage: 1-Analysis（需求分析）
+﻿# devflow-kit Stage: 1-Analysis（需求分析）
 
 > **阶段定位**：将模糊需求转化为明确的验收标准
 > **前置条件**：00-需求确认.md 已完成
-> **后置产物**：`.specs/<req-id>/01-需求分析.md`
+> **后置产物**：`.devflow-kit/<req-id>/01-需求分析.md`
 
 ## Skill元信息
 
@@ -17,15 +17,15 @@ dependencies:
 
 ## 输入
 
-- `.specs/<req-id>/00-需求确认.md`
-- `.specs/上下文.md`
-- `.specs/经验总结.md`（如存在）
-- `.specs/需求基线.md`（如存在·Delta模式）
+- `.devflow-kit/<req-id>/00-需求确认.md`
+- `.devflow-kit/上下文.md`
+- `.devflow-kit/经验总结.md`（如存在）
+- `.devflow-kit/需求基线.md`（如存在·Delta模式）
 
 ## 输出
 
-- `.specs/<req-id>/01-需求分析.md`（或Delta版）
-- 更新 `.specs/项目状态.md`
+- `.devflow-kit/<req-id>/01-需求分析.md`（或Delta版）
+- 更新 `.devflow-kit/项目状态.md`
 
 ## 入口门禁
 
@@ -132,7 +132,7 @@ IF 缺 00-需求确认.md:
 ### Step 2: 判断是否Delta模式
 
 **Delta模式触发条件**（必须同时满足）：
-- ✅ `.specs/需求基线.md` 已存在（Step 1.1扫描结果）
+- ✅ `.devflow-kit/需求基线.md` 已存在（Step 1.1扫描结果）
 - ✅ 本次需求是修改/扩展已有功能，而非全新功能
 - ✅ 用户明确说明是增量需求
 
@@ -206,7 +206,7 @@ IF 缺 00-需求确认.md:
 
 如果是Delta模式：
 
-1. **读取需求基线**：`.specs/需求基线.md`
+1. **读取需求基线**：`.devflow-kit/需求基线.md`
 2. **对比差异**：
    - 新增AC：列出本次新增的验收标准
    - 修改AC：列出本次修改的验收标准（标注变更内容）
@@ -283,7 +283,7 @@ read_file("flow/templates/01-需求分析.md")
 
 ### Step 10: 生成产物并逐项核对
 
-按模板生成 `.specs/<req-id>/01-需求分析.md`（或Delta版）：
+按模板生成 `.devflow-kit/<req-id>/01-需求分析.md`（或Delta版）：
 - **必须包含模板所有7个段落**（见 Step 9 提取的清单）
 - **所有 `<...>` 占位符必须替换为实际值**
 - **AC列表必须完整**（编号连续，Given/When/Then结构）

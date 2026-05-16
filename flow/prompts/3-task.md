@@ -1,4 +1,4 @@
-# 阶段 3 · 任务 — 把设计拆成可并行的原子任务
+﻿# 阶段 3 · 任务 — 把设计拆成可并行的原子任务
 > ⚠️ **进入本阶段前，必须先加载**：`devflow-kit/agent-skills/skills/planning-and-context/_SKILL.md`
 
 
@@ -8,9 +8,9 @@
 
 ## 输入
 
-- `@.specs/<req-id>/01-需求分析.md`
-- `@.specs/<req-id>/02-方案设计.md`（**必读 `## 0. 技术栈选定`**——任务的 verify 命令、依赖管理、目录结构必须按选定的栈写）
-- `@.specs/上下文.md`
+- `@.devflow-kit/<req-id>/01-需求分析.md`
+- `@.devflow-kit/<req-id>/02-方案设计.md`（**必读 `## 0. 技术栈选定`**——任务的 verify 命令、依赖管理、目录结构必须按选定的栈写）
+- `@.devflow-kit/上下文.md`
 
 ## 入口门禁（Artifact Preflight）
 
@@ -115,8 +115,8 @@
 
 ## 输出
 
-- `.specs/<req-id>/03-任务拆分.md`（**必须严格按模板格式输出**，包含所有任务的 XML 块 + 执行顺序）
-- **更新 `.specs/项目状态.md`**：
+- `.devflow-kit/<req-id>/03-任务拆分.md`（**必须严格按模板格式输出**，包含所有任务的 XML 块 + 执行顺序）
+- **更新 `.devflow-kit/项目状态.md`**：
   - `当前阶段` 设为 `task`
   - `阶段状态` 设为 `completed` 或 `blocked`
   - `上次完成阶段` 设为 `task`
@@ -144,7 +144,7 @@
 
 ```
 ✅ 任务拆分 完成
-📝 产物：.specs/<req-id>/03-任务拆分.md
+📝 产物：.devflow-kit/<req-id>/03-任务拆分.md
 📊 项目状态.md 阶段进度已更新：[x] 任务拆分 → 03-任务拆分.md
 
 任务统计：
@@ -179,6 +179,6 @@
 2. 如用户确认：
    - 读取 `@devflow-kit/flow/templates/03a-实施计划.md` 模板
    - 为每个任务生成详细的实施计划
-   - 保存到 `.specs/<req-id>/03a-实施计划.md`
+   - 保存到 `.devflow-kit/<req-id>/03a-实施计划.md`
    - 用户 review 确认后进入开发
 3. 如用户跳过：直接进入 `@devflow-kit/flow/prompts/4-dev.md`
