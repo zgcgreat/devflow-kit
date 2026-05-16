@@ -140,41 +140,25 @@
 
 ## 第四步 · 加载Stage Skill
 
-### Stage Skill映射表
+**⚠️ 渐进式披露原则**：只加载当前路由匹配的 Stage Skill，不加载全部。
 
-| 阶段 | Stage Skill | Prompt文件（后备） |
-|------|-------------|-------------------|
-| **0-confirm** | `flow/stage-skills/stage-0-confirm/_SKILL.md` | `flow/prompts/0-confirm.md` |
-| **1-analysis** | `flow/stage-skills/stage-1-analysis/_SKILL.md` | `flow/prompts/1-analysis.md` |
-| **2-design** | `flow/stage-skills/stage-2-design/_SKILL.md` | `flow/prompts/2-design.md` |
-| **2a-ui-design** | `flow/stage-skills/stage-2a-ui-design/_SKILL.md` | `flow/prompts/2a-ui-design.md` |
-| **3-task** | `flow/stage-skills/stage-3-task/_SKILL.md` | `flow/prompts/3-task.md` |
-| **3a-plan** | `flow/stage-skills/stage-3a-plan/_SKILL.md` | `flow/prompts/3a-plan.md` |
-| **4-dev** | `flow/stage-skills/stage-4-dev/_SKILL.md` | `flow/prompts/4-dev.md` |
-| **5-test** | `flow/stage-skills/stage-5-test/_SKILL.md` | `flow/prompts/5-test.md` |
-| **6-review** | `flow/stage-skills/stage-6-review/_SKILL.md` | `flow/prompts/6-review.md` |
-| **7-integration** | `flow/stage-skills/stage-7-integration/_SKILL.md` | `flow/prompts/7-integration.md` |
+### Stage Skill 加载规则
 
-> **注**：Prompt文件仅保留元信息和快速参考，执行逻辑以Stage Skill为准。
+1. **根据第三步路由表确定目标 Stage**
+2. **只加载该 Stage 的 _SKILL.md**（不要加载其他 Stage）
+3. **如声明 dependencies，先加载依赖 Skills**
+4. **如 Stage Skill 不可用，降级到 Prompt 文件**
 
-**可选命令**：
-| 命令 | Stage Skill |
-|------|-------------|
-| A-architect | `flow/stage-skills/stage-a-architect/_SKILL.md` |
-| A-evolve | `flow/stage-skills/stage-a-evolve/_SKILL.md` |
-| M-health | `flow/stage-skills/stage-m-health/_SKILL.md` |
-| I-intel-scan | `flow/stage-skills/stage-i-intel-scan/_SKILL.md` |
+### Stage Skill 路径模板
 
-**加载方式**：
-1. 优先加载 Stage Skill（全读 `_SKILL.md`）
-2. 如 Stage Skill 声明了 `dependencies`，先加载依赖：
-   ```
-   示例：stage-0-confirm 声明 dependencies: [idea-refine, development-core]
-   → 先加载 agent-skills/skills/idea-refine/_SKILL.md
-   → 再加载 agent-skills/skills/development-core/_SKILL.md
-   → 最后加载 flow/stage-skills/stage-0-confirm/_SKILL.md
-   ```
-3. 如 Stage Skill 不可用，降级到 Prompt 文件
+```
+主流程: flow/stage-skills/stage-{0|1|2|2a|3|3a|4|5|6|7}-*/_SKILL.md
+可选命令: flow/stage-skills/stage-{a|m|i}-*/_SKILL.md
+```
+
+**示例**：
+- 路由到 `stage-0-confirm` → 加载 `flow/stage-skills/stage-0-confirm/_SKILL.md`
+- 如有 `dependencies: [idea-refine]` → 先加载 `agent-skills/skills/idea-refine/_SKILL.md`
 
 ---
 
