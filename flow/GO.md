@@ -47,7 +47,7 @@
 
 ## Token预算
 
-详见 `token-budget.md`。核心规则：首轮加载reference ≤ **150行**。
+详见 `token-budget.md`。核心规则：基础预算200行/轮，必须产物豁免。
 
 ---
 

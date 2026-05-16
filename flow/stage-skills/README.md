@@ -20,7 +20,7 @@ flow/stage-skills/
 ├── stage-a-evolve/           # 架构演进
 ├── stage-m-health/           # 健康检查
 ├── stage-i-intel-scan/       # 入场扫描
-└── orchestrator.md           # 阶段编排器（在stage-orchestrator目录）
+└── stage-orchestrator/       # 阶段编排器
 ```
 
 ## 设计理念
