@@ -3,11 +3,11 @@
 > ⚠️ **进入本阶段前，必须先加载**：`devflow-kit/agent-skills/skills/planning-and-context/_SKILL.md`
 
 > **触发方式**：`@devflow-kit/flow/GO.md` + `同步架构 / 整理沉淀 / sediment / evolve / 架构演进 / 同步 上下文`
-> 不属于任何 req，不写 00-需求确认.md / 01-需求分析.md。直接产出沉淀同步报告 + patch 上下文.md（+ 系统架构.md如存在）。
+> 不属于任何 req，不写 00-requirements.md / 01-analysis.md。直接产出沉淀同步报告 + patch CONTEXT.md（+ 系统架构.md如存在）。
 
 ## 角色
 
-Architect-Evolver。**只读 archived 需求的 02-方案设计.md § 9，聚合分类后让用户 review，批准的才 patch 到项目级文档。不动业务代码**。
+Architect-Evolver。**只读 archived 需求的 02-design.md § 9，聚合分类后让用户 review，批准的才 patch 到项目级文档。不动业务代码**。
 
 ## 与 A-architect 的边界
 
@@ -30,16 +30,16 @@ Architect-Evolver。**只读 archived 需求的 02-方案设计.md § 9，聚合
 - **每月 / 每季度**：积累了若干 req 后批量同步一次，避免 上下文 滞后
 - **里程碑后**：版本发布或大功能完成后，把这一阶段的沉淀凝固到项目层
 - **上下文 失准信号**：4-dev 阶段连续多次发现 AI 没沿用既有抽象（说明索引漏了）
-- **`项目状态.md` `last_evolve_at` 字段为空 或 距今 > 60 天**：GO.md 在路由时会主动提示
-- **M-health 冗余巡检留的尾巴**：若 `.devflow-kit/上下文.md`「清理窗口专列」或「技术债」段有标记，A-evolve 扫描时**主动把对应的「既有抽象索引」条目拎出来让用户确认是否删**（闭环 M-health 步骤 5 的"下次同步主动提醒"）
+- **`STATE.md` `last_evolve_at` 字段为空 或 距今 > 60 天**：GO.md 在路由时会主动提示
+- **M-health 冗余巡检留的尾巴**：若 `.devflow-kit/CONTEXT.md`「清理窗口专列」或「技术债」段有标记，A-evolve 扫描时**主动把对应的「既有抽象索引」条目拎出来让用户确认是否删**（闭环 M-health 步骤 5 的"下次同步主动提醒"）
 
 ## 输入
 
-- `@.devflow-kit/项目状态.md`（读 `last_evolve_at` 字段，决定从哪个时间点之后的 req 开始扫）
-- `@.devflow-kit/上下文.md`（当前快照，patch 目标 · rules 层）
+- `@.devflow-kit/STATE.md`（读 `last_evolve_at` 字段，决定从哪个时间点之后的 req 开始扫）
+- `@.devflow-kit/CONTEXT.md`（当前快照，patch 目标 · rules 层）
 - `@.devflow-kit/系统架构.md`（如存在，则同时是 patch 目标 · structure 层）
-- `@.devflow-kit/archive/<YYYY-MM-DD>-<req-id>/02-方案设计.md`（已归档 需求的设计文档 · 只读 § 9 段）
-- `@.devflow-kit/<active-id>/02-方案设计.md`（当前活跃 req 也算，但仅在 4-dev 完成 / 7-integration 之后才纳入 · 否则跳过）
+- `@.devflow-kit/archive/<YYYY-MM-DD>-<req-id>/02-design.md`（已归档 需求的设计文档 · 只读 § 9 段）
+- `@.devflow-kit/<active-id>/02-design.md`（当前活跃 req 也算，但仅在 4-dev 完成 / 7-integration 之后才纳入 · 否则跳过）
 - `@.devflow-kit/需求LOG.md`（看 req 元信息，做 cross-check）
 
 ---
@@ -48,10 +48,10 @@ Architect-Evolver。**只读 archived 需求的 02-方案设计.md § 9，聚合
 
 ### 步骤 1 · 确定扫描范围
 
-读 `项目状态.md`：
+读 `STATE.md`：
 
 - 有 `last_evolve_at: <YYYY-MM-DD>` 字段 → 只扫该日期**之后**归档的 req
-- 无字段（首次跑）→ 扫所有 `.devflow-kit/archive/*` 的 02-方案设计.md
+- 无字段（首次跑）→ 扫所有 `.devflow-kit/archive/*` 的 02-design.md
 - 有 `last_evolve_promoted: [<list of req-ids>]` → 这些 需求的 § 9 已处理过，跳过
 
 输出范围声明：
@@ -64,18 +64,18 @@ Architect-Evolver。**只读 archived 需求的 02-方案设计.md § 9，聚合
     · archive/2026-04-20-fix-auth-flow
     · archive/2026-04-28-add-notifications
     · ...（活跃中的 <active-id> · 是否纳入：用户决定）
-  - 当前 上下文.md：最近一次更新 <YYYY-MM-DD>，<N> 行
+  - 当前 CONTEXT.md：最近一次更新 <YYYY-MM-DD>，<N> 行
 ```
 
-如果范围为空（没有新需求 或全部已处理）→ 直接告诉用户"无新沉淀可同步，上下文.md 已最新"，结束。
+如果范围为空（没有新需求 或全部已处理）→ 直接告诉用户"无新沉淀可同步，CONTEXT.md 已最新"，结束。
 
 ### 步骤 2 · 抽取所有 § 9 段
 
 对范围内每个需求：
 
 ```
-grep_search Query="^## 9\\. 架构沉淀建议" SearchPath="<req/02-方案设计.md>"
-read_file path="<req/02-方案设计.md>" offset=<§ 9 起始行> limit=80
+grep_search Query="^## 9\\. 架构沉淀建议" SearchPath="<req/02-design.md>"
+read_file path="<req/02-design.md>" offset=<§ 9 起始行> limit=80
 ```
 
 把每个需求 的 § 9 段**原样**收集起来（带 source req-id 标签），跳过显式写"本需求 无架构层面沉淀建议"的。
@@ -94,7 +94,7 @@ read_file path="<req/02-方案设计.md>" offset=<§ 9 起始行> limit=80
 | `src/lib/queue.ts` | 任务队列 | add-bg-jobs | 沿用 | — |
 | `src/utils/date-fmt.ts` | 日期格式化 | add-notifications | 沿用 | ⚠️ 与既有 `src/utils/date.ts` 重复 → 让用户决策 |
 
-**冲突检测必跑**：每条新抽象都 grep 一下 上下文.md「既有抽象索引」段是否已有同类 → 有则标 ⚠️。
+**冲突检测必跑**：每条新抽象都 grep 一下 CONTEXT.md「既有抽象索引」段是否已有同类 → 有则标 ⚠️。
 
 #### 3.2 项目级技术决策（聚合）
 
@@ -145,7 +145,7 @@ Schema 变更：
 🟢 候选 1/N · 新增抽象 · src/lib/cache.ts
    能力：LRU 缓存封装
    来自：add-cache-layer（archive/2026-04-12）
-   建议：append 到 上下文.md「既有抽象索引」段
+   建议：append 到 CONTEXT.md「既有抽象索引」段
    AI 检测：与 上下文 现有内容无冲突
 
    选项：
@@ -175,14 +175,14 @@ Schema 变更：
 请回复：1 / 2 / 3 / 4
 ```
 
-### 步骤 5 · 生成 patch（合并入 上下文.md · 可选 系统架构.md）
+### 步骤 5 · 生成 patch（合并入 CONTEXT.md · 可选 系统架构.md）
 
 收集所有用户批准的项，生成**两份 patch**（项目有 ARCHITECTURE 则两份都生，否则只生 上下文 那份）。
 
-#### 5.1 patch 上下文.md（rules 层 · 必生）
+#### 5.1 patch CONTEXT.md（rules 层 · 必生）
 
 ```markdown
-## 上下文.md patch · YYYY-MM-DD
+## CONTEXT.md patch · YYYY-MM-DD
 
 ### 「既有抽象索引」段 append
 + src/lib/cache.ts · LRU 缓存 · 来源 add-cache-layer (2026-04-12)
@@ -260,7 +260,7 @@ Schema 变更：
 **安全要求**：
 
 - 写入前先备份（双选动则两份都备）：
-  - `cp .devflow-kit/上下文.md .devflow-kit/上下文.md.bak-<YYYY-MM-DD>`
+  - `cp .devflow-kit/CONTEXT.md .devflow-kit/CONTEXT.md.bak-<YYYY-MM-DD>`
   - `cp .devflow-kit/系统架构.md .devflow-kit/系统架构.md.bak-<YYYY-MM-DD>`（如存在）
 - 用 `edit` 工具按段 append / update（**不要整文件 rewrite**，避免破坏未涉及的内容）
 - 每段 append 在末尾加注释：`<!-- A-evolve YYYY-MM-DD: from <req-id> -->`
@@ -274,7 +274,7 @@ Schema 变更：
 
 必须填齐：元信息、扫描范围、候选汇总、五类候选明细、应用 patch、跳过项与理由、备份记录、状态更新、下次同步建议。步骤 5 的最终 patch 原样贴入模板的「应用 patch」段。
 
-#### 7.2 更新 `项目状态.md`
+#### 7.2 更新 `STATE.md`
 
 ```yaml
 last_evolve_at: <YYYY-MM-DD>
@@ -289,11 +289,11 @@ last_evolve_promoted:
 
 ## 输出
 
-- `.devflow-kit/上下文.md`（patch 后 · 用户选 1/3 时）
+- `.devflow-kit/CONTEXT.md`（patch 后 · 用户选 1/3 时）
 - `.devflow-kit/系统架构.md`（patch 后 · 用户选 1/4 时且文件存在）
 - 备份文件（二者之一或两者都有）
 - `.devflow-kit/evolve/<YYYY-MM-DD>-EVOLVE.md`（报告 · 必产，**必须严格按 `@devflow-kit/flow/templates/架构演进同步.md` 模板完整结构输出**）
-- 更新的 `.devflow-kit/项目状态.md`（`last_evolve_at` + `last_evolve_promoted`）
+- 更新的 `.devflow-kit/STATE.md`（`last_evolve_at` + `last_evolve_promoted`）
 
 ## 约束
 
@@ -307,7 +307,7 @@ last_evolve_promoted:
 
 ## 自检
 
-- [ ] 已读 `项目状态.md` 的 `last_evolve_at` 决定扫描范围
+- [ ] 已读 `STATE.md` 的 `last_evolve_at` 决定扫描范围
 - [ ] 范围内每个需求 都尝试读了 § 9（即使是"无建议"也已记录跳过）
 - [ ] 五类聚合表完整（抽象 / 决策 / 契约 / 依赖 / 禁动清单）
 - [ ] 冲突项已检测并显式标 ⚠️
@@ -317,7 +317,7 @@ last_evolve_promoted:
 - [ ] 写任何文档前都备份了
 - [ ] ADR 编号顺接现有 max + 1，未二次使用已有编号
 - [ ] EVOLVE 报告已归入 `.devflow-kit/evolve/`
-- [ ] 项目状态.md `last_evolve_at` + `last_evolve_promoted` 已更新
+- [ ] STATE.md `last_evolve_at` + `last_evolve_promoted` 已更新
 - [ ] 遇到架构级冲突未自作主张，已指引用户跑 A-architect
 
 ## 触发下一步
@@ -326,4 +326,4 @@ last_evolve_promoted:
 - 用户选了"暂存 patch 我手动合" → 暂停，告知用户 patch 路径，本工作流结束
 - 检测到 系统架构.md 不存在但 § 9 里有 ADR 级候选项 ≥ 3 条 → **建议跑 `@A-architect.md` 先建立 系统架构.md**，再跑 A-evolve 才能正式 patch ADR
 - 检测到 系统架构.md ADR 冲突 ≥ 5 条（同主题有多个 accepted ADR）→ 建议跑 `@A-architect.md` 重审
-- 检测到 上下文.md 已积累 ≥ 200 行 → 建议用户考虑将部分决策迁到 ARCHITECTURE（剩下 上下文 只记 rules 层）
+- 检测到 CONTEXT.md 已积累 ≥ 200 行 → 建议用户考虑将部分决策迁到 ARCHITECTURE（剩下 上下文 只记 rules 层）

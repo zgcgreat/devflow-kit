@@ -1,7 +1,7 @@
 ﻿# TEST: <req-id>
 
 - **Req ID**: <id>
-- **关联**: `@.devflow-kit/<req-id>/01-需求分析.md`、`@devflow-kit/flow/reference/test-pyramid.md`
+- **关联**: `@.devflow-kit/<req-id>/01-analysis.md`、`@devflow-kit/flow/reference/test-pyramid.md`
 - **项目类型**: <Web 前端 / 后端 API / 全栈 / 移动 / CLI / 库>
 
 ---
@@ -99,7 +99,7 @@
 
 > 跳过则整段标 N/A 并说明理由。
 
-### 2.1 性能预算（来自 01-需求分析.md 非功能性需求）
+### 2.1 性能预算（来自 01-analysis.md 非功能性需求）
 
 ```yaml
 frontend:

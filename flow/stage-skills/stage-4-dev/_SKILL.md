@@ -1,7 +1,7 @@
 ﻿# devflow-kit Stage: 4-Dev（开发执行）
 
 > **阶段定位**：在fresh context中执行单个任务
-> **前置条件**：03-任务拆分.md 已完成，用户指定task id
+> **前置条件**：03-tasks.md 已完成，用户指定task id
 > **后置产物**：代码实现 + `*-开发记录.md`
 
 ## Skill元信息
@@ -18,10 +18,10 @@ dependencies:
 
 ## 输入
 
-- `.devflow-kit/<req-id>/03-任务拆分.md`
+- `.devflow-kit/<req-id>/03-tasks.md`
 - 要执行的 task id（用户指定，如 T03）
-- `.devflow-kit/<req-id>/02-方案设计.md`（必读 `## 0. 技术栈选定` + `## 0.5 既有架构对齐`）
-- `.devflow-kit/上下文.md`
+- `.devflow-kit/<req-id>/02-design.md`（必读 `## 0. 技术栈选定` + `## 0.5 既有架构对齐`）
+- `.devflow-kit/CONTEXT.md`
 - `.devflow-kit/经验总结.md`
 
 ## 输出
@@ -29,13 +29,13 @@ dependencies:
 - 代码文件（按任务的write_files）
 - `.devflow-kit/<req-id>/<task-id>-开发记录.md`
 
-> **注意**: 模板文件名为 `04-开发记录.md`,但实际产物会根据task id命名为 `<task-id>-开发记录.md` (如 `T03-开发记录.md`)。每个任务都有独立的开发记录。
+> **注意**: 模板文件名为 `04-dev-log.md`,但实际产物会根据task id命名为 `<task-id>-开发记录.md` (如 `T03-开发记录.md`)。每个任务都有独立的开发记录。
 
 ## 入口门禁
 
 **必须满足以下条件之一**：
 
-1. **正式流程**：存在 `.devflow-kit/<req-id>/03-任务拆分.md`，且包含指定的task
+1. **正式流程**：存在 `.devflow-kit/<req-id>/03-tasks.md`，且包含指定的task
 2. **单点调用**：用户提供临时最小TASK（必须包含7字段：id/name/read_files/write_files/action/verify/done）
 
 **前端项目额外检查**：
@@ -57,52 +57,52 @@ IF task涉及UI文件 (.tsx/.css/.vue等) AND 缺 02a-UI设计.md:
 
 | 产物文件 | 存在性 | 优先级 | 提取内容 |
 |---------|--------|--------|----------|
-| 03-任务拆分.md | ✅/❌ | 🔴 必须 | 任务定义（id/name/read_files/write_files/action/verify/done） |
-| 02-方案设计.md | ✅/❌ | 🟡 建议 | 技术栈选定、既有架构对齐 |
-| 上下文.md | ✅/❌ | 🟡 建议 | 编码规范、既有抽象 |
+| 03-tasks.md | ✅/❌ | 🔴 必须 | 任务定义（id/name/read_files/write_files/action/verify/done） |
+| 02-design.md | ✅/❌ | 🟡 建议 | 技术栈选定、既有架构对齐 |
+| CONTEXT.md | ✅/❌ | 🟡 建议 | 编码规范、既有抽象 |
 | 经验总结.md | ✅/❌ | 🟡 建议 | 开发教训、常见bug |
-| 01-需求分析.md | ✅/❌ | 🟢 可选 | AC列表（用于验证实现） |
+| 01-analysis.md | ✅/❌ | 🟢 可选 | AC列表（用于验证实现） |
 
 **扫描结果输出**：
 ```markdown
-✅ 检测到 03-任务拆分.md → 提取任务T03
-✅ 检测到 02-方案设计.md → 提取技术栈：Vue3 + TypeScript
-✅ 检测到 上下文.md → 提取编码规范：PascalCase组件名
+✅ 检测到 03-tasks.md → 提取任务T03
+✅ 检测到 02-design.md → 提取技术栈：Vue3 + TypeScript
+✅ 检测到 CONTEXT.md → 提取编码规范：PascalCase组件名
 ✅ 检测到 经验总结.md → 提取开发教训：2条
 ```
 
 #### 0.2 分级读取策略
 
 **🔴 必须读取**（缺失会阻塞流程）：
-- **03-任务拆分.md**：提供任务定义，是开发的核心依据
+- **03-tasks.md**：提供任务定义，是开发的核心依据
   - 如果缺失 → 报错或要求用户提供临时TASK（必须包含7字段）
 
 **🟡 建议读取**（缺失采用降级策略）：
-- **02-方案设计.md**：提供技术栈和既有架构对齐
+- **02-design.md**：提供技术栈和既有架构对齐
   - 如果缺失 → 从package.json推断技术栈
-- **上下文.md**：提供编码规范和既有抽象
+- **CONTEXT.md**：提供编码规范和既有抽象
   - 如果缺失 → 使用通用命名约定
 - **经验总结.md**：提供历史开发教训
   - 如果缺失 → 使用通用最佳实践
 
 **🟢 可选读取**（补充信息）：
-- **01-需求分析.md**：提供AC列表
+- **01-analysis.md**：提供AC列表
   - 如果存在 → 用于验证实现是否满足AC
 
 #### 0.3 降级策略
 
 **如果某个产物不存在**：
 
-1. **02-方案设计.md 缺失**：
+1. **02-design.md 缺失**：
    ```
-   ⚠️ 警告：缺少02-方案设计.md，无法获取技术栈
+   ⚠️ 警告：缺少02-design.md，无法获取技术栈
    → 降级方案：从package.json推断技术栈
    → 提醒：建议在开发记录中注明技术选型理由
    ```
 
-2. **上下文.md 缺失**：
+2. **CONTEXT.md 缺失**：
    ```
-   ⚠️ 警告：缺少上下文.md，无法获取编码规范
+   ⚠️ 警告：缺少CONTEXT.md，无法获取编码规范
    → 降级方案：使用通用命名约定（PascalCase组件、camelCase函数）
    → 询问用户："是否需要先运行 I-intel-scan 生成上下文？"
    ```
@@ -139,7 +139,7 @@ IF task涉及UI文件 (.tsx/.css/.vue等) AND 缺 02a-UI设计.md:
 
 ### Step 1: 读取任务
 
-从 03-任务拆分.md 取出对应 `<task>` 块，理解：
+从 03-tasks.md 取出对应 `<task>` 块，理解：
 - `action` - 要做什么
 - `read_files` - 允许读取的文件
 - `write_files` - 允许修改的文件边界
@@ -233,14 +233,14 @@ git diff --name-only
 - 所有改动文件都在当前task write_files范围内？
 - 如果出现"顺手"多出的文件：
   1. 停下来
-  2. 若属于当前task但未声明 → 更新03-任务拆分.md的write_files（需人工同意）
+  2. 若属于当前task但未声明 → 更新03-tasks.md的write_files（需人工同意）
   3. 若不属于当前task → `git checkout -- <files>` 撤销
 
 **输出示例**：
 ```markdown
 ✅ 越界检测（R6.5）：
 
-✅ 03-任务拆分.md 声明的 write_files：
+✅ 03-tasks.md 声明的 write_files：
   - src/features/notifications/*
 
 ✅ 实际 diff 涉及：
@@ -334,7 +334,7 @@ feat: <简短描述>
 
 **检查是否充分利用了前置产物**：
 
-- [ ] 是否读取了03-任务拆分.md中的任务定义？
+- [ ] 是否读取了03-tasks.md中的任务定义？
 - [ ] 是否从02-方案设计中提取了技术栈（如存在）？
 - [ ] 是否参考了上下文中的既有抽象（如存在）？
 - [ ] 是否参考了经验总结中的开发教训（如存在）？

@@ -2,7 +2,7 @@
 
 > **阶段定位**：从历史需求中提取架构级经验，同步到上下文
 > **前置条件**：`.devflow-kit/系统架构.md` 存在
-> **后置产物**：更新的 `.devflow-kit/上下文.md` + `.devflow-kit/系统架构.md`
+> **后置产物**：更新的 `.devflow-kit/CONTEXT.md` + `.devflow-kit/系统架构.md`
 
 ## Skill元信息
 
@@ -17,16 +17,16 @@ dependencies:
 
 ## 输入
 
-- `.devflow-kit/项目状态.md`
-- `.devflow-kit/上下文.md`
+- `.devflow-kit/STATE.md`
+- `.devflow-kit/CONTEXT.md`
 - `.devflow-kit/系统架构.md`
-- `.devflow-kit/archive/<req-id>/02-方案设计.md` 的 `§ 9` 段（仅扫last_evolve_at之后的需求）
+- `.devflow-kit/archive/<req-id>/02-design.md` 的 `§ 9` 段（仅扫last_evolve_at之后的需求）
 
 ## 输出
 
-- 更新的 `.devflow-kit/上下文.md`
+- 更新的 `.devflow-kit/CONTEXT.md`
 - 更新的 `.devflow-kit/系统架构.md`
-- 更新 `.devflow-kit/项目状态.md` 的 `last_evolve_at`
+- 更新 `.devflow-kit/STATE.md` 的 `last_evolve_at`
 
 ## 入口门禁
 
@@ -40,7 +40,7 @@ IF 缺 .devflow-kit/系统架构.md:
 
 ### Step 1: 读取上次演进时间
 
-从 `.devflow-kit/项目状态.md` 读取 `last_evolve_at`：
+从 `.devflow-kit/STATE.md` 读取 `last_evolve_at`：
 
 ```markdown
 last_evolve_at: 2026-01-10T14:30:00Z
@@ -61,7 +61,7 @@ ls -la .devflow-kit/archive/
 ```
 
 **对每个需求**：
-- 读取 `.devflow-kit/archive/<req-id>/02-方案设计.md` 的 `## 9. 架构沉淀建议` 段
+- 读取 `.devflow-kit/archive/<req-id>/02-design.md` 的 `## 9. 架构沉淀建议` 段
 - **禁止**读取§9以外的内容（避免越界）
 
 ### Step 3: 提取架构级经验
@@ -94,9 +94,9 @@ REQ-012 §9:
 
 ### Step 4: 合并到上下文
 
-**⚠️ 强制规则**：如存在 `.devflow-kit/上下文.md`，必须先读取再追加。
+**⚠️ 强制规则**：如存在 `.devflow-kit/CONTEXT.md`，必须先读取再追加。
 
-将提取的经验追加到 `.devflow-kit/上下文.md`：
+将提取的经验追加到 `.devflow-kit/CONTEXT.md`：
 - **必须保持原有结构完整**
 - **不得覆盖已有章节**
 - **所有占位符必须替换为实际值**
@@ -208,10 +208,10 @@ last_evolve_at: 2026-01-15T10:30:00Z
 
 ## 自检清单
 
-- [ ] **已读取上下文.md和系统架构.md**（如存在）
+- [ ] **已读取CONTEXT.md和系统架构.md**（如存在）
 - [ ] 只扫描了last_evolve_at之后的需求
 - [ ] 只读取了§9段，未越界
-- [ ] **上下文.md已更新**（新增经验，结构完整）
+- [ ] **CONTEXT.md已更新**（新增经验，结构完整）
 - [ ] **系统架构.md已更新**（模块/ADR/契约）
 - [ ] 架构债务已识别
 - [ ] 用户已review并确认

@@ -1,7 +1,7 @@
 ﻿# DESIGN (Delta): <req-id>
 
 - **Req ID**: <id>
-- **关联**: `@.devflow-kit/<id>/01-需求分析.md`、`@.devflow-kit/上下文.md`、`@devflow-kit/flow/reference/tech-stacks.md`
+- **关联**: `@.devflow-kit/<id>/01-analysis.md`、`@.devflow-kit/CONTEXT.md`、`@devflow-kit/flow/reference/tech-stacks.md`
 - **作者**: AI（Architect 角色）+ 人工 review
 - **基线版本**: <如有设计基线.md，填写版本号；首次创建写"初始"">
 

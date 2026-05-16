@@ -18,7 +18,7 @@ dependencies:
 
 ## 输入
 
-- `.devflow-kit/上下文.md`
+- `.devflow-kit/CONTEXT.md`
 - `.devflow-kit/经验总结.md`
 - 最近1份 `.devflow-kit/health/*.md`（如有，做对比基线）
 - `src/` 抽样5个最近改动频繁的模块

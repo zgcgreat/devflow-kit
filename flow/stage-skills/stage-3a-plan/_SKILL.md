@@ -1,7 +1,7 @@
 ﻿# devflow-kit Stage: 3a-Plan（实施计划）
 
 > **阶段定位**：为每个任务提供详细技术方案
-> **前置条件**：03-任务拆分.md 已完成
+> **前置条件**：03-tasks.md 已完成
 > **后置产物**：`.devflow-kit/<req-id>/03a-实施计划.md`
 
 ## Skill元信息
@@ -17,9 +17,9 @@ dependencies:
 
 ## 输入
 
-- `.devflow-kit/<req-id>/03-任务拆分.md`（必读全部任务）
-- `.devflow-kit/<req-id>/02-方案设计.md`（必读 `## 0` + `## 9`）
-- `.devflow-kit/上下文.md`
+- `.devflow-kit/<req-id>/03-tasks.md`（必读全部任务）
+- `.devflow-kit/<req-id>/02-design.md`（必读 `## 0` + `## 9`）
+- `.devflow-kit/CONTEXT.md`
 
 ## 输出
 
@@ -28,8 +28,8 @@ dependencies:
 ## 入口门禁
 
 ```markdown
-IF 缺 03-任务拆分.md:
-  输出: "规则 R2.7 触发：3a-plan 缺少 03-任务拆分.md。本次先回到 3-task 补齐。"
+IF 缺 03-tasks.md:
+  输出: "规则 R2.7 触发：3a-plan 缺少 03-tasks.md。本次先回到 3-task 补齐。"
   STOP
 
 IF 任务数为0:
@@ -110,7 +110,7 @@ model Xxx { ... }
 
 ### Step 6: 为每个任务生成实施计划
 
-**对03-任务拆分.md中的每个任务**：
+**对03-tasks.md中的每个任务**：
 
 #### 文件修改清单
 

@@ -8,13 +8,13 @@
 
 ## 输入
 
-- `@.devflow-kit/<req-id>/00-需求确认.md`
-- `@.devflow-kit/<req-id>/01-需求分析.md`
-- `@.devflow-kit/<req-id>/02-方案设计.md`
-- `@.devflow-kit/<req-id>/03-任务拆分.md`
-- `@.devflow-kit/<req-id>/04-开发记录.md`
-- `@.devflow-kit/<req-id>/05-测试报告.md`（含 UAT 脚本）
-- `@.devflow-kit/<req-id>/06-代码审查.md`
+- `@.devflow-kit/<req-id>/00-requirements.md`
+- `@.devflow-kit/<req-id>/01-analysis.md`
+- `@.devflow-kit/<req-id>/02-design.md`
+- `@.devflow-kit/<req-id>/03-tasks.md`
+- `@.devflow-kit/<req-id>/04-dev-log.md`
+- `@.devflow-kit/<req-id>/05-test-report.md`（含 UAT 脚本）
+- `@.devflow-kit/<req-id>/06-code-review.md`
 - `@.devflow-kit/经验总结.md`
 - 当前已合并/待合并的代码
 
@@ -31,7 +31,7 @@
 
 ### 2. 引导人工 UAT
 
-逐条读 05-测试报告.md 的 UAT 脚本，向用户提问形如：
+逐条读 05-test-report.md 的 UAT 脚本，向用户提问形如：
 
 > UAT-1：深色模式手动切换。请按以下步骤操作：……
 > 通过 / 失败 / 描述问题：
@@ -62,7 +62,7 @@
 任何失败（自动测试或 UAT）：
 
 1. 切到「Diagnose 子角色」，定位 root cause（不是症状）
-2. 产出 fix-plan：追加到 `03-任务拆分.md`，编号 `T-FIX-XX`，含完整 verify
+2. 产出 fix-plan：追加到 `03-tasks.md`，编号 `T-FIX-XX`，含完整 verify
 3. 回到 `@devflow-kit/flow/prompts/4-dev.md` 执行修复
 4. 修完回到本步重跑
 
@@ -132,34 +132,34 @@
 
 - 把 `.devflow-kit/<req-id>/` 移动到 `.devflow-kit/archive/<YYYY-MM-DD>-<req-id>/`
 - 在 `.devflow-kit/需求LOG.md` 里追加一行（日期 / req-id / 一句话摘要 / PR 链接 / 新增 LESSONS 条目编号）
-- 更新 `.devflow-kit/项目状态.md`
+- 更新 `.devflow-kit/STATE.md`
 - **不要归档 `.devflow-kit/经验总结.md`**——它是项目级常驻文件，跨 req 累积
 - **不要归档 `.devflow-kit/需求基线.md` 和 `.devflow-kit/设计基线.md`**——它们是项目级常驻文件
 
 #### 6.3 项目级架构文档同步（不在本步做 · 走 A-evolve）
 
-本需求 的 `02-方案设计.md § 9 架构沉淀建议` **不在归档时立即合并到 `上下文.md`**。原因：单个需求 视角窄，容易把临时决策错升项目级。
+本需求 的 `02-design.md § 9 架构沉淀建议` **不在归档时立即合并到 `CONTEXT.md`**。原因：单个需求 视角窄，容易把临时决策错升项目级。
 
 正确做法：
 
-- 归档时只把 `02-方案设计.md` 原样移入 `archive/`（§ 9 内容随之冻结）
+- 归档时只把 `02-design.md` 原样移入 `archive/`（§ 9 内容随之冻结）
 - 在归档完成提示里告诉用户：
 
   ```
   ✅ 已归档到 .devflow-kit/archive/<YYYY-MM-DD>-<req-id>/
-     本需求 的 02-方案设计.md § 9 架构沉淀建议有 N 条候选项，已留待批量同步。
+     本需求 的 02-design.md § 9 架构沉淀建议有 N 条候选项，已留待批量同步。
      建议在积累 ≥ 5 个 req 或满 60 天后跑：
      @devflow-kit/flow/GO.md 同步架构
-     （走 A-evolve 工作流逐项 review 后 patch 上下文.md）
+     （走 A-evolve 工作流逐项 review 后 patch CONTEXT.md）
   ```
 
-  N = `grep -c '^### 9\\.' 02-方案设计.md`，如果整段是"无架构层面沉淀建议"则 N=0，不必提示
-- **禁止**在本步直接修改 `.devflow-kit/上下文.md`——它的更新统一走 `A-evolve` 或 `I-intel-scan`
+  N = `grep -c '^### 9\\.' 02-design.md`，如果整段是"无架构层面沉淀建议"则 N=0，不必提示
+- **禁止**在本步直接修改 `.devflow-kit/CONTEXT.md`——它的更新统一走 `A-evolve` 或 `I-intel-scan`
 
 ### 7. 出 PR（可选）
 
 如果用户用 git 流水线：
-- 检查 PR 标题/正文已自动从 00-需求确认.md + 04-开发记录.md 拼装
+- 检查 PR 标题/正文已自动从 00-requirements.md + 04-dev-log.md 拼装
 - 列出涉及的文件、AC 覆盖、UAT 结论
 - 把 `.devflow-kit/` 内的文件归类到 PR 描述（不污染代码 diff）
 
@@ -168,10 +168,10 @@
 - `.devflow-kit/<req-id>/07-发布清单.md`（**必须严格按模板格式输出** — 发布检查清单 + 回滚方案）
 - `.devflow-kit/<req-id>/UAT.md`
 - 归档后的 `.devflow-kit/archive/<...>/`
-- 更新的 `.devflow-kit/需求LOG.md` 与 `.devflow-kit/项目状态.md`
+- 更新的 `.devflow-kit/需求LOG.md` 与 `.devflow-kit/STATE.md`
 - **Delta 合并后的 `.devflow-kit/需求基线.md` 和 `.devflow-kit/设计基线.md`**（如适用）
 - 0~N 个 fix-plan（如有失败）
-- **更新 `.devflow-kit/项目状态.md`**：
+- **更新 `.devflow-kit/STATE.md`**：
   - `当前阶段` 设为 `integration`
   - `阶段状态` 设为 `completed` 或 `blocked`
   - `上次完成阶段` 设为 `integration`
@@ -196,21 +196,21 @@
 - [ ] 需求LOG 已追加
 - [ ] **Delta 合并已完成**（如适用）：需求基线 / 设计基线已更新
 - [ ] 归档目录已创建（用户确认后）
-- [ ] **项目状态.md 已更新**（当前阶段 + 阶段进度打钩 + 归档后清空活跃 Req）
+- [ ] **STATE.md 已更新**（当前阶段 + 阶段进度打钩 + 归档后清空活跃 Req）
 
 ## 阶段完成声明（必须输出）
 
 ```
 ✅ 集成 完成
 📝 产物：.devflow-kit/<req-id>/07-发布清单.md
-📊 项目状态.md 阶段进度已更新：[x] 集成 → 07-发布清单.md
+📊 STATE.md 阶段进度已更新：[x] 集成 → 07-发布清单.md
 
 集成统计：
 - UAT 通过: <Y/N>
 - 发布清单: <10 项检查状态>
 - 回滚方案: <已确认/无>
 
-此需求已完成，项目状态.md 已归档。
+此需求已完成，STATE.md 已归档。
 ```
 
 > **执行阶段**：集成是执行阶段，完成后需求归档，等待下一个需求。

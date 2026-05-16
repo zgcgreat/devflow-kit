@@ -14,9 +14,9 @@ Test Engineer。
 
 ## 输入
 
-- `@.devflow-kit/<req-id>/01-需求分析.md`（AC + 非功能性需求）
-- `@.devflow-kit/<req-id>/02-方案设计.md`（**必读 `## 0. 技术栈选定`**——5 轮各项的工具选择必须匹配栈：JS 用 Vitest / Playwright / k6，Python 用 pytest / locust，Go 用 testing / vegeta）
-- `@.devflow-kit/<req-id>/03-任务拆分.md`
+- `@.devflow-kit/<req-id>/01-analysis.md`（AC + 非功能性需求）
+- `@.devflow-kit/<req-id>/02-design.md`（**必读 `## 0. 技术栈选定`**——5 轮各项的工具选择必须匹配栈：JS 用 Vitest / Playwright / k6，Python 用 pytest / locust，Go 用 testing / vegeta）
+- `@.devflow-kit/<req-id>/03-tasks.md`
 - 各任务的 `*-开发记录.md`
 - 已存在的测试代码
 - `@devflow-kit/flow/reference/test-pyramid.md`（5 轮的工具 / 标准 / 清单）
@@ -25,7 +25,7 @@ Test Engineer。
 
 ### 步骤 0 · 声明本次测试矩阵（强制）
 
-在 `05-测试报告.md` 开头**显式输出风险驱动测试矩阵**。功能测试始终必跑；其余轮次根据改动类型和风险判定为「✅ 必跑 / ⚠️ 部分 / ❌ 跳过」。
+在 `05-test-report.md` 开头**显式输出风险驱动测试矩阵**。功能测试始终必跑；其余轮次根据改动类型和风险判定为「✅ 必跑 / ⚠️ 部分 / ❌ 跳过」。
 
 触发规则：
 
@@ -111,7 +111,7 @@ UAT-1：<场景>
 /brooks-test            # 测试套件质量审查（可选）
 ```
 
-输出使用 4 要素格式（Symptom / Source / Consequence / Remedy），原样贴入 `05-测试报告.md` 的「测试质量自检」段。
+输出使用 4 要素格式（Symptom / Source / Consequence / Remedy），原样贴入 `05-test-report.md` 的「测试质量自检」段。
 
 ##### 路径 B · 未装 brooks-lint（内置清单）
 
@@ -124,7 +124,7 @@ UAT-1：<场景>
 - [ ] **T5**：测试只调用了函数但没断言 · 仅有 `expect(x).toBeDefined()` 这种空断言 → 补真实断言
 - [ ] **T6**：能用单测验证的逻辑被拿 e2e 验证 / 应用层逻辑被拿集成测验证 → 下移一层
 
-命中 ≥ 1 项 → 本轮技术债记事（记入 05-测试报告.md 的「测试质量记事」段，按优先级排入 backlog 或当圈修复）。命中 ≥ 3 项 → 本次 release 前必修。
+命中 ≥ 1 项 → 本轮技术债记事（记入 05-test-report.md 的「测试质量记事」段，按优先级排入 backlog 或当圈修复）。命中 ≥ 3 项 → 本次 release 前必修。
 
 > 工具与反模式详见 `test-pyramid.md` 第 1 节、6 维衰退详见 [brooks-lint · brooks-test skill](https://github.com/hyhmrright/brooks-lint)。
 
@@ -134,7 +134,7 @@ UAT-1：<场景>
 
 #### 2.1 性能预算确认
 
-从 `01-需求分析.md` 的「非功能性需求」提取性能预算。**没有就停下来**，让用户先补。
+从 `01-analysis.md` 的「非功能性需求」提取性能预算。**没有就停下来**，让用户先补。
 
 #### 2.2 前端性能（Web 项目）
 
@@ -252,18 +252,18 @@ Semgrep / CodeQL / Bandit 选一。无 high；medium 有处理记录。
 
 ### 步骤 N · 回归测试登记
 
-本次新加 / 修复的测试用例，统一登记到 `05-测试报告.md` 末尾，方便未来 grep 找到。
+本次新加 / 修复的测试用例，统一登记到 `05-test-report.md` 末尾，方便未来 grep 找到。
 
 ## 输出
 
-- `.devflow-kit/<req-id>/05-测试报告.md`（**⚠️ 强制要求**：必须严格按 `@devflow-kit/flow/templates/05-测试报告.md` 模板的完整结构输出，含风险驱动测试矩阵、真实命令输出、UAT 脚本和测试质量自检。**不得省略或改写任何段落**。）
+- `.devflow-kit/<req-id>/05-test-report.md`（**⚠️ 强制要求**：必须严格按 `@devflow-kit/flow/templates/05-test-report.md` 模板的完整结构输出，含风险驱动测试矩阵、真实命令输出、UAT 脚本和测试质量自检。**不得省略或改写任何段落**。）
 - 性能 / 安全扫描的原始输出贴入或链接到附件
-- **更新 `.devflow-kit/项目状态.md`**：
+- **更新 `.devflow-kit/STATE.md`**：
   - `当前阶段` 设为 `test`
   - `阶段状态` 设为 `completed` 或 `blocked`
   - `上次完成阶段` 设为 `test`
   - `下一阶段` 设为 `review`
-  - 在「阶段进度」清单中打钩 `测试 → 05-测试报告.md`
+  - 在「阶段进度」清单中打钩 `测试 → 05-test-report.md`
 
 ## 约束（强制）
 
@@ -284,14 +284,14 @@ Semgrep / CodeQL / Bandit 选一。无 high；medium 有处理记录。
 - [ ] 第 5 轮：日志 / 指标 / 告警 / 健康检查清单逐项验证
 - [ ] 跳过或部分执行的风险轮次都有理由
 - [ ] 测试新增的用例已登记
-- [ ] **项目状态.md 已更新**（当前阶段 + 阶段进度打钩）
+- [ ] **STATE.md 已更新**（当前阶段 + 阶段进度打钩）
 
 ## 阶段完成声明（必须输出）
 
 ```
 ✅ 测试 完成
-📝 产物：.devflow-kit/<req-id>/05-测试报告.md
-📊 项目状态.md 阶段进度已更新：[x] 测试 → 05-测试报告.md
+📝 产物：.devflow-kit/<req-id>/05-test-report.md
+📊 STATE.md 阶段进度已更新：[x] 测试 → 05-test-report.md
 
 测试统计：
 - 测试矩阵: <列出必跑/部分/跳过及理由>

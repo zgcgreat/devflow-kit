@@ -53,9 +53,9 @@
 
 ```
 ✅ 已读取：
-[ ] .devflow-kit/<req-id>/01-需求分析.md — 必须
-[ ] .devflow-kit/<req-id>/05-测试报告.md — 必须
-[ ] .devflow-kit/<req-id>/02-方案设计.md — 如有
+[ ] .devflow-kit/<req-id>/01-analysis.md — 必须
+[ ] .devflow-kit/<req-id>/05-test-report.md — 必须
+[ ] .devflow-kit/<req-id>/02-design.md — 如有
 [ ] .devflow-kit/<req-id>/02a-UI设计.md — 前端项目必须
 ```
 
@@ -95,23 +95,23 @@
 
 ## 输入
 
-- `@.devflow-kit/<req-id>/01-需求分析.md`
-- `@.devflow-kit/<req-id>/02-方案设计.md`（如有）
+- `@.devflow-kit/<req-id>/01-analysis.md`
+- `@.devflow-kit/<req-id>/02-design.md`（如有）
 - `@.devflow-kit/<req-id>/02a-UI设计.md`（如是前端项目）
-- `@.devflow-kit/<req-id>/03-任务拆分.md`
-- `@.devflow-kit/<req-id>/05-测试报告.md`
+- `@.devflow-kit/<req-id>/03-tasks.md`
+- `@.devflow-kit/<req-id>/05-test-report.md`
 - 本次变更的 git diff（用户提供或 AI 通过工具获取）
 - `@devflow-kit/flow/reference/ui-anti-patterns.md`（如是前端项目）
 
 ## 你的职责
 
-**⚠️ 强制要求**：必须严格按照 `@devflow-kit/flow/templates/06-代码审查.md` 模板的完整结构分四轮审查（后端 / lib 项目跳过第三轮），**保存到 `.devflow-kit/<req-id>/06-代码审查.md`**。**不得省略或改写任何段落**。
+**⚠️ 强制要求**：必须严格按照 `@devflow-kit/flow/templates/06-code-review.md` 模板的完整结构分四轮审查（后端 / lib 项目跳过第三轮），**保存到 `.devflow-kit/<req-id>/06-code-review.md`**。**不得省略或改写任何段落**。
 
 ### 第一轮 · Spec 合规审查
 
 **⚠️ 强制要求**：每条检查项必须输出具体证据（`file:line` 或测试名），不允许空勾选。
 
-逐条对照 `01-需求分析.md` 的 AC，看实现是否真做到。
+逐条对照 `01-analysis.md` 的 AC，看实现是否真做到。
 
 #### 输出格式（强制）
 
@@ -125,10 +125,10 @@
 #### 检查清单
 
 - [ ] 每条 AC 是否被实现（必须列出具体 `file:line`）
-- [ ] 每条 AC 是否被测试覆盖（必须链接到 `05-测试报告.md#AC-N`）
+- [ ] 每条 AC 是否被测试覆盖（必须链接到 `05-test-report.md#AC-N`）
 - [ ] 是否引入了 `out of scope` 里明令排除的内容（如有，列出具体代码位置）
-- [ ] 是否新增了 01-需求分析.md 里没有的功能（如有，列出具体功能点）
-- [ ] 是否触动了 02-方案设计.md 之外的架构（如有，列出具体变更）
+- [ ] 是否新增了 01-analysis.md 里没有的功能（如有，列出具体功能点）
+- [ ] 是否触动了 02-design.md 之外的架构（如有，列出具体变更）
 
 **不通过标准**：任一 AC 未实现或未测试 → 标 🔴 Critical，生成 fix 任务。
 
@@ -173,13 +173,13 @@
 - [ ] 是否有不必要的重渲染
 ```
 
-#### 2.1 05-测试报告.md 风险驱动测试矩阵完整性（先查）
+#### 2.1 05-test-report.md 风险驱动测试矩阵完整性（先查）
 
-**⚠️ 强制要求**：必须先读取 `05-测试报告.md` 文件内容，不允许凭空填写。
+**⚠️ 强制要求**：必须先读取 `05-test-report.md` 文件内容，不允许凭空填写。
 
 **验证步骤**：
-1. 执行 Read `.devflow-kit/<id>/05-测试报告.md`
-2. 在输出中声明："已读取 05-测试报告.md，内容摘要：..."
+1. 执行 Read `.devflow-kit/<id>/05-test-report.md`
+2. 在输出中声明："已读取 05-test-report.md，内容摘要：..."
 3. 逐项检查以下内容：
 
 检查“本次测试矩阵”或“本次测试范围声明”段：
@@ -243,7 +243,7 @@
 **Remedy（修补）**：<具体怎么改，贴 before/after 代码或接口调整>
 ```
 
-把 brooks-lint 输出原样贴入 `06-代码审查.md` 的「代码质量审查 · 6 维衰退」段，不要改写丝毫。补充部分仅为指向 fix 任务。
+把 brooks-lint 输出原样贴入 `06-code-review.md` 的「代码质量审查 · 6 维衰退」段，不要改写丝毫。补充部分仅为指向 fix 任务。
 
 ##### 路径 B · 未装 brooks-lint（内置回退）
 
@@ -300,12 +300,12 @@ AI 自己逐个维度诊断 diff，发现的每个问题都要：
 **触发条件**：本次变更满足**任一**项：
 - 新增或重命名了顶级模块 / package / 目录（顶级 = `src/` 下一级或项目根目录下一级）
 - **危险 import 定义**：业务层代码（`domain/`、`service/`、`controller/`）直接 import 基础设施层（`infrastructure/`、`db/`、`persistence/`、`external/`）
-- 02-方案设计.md 表示引入了新中间件 / 新服务
+- 02-design.md 表示引入了新中间件 / 新服务
 - 跨 ≥ 5 个模块的重构（模块 = 一级目录）
 
 **执行步骤**：
 
-装了 brooks-lint → `/brooks-audit`，拿到 Mermaid 依赖图，贴入 06-代码审查.md。重点核：
+装了 brooks-lint → `/brooks-audit`，拿到 Mermaid 依赖图，贴入 06-code-review.md。重点核：
 - 是否出现**循环依赖**（图中虚线反向箭头）
 - 是否出现「业务层 → 低层」线路以外的反向依赖（如 `domain/` 依赖 `controller/`）
 - 是否出现跨边界依赖（如 `frontend/` 直接 import `backend/` 实现）
@@ -389,7 +389,7 @@ UI 审查触发判定：
 
 每条命中**必须列出文件:行号**，标 🔴 Critical 并生成 fix 任务。
 
-> 装了 [impeccable](https://impeccable.style) → 跑 `npx impeccable detect <changed-files>` 自动化扫描，把输出贴进 06-代码审查.md。
+> 装了 [impeccable](https://impeccable.style) → 跑 `npx impeccable detect <changed-files>` 自动化扫描，把输出贴进 06-code-review.md。
 
 #### 3.3 视觉北极星一致性
 
@@ -446,7 +446,7 @@ UI 审查触发判定：
 
 #### 4.1 技术债评估
 - 里程碑/季度大版本/重构：是/否
-- 上下文.md 技术债段 >30 天未更新：是/否
+- CONTEXT.md 技术债段 >30 天未更新：是/否
 → 触发结果：执行/跳过
 
 #### 4.2 跨模型 spot-check
@@ -459,7 +459,7 @@ UI 审查触发判定：
 
 #### 4.1 技术债评估（适用于里程碑 / 季度大版本 / 重构项目）
 
-**触发条件**：本次需求 是里程碑 / 季度大版本 / 重构项目，或 `.devflow-kit/上下文.md` 「技术债」段多于 30 天未更新。
+**触发条件**：本次需求 是里程碑 / 季度大版本 / 重构项目，或 `.devflow-kit/CONTEXT.md` 「技术债」段多于 30 天未更新。
 
 ```
 /brooks-debt              # 装了 brooks-lint 才能调
@@ -471,7 +471,7 @@ UI 审查触发判定：
 
 拿到输出后：
 - 🔴 Critical · 本次必修 → 追加为 fix 任务
-- 🟡 Scheduled · 近 1~3 个迭代 → 追加为 backlog，记入 `.devflow-kit/上下文.md` 的「技术债」段
+- 🟡 Scheduled · 近 1~3 个迭代 → 追加为 backlog，记入 `.devflow-kit/CONTEXT.md` 的「技术债」段
 - 🟢 Monitored · 仅记录不处理 → 经验总结.md
 
 未装 brooks-lint → 跳过本段（内置不提供回退，债评估需要书本包装才不会”凭感觉”）。
@@ -497,7 +497,7 @@ UI 审查触发判定：
 - 单一函数 > 80 行
 - 测试覆盖率有显著下降
 
-拿另一个模型重跑前三轮必跑审查（第四轮按触发条件判，不重跑），两份报告的差异填入 `06-代码审查.md` 末尾的「跨模型分歧」章节。重点看两份报告都指出的 🔴 项（差异越少越可信）与**仅一方指出的 🔴 项**（需人工裁判）。
+拿另一个模型重跑前三轮必跑审查（第四轮按触发条件判，不重跑），两份报告的差异填入 `06-code-review.md` 末尾的「跨模型分歧」章节。重点看两份报告都指出的 🔴 项（差异越少越可信）与**仅一方指出的 🔴 项**（需人工裁判）。
 
 **输出**：
 ```markdown
@@ -673,7 +673,7 @@ AI: ✅ 已记录：问题 3 跳过（原因：历史遗留）
 
 ### 产出修复任务
 
-对所有 Critical 和决定要修的 Major，**追加到 `03-任务拆分.md`** 末尾，编号延续（如 `T-FIX-01`），并触发回到 `4-dev`。
+对所有 Critical 和决定要修的 Major，**追加到 `03-tasks.md`** 末尾，编号延续（如 `T-FIX-01`），并触发回到 `4-dev`。
 
 **输出格式**：
 
@@ -690,22 +690,22 @@ AI: ✅ 已记录：问题 3 跳过（原因：历史遗留）
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│  📝 审查报告: .devflow-kit/<req-id>/06-代码审查.md                 │
-│  📋 修复任务: 2 条已追加到 03-任务拆分.md                    │
+│  📝 审查报告: .devflow-kit/<req-id>/06-code-review.md                 │
+│  📋 修复任务: 2 条已追加到 03-tasks.md                    │
 │  ➡️  下一步: 进入 4-dev 执行修复                             │
 └─────────────────────────────────────────────────────────────┘
 ```
 
 ## 输出
 
-- `.devflow-kit/<req-id>/06-代码审查.md`（**必须严格按模板格式输出**）
-- 0~N 条新增 fix 任务追加到 `03-任务拆分.md`
-- **更新 `.devflow-kit/项目状态.md`**：
+- `.devflow-kit/<req-id>/06-code-review.md`（**必须严格按模板格式输出**）
+- 0~N 条新增 fix 任务追加到 `03-tasks.md`
+- **更新 `.devflow-kit/STATE.md`**：
   - `当前阶段` 设为 `review`
   - `阶段状态` 设为 `completed` 或 `blocked`
   - `上次完成阶段` 设为 `review`
   - `下一阶段` 设为 `integration`
-  - 在「阶段进度」清单中打钩 `审查 → 06-代码审查.md`
+  - 在「阶段进度」清单中打钩 `审查 → 06-code-review.md`
 
 ## 约束（强制）
 
@@ -725,18 +725,18 @@ AI: ✅ 已记录：问题 3 跳过（原因：历史遗留）
 - [ ] 第二轮 · 6 维诊断输出含 4 要素 + 书本引用 + R1~R6 编号
 - [ ] 第二轮 · 测试报告已读取并输出内容摘要
 - [ ] 第三轮（如有）· UI 设计文件已读取
-- [ ] 第四轮按触发条件判完（命中触发必跑，未命中可跳但要在 06-代码审查.md 写明"X 未命中"）
+- [ ] 第四轮按触发条件判完（命中触发必跑，未命中可跳但要在 06-code-review.md 写明"X 未命中"）
 - [ ] 每条发现都有严重度标签
 - [ ] 每个 Critical 都已生成 fix 任务或经人工确认"已知接受"
 - [ ] 报告里没有自己悄悄改过的代码
-- [ ] **项目状态.md 已更新**（当前阶段 + 阶段进度打钩）
+- [ ] **STATE.md 已更新**（当前阶段 + 阶段进度打钩）
 
 ## 阶段完成声明（必须输出）
 
 ```
 ✅ 审查 完成
-📝 产物：.devflow-kit/<req-id>/06-代码审查.md
-📊 项目状态.md 阶段进度已更新：[x] 审查 → 06-代码审查.md
+📝 产物：.devflow-kit/<req-id>/06-code-review.md
+📊 STATE.md 阶段进度已更新：[x] 审查 → 06-code-review.md
 
 审查统计：
 - 四轮审查: <列出每轮状态>

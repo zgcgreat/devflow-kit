@@ -13,8 +13,8 @@
 ### 模式 A：从需求确认书进入（标准流程）
 
 **输入**：
-- `@.devflow-kit/<req-id>/00-需求确认.md`
-- 已有项目（如有）：`@.devflow-kit/上下文.md`
+- `@.devflow-kit/<req-id>/00-requirements.md`
+- 已有项目（如有）：`@.devflow-kit/CONTEXT.md`
 
 **执行**：直接进入「你的职责」部分。
 
@@ -23,28 +23,28 @@
 **触发条件**：
 - 用户通过 GO.md D.1 上传高质量需求文档
 - 文档已解析完成，模式已确认
-- **注意**：文档解析模式简化了 0-confirm 的反问流程，但仍需生成 00-需求确认.md
+- **注意**：文档解析模式简化了 0-confirm 的反问流程，但仍需生成 00-requirements.md
 
 **输入**：
 - 解析结果（来自 GO.md D.1 的 Step 4 输出）
-- 已有项目（如有）：`@.devflow-kit/上下文.md`
+- 已有项目（如有）：`@.devflow-kit/CONTEXT.md`
 
 **执行**：
 1. 从解析结果提取：
-   - 背景/动机 → 写入 00-需求确认.md 和 01-需求分析.md
+   - 背景/动机 → 写入 00-requirements.md 和 01-analysis.md
    - 功能列表 → 转换为用户故事
    - AC（如有）→ 直接使用或补充 Given/When/Then 结构
    - 非功能性需求 → 写入对应段落
    - 范围边界 → 写入 v1/v2/out
 
-2. **生成 00-需求确认.md**：
+2. **生成 00-requirements.md**：
    - 使用文档解析结果填充模板
    - 在顶部标注：`> ⚠️ 本需求确认书由用户上传的需求文档解析生成。`
    - 用户确认后进入 1-analysis
 
 3. 检查 AC 完整性：
    - 如果 AC < 3 条或格式不完整 → 针对性反问补全
-   - 如果 AC ≥ 3 条且格式完整 → 直接生成 01-需求分析.md
+   - 如果 AC ≥ 3 条且格式完整 → 直接生成 01-analysis.md
 
 4. 继续执行「你的职责」部分
 
@@ -53,14 +53,14 @@
 **触发条件**（必须同时满足）：
 - `.devflow-kit/需求基线.md` 已存在（表示项目已有需求基线）
 - 本次需求 是修改/扩展已有功能，而非全新需求
-- `00-需求确认.md` 中明确标注了「本次为增量需求」
+- `00-requirements.md` 中明确标注了「本次为增量需求」
 
 > **注意**：如果 `.devflow-kit/需求基线.md` 不存在但本次是存量项目修改，应先走完整模式（模式 A），在归档时会自动创建基线。
 
 **输入**：
-- `@.devflow-kit/<req-id>/00-需求确认.md`
+- `@.devflow-kit/<req-id>/00-requirements.md`
 - `@.devflow-kit/需求基线.md`（已有需求基线）
-- `@.devflow-kit/上下文.md`
+- `@.devflow-kit/CONTEXT.md`
 
 **执行**：
 1. 读取需求基线，理解已有用户故事和 AC
@@ -84,7 +84,7 @@
 
 | 模式 | 模板 | 说明 |
 |---|---|---|
-| 模式 A/B（新需求）| `@devflow-kit/flow/templates/01-需求分析.md` | 完整格式，所有字段必填 |
+| 模式 A/B（新需求）| `@devflow-kit/flow/templates/01-analysis.md` | 完整格式，所有字段必填 |
 | 模式 C（Delta）| `@devflow-kit/flow/templates/01-需求分析-Delta.md` | Delta 格式，只写变更部分 |
 
 **必须严格按模板完整结构输出，不得省略或改写任何段落**。
@@ -103,13 +103,13 @@
 
 ### 2. 提取域语言（关键步骤）
 
-在 `@.devflow-kit/上下文.md` 里**追加**或更新：
+在 `@.devflow-kit/CONTEXT.md` 里**追加**或更新：
 
 - **术语表**：本次引入的新名词，每个一句话定义
 - **已锁决策**：本次确定的偏好（例如"使用系统 prefers-color-scheme 而非应用内开关"）
 - **默认行为**：留给 AI 的可信默认值
 
-> 域语言是 token 优化的基石。"主题切换的级联触发" 比展开描述短得多，但要先在 上下文.md 里定义清楚。
+> 域语言是 token 优化的基石。"主题切换的级联触发" 比展开描述短得多，但要先在 CONTEXT.md 里定义清楚。
 
 ### 3. 反问
 
@@ -119,16 +119,16 @@
 
 ## 输出
 
-- `.devflow-kit/<req-id>/01-需求分析.md`（**必须严格按模板格式输出**）
-  - 新需求：使用 `01-需求分析.md` 模板
+- `.devflow-kit/<req-id>/01-analysis.md`（**必须严格按模板格式输出**）
+  - 新需求：使用 `01-analysis.md` 模板
   - Delta 模式：使用 `01-需求分析-Delta.md` 模板
-- 更新或创建 `.devflow-kit/上下文.md`
-- **更新 `.devflow-kit/项目状态.md`**：
+- 更新或创建 `.devflow-kit/CONTEXT.md`
+- **更新 `.devflow-kit/STATE.md`**：
   - `当前阶段` 设为 `analysis`
   - `阶段状态` 设为 `waiting_user_confirmation`
   - `上次完成阶段` 设为 `analysis`
   - `下一阶段` 设为 `design` 或 `task`（按路径建议）
-  - 在「阶段进度」清单中打钩 `需求分析 → 01-需求分析.md`
+  - 在「阶段进度」清单中打钩 `需求分析 → 01-analysis.md`
 
 ## 约束
 
@@ -140,17 +140,17 @@
 
 - [ ] 每条 AC 都有 Given/When/Then 结构
 - [ ] 每条 AC 都能用一条命令或一次操作验证
-- [ ] 上下文.md 至少新增 1 条术语或决策
+- [ ] CONTEXT.md 至少新增 1 条术语或决策
 - [ ] v1 / v2 / out 三类都有内容
 - [ ] 非功能性需求显式列出（含"无"也要写）
-- [ ] **项目状态.md 已更新**（当前阶段 + 阶段进度打钩）
+- [ ] **STATE.md 已更新**（当前阶段 + 阶段进度打钩）
 
 ## 阶段完成声明（必须输出）
 
 ```
 ✅ 需求分析 完成
-📝 产物：.devflow-kit/<req-id>/01-需求分析.md
-📊 项目状态.md 阶段进度已更新：[x] 需求分析 → 01-需求分析.md
+📝 产物：.devflow-kit/<req-id>/01-analysis.md
+📊 STATE.md 阶段进度已更新：[x] 需求分析 → 01-analysis.md
 
 请确认需求分析内容：
 - AC 数量: <N> 条
@@ -165,6 +165,6 @@
 
 ## 触发下一步
 
-需用户确认 01-需求分析.md 后，进入：
+需用户确认 01-analysis.md 后，进入：
 - `@devflow-kit/flow/prompts/2-design.md`（涉及架构决策时）
 - `@devflow-kit/flow/prompts/3-task.md`（无新架构时直接拆任务）

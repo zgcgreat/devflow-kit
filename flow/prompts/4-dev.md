@@ -15,7 +15,7 @@
 ```
 □ 入场检测已输出检测结果框？
 □ 入场检测结果不是"待用户确认"？
-□ 已读取 .devflow-kit/项目状态.md？
+□ 已读取 .devflow-kit/STATE.md？
 □ 已加载 development-core/_SKILL.md？
 □ 已加载 testing-suite/_SKILL.md？
 □ 已按节读取 4-dev-rules.md（禁止整读）？
@@ -27,16 +27,16 @@
 
 ## 角色
 
-你是 Dev。**只执行 03-任务拆分.md 中的一个任务**。多任务请分多次调用此 prompt。
+你是 Dev。**只执行 03-tasks.md 中的一个任务**。多任务请分多次调用此 prompt。
 
 ## 输入
 
-- `@.devflow-kit/<req-id>/03-任务拆分.md`
+- `@.devflow-kit/<req-id>/03-tasks.md`
 - 要执行的 task id（用户指定，例如 `T03`）
-- `@.devflow-kit/<req-id>/02-方案设计.md`（**必读 `## 0. 技术栈选定` + `## 0.5 既有架构对齐`**——install / build / test 命令必须匹配选定的栈；触碰模块 / 禁动清单 / 沿用决策必须严格遵循）
-- **项目上下文文档**（从 `项目状态.md` 读 `ai_context_doc` 字段决定）：
+- `@.devflow-kit/<req-id>/02-design.md`（**必读 `## 0. 技术栈选定` + `## 0.5 既有架构对齐`**——install / build / test 命令必须匹配选定的栈；触碰模块 / 禁动清单 / 沿用决策必须严格遵循）
+- **项目上下文文档**（从 `STATE.md` 读 `ai_context_doc` 字段决定）：
   - 有 `ai_context_doc: <path>` → 读那个文档（如 `AGENTS.md` / `CLAUDE.md`）
-  - 没或为 `上下文.md` → 读 `@.devflow-kit/上下文.md`
+  - 没或为 `CONTEXT.md` → 读 `@.devflow-kit/CONTEXT.md`
   - `none` → 跳过此输入（AI "盲飞"，1.4 沿用既有抽象 grep 必须更彻底以补偿）
 - `@.devflow-kit/经验总结.md`
 - 仅引用与本任务相关的文件，**不要加载整个项目**
@@ -45,7 +45,7 @@
 
 `4-dev` 必须满足二选一：
 
-1. **正式流程**：读取 `.devflow-kit/<req-id>/03-任务拆分.md` 中的当前 `<task>` 块。
+1. **正式流程**：读取 `.devflow-kit/<req-id>/03-tasks.md` 中的当前 `<task>` 块。
 2. **单点调用**：用户显式提供一份临时最小 TASK。
 
 临时最小 TASK 必须包含：
@@ -58,7 +58,7 @@
 - `verify`
 - `done`
 
-AI 不允许自行编造临时最小 TASK；缺字段必须反问用户或回到 `@devflow-kit/flow/prompts/3-task.md` 生成正式 `03-任务拆分.md`。
+AI 不允许自行编造临时最小 TASK；缺字段必须反问用户或回到 `@devflow-kit/flow/prompts/3-task.md` 生成正式 `03-tasks.md`。
 
 若当前 task 涉及前端 / UI 文件（`.css` / `.tsx` / `.vue` / `.html` / `.svelte` / 设计 token / 用户可见文案），必须先确认 `.devflow-kit/<req-id>/02a-UI设计.md` 存在。缺失时停止，回到 `@devflow-kit/flow/prompts/2a-ui-design.md`。纯后端 / CLI / lib 任务才可跳过。
 
@@ -72,7 +72,7 @@ AI 不允许自行编造临时最小 TASK；缺字段必须反问用户或回到
 
 ### 1. 读取任务
 
-从 03-任务拆分.md 取出对应 `<task>` 块，读懂 `action / files / verify / done`。
+从 03-tasks.md 取出对应 `<task>` 块，读懂 `action / files / verify / done`。
 若发现任务定义有歧义，**停下来反问**，不允许凭感觉补全。
 
 ### 1.4–1.8 开发前规则检查
@@ -105,7 +105,7 @@ AI 不允许自行编造临时最小 TASK；缺字段必须反问用户或回到
 按 `<verify>` 命令执行，**贴出真实输出**到 开发记录.md。
 如果 verify 有多个步骤（build → test → lint），按顺序跑，每步一行。
 
-如果 verify 命令是项目已有（如 `npm test`、`pytest`），直接用。如果是自定义命令，标明出处（如："沿用 02-方案设计.md ## 0 段的测试命令"）。
+如果 verify 命令是项目已有（如 `npm test`、`pytest`），直接用。如果是自定义命令，标明出处（如："沿用 02-design.md ## 0 段的测试命令"）。
 
 **verify 未通过禁止标记完成**（R2.4）。
 
@@ -170,14 +170,14 @@ git diff --name-only
 - 是否所有改动文件都在当前 task `write_files` 范围内？
 - 如果出现"顺手"的多出的文件：
   1. 停下来
-  2. 若属于当前 task 但未声明 → 更新 `03-任务拆分.md` 的 `write_files`（需人工同意）
+  2. 若属于当前 task 但未声明 → 更新 `03-tasks.md` 的 `write_files`（需人工同意）
   3. 若不属于当前 task → `git checkout -- <files>` 撤销
 
 输出示例：
 ```
 ✅ 越界检测（R6.5）：
 
-✅ 03-任务拆分.md 声明的 write_files：
+✅ 03-tasks.md 声明的 write_files：
   - src/features/notifications/*
 
 ✅ 实际 diff 涉及：
@@ -193,16 +193,16 @@ git diff --name-only
 ```
 ⚠️ 越界检测：
 
-✅ 03-任务拆分.md 声明的 write_files：
+✅ 03-tasks.md 声明的 write_files：
   - src/features/notifications/*
 
 ❌ 实际 diff 越界文件：
-  - src/components/Layout.tsx（02-方案设计.md 0.5.1 「禁动清单」中的文件）
+  - src/components/Layout.tsx（02-design.md 0.5.1 「禁动清单」中的文件）
   - src/api/admin/users/route.ts（不在 write_files 范围内）
 
 → 必须停下来：
   选项 1. 撤销越界改动（git checkout -- <files>）
-  选项 2. 更新 03-任务拆分.md 的 write_files（须人工同意，相当于扩范围）
+  选项 2. 更新 03-tasks.md 的 write_files（须人工同意，相当于扩范围）
   选项 3. 把越界改动拆成新 task / 新需求
 ```
 
@@ -237,7 +237,7 @@ git diff --name-only
 
 ### 7. 标记完成
 
-回到 `03-任务拆分.md`，把对应任务的 `done` 字段标记为已完成（保留时间戳）。
+回到 `03-tasks.md`，把对应任务的 `done` 字段标记为已完成（保留时间戳）。
 
 ## 实现提示
 
@@ -256,7 +256,7 @@ git diff --name-only
 
 ### 入场恢复（会话开头若发现是接力）
 
-若 `项目状态.md` 的「中断任务」非空，或用户要求"继续 task X"，**第一动作**：
+若 `STATE.md` 的「中断任务」非空，或用户要求"继续 task X"，**第一动作**：
 
 1. 加载顺序固定：`METHODOLOGY → RULES → 本 prompt → 上下文 → 需求 → 设计 → 任务 → <task-id>-开发中断快照.md`
 2. 执行 R1.6 反重复检查：读 开发中断快照.md 的「已排除方案」，确认下一步不撞车
@@ -272,9 +272,9 @@ git diff --name-only
    - 当前正在做（一段话，恢复后能直接续上）
    - **已排除的方案 + 理由 + 失败次数**（这是反重复的核心）
    - 待确认的假设
-3. 更新 `.devflow-kit/项目状态.md` 的「中断任务」字段
+3. 更新 `.devflow-kit/STATE.md` 的「中断任务」字段
 4. 输出"重启指令"给用户（见 RULES R1.5 模板）
-5. 检查是否触发 R1.7：若 task 体量明显过大，建议在 `03-任务拆分.md` 里就地拆为子任务后再恢复
+5. 检查是否触发 R1.7：若 task 体量明显过大，建议在 `03-tasks.md` 里就地拆为子任务后再恢复
 
 ### 任务完成后
 
@@ -284,14 +284,14 @@ git diff --name-only
 ## 约束（强制）
 
 - **R2.4**：verify 未通过禁止标记完成
-- **R3.2**：发现需求/设计有问题 → 不要自己改 `01-需求分析.md` / `02-方案设计.md`，停下来开新需求
+- **R3.2**：发现需求/设计有问题 → 不要自己改 `01-analysis.md` / `02-design.md`，停下来开新需求
 - **R4.5**：Schema 变更必伴随迁移文件。只改 model 不生迁移就提交 → 违规，AI 自己回滚
 - **R4.6**：破坏性变更（删 ≥ 5 行 / 改公共接口）必走 1.8 协议：grep 引用图 + 反问用户 + 回归测试覆盖
 - **R6.4**：写代码前必 grep 同类抽象（见 1.4），找到了用，不另起炉灶
 - **R6.5**：开发完成后必跑 diff 边界 verify（见 5），越界必需回滚或扩范围
 - **R5.4**：禁止用 mock 屏蔽真实失败
 - **R2.4**：禁止"应该可以工作"——必须实际跑过 verify
-- **R7.1**：发现需要扩大范围 → 停下来要求更新 03-任务拆分.md
+- **R7.1**：发现需要扩大范围 → 停下来要求更新 03-tasks.md
 - **R4.3**：每个任务一个 fresh context；不允许把多个任务塞进同一个会话
 - **R1.5 / R1.6 / R1.7**：清窗、恢复、反重复严格按上面"中途断点"小节执行
 
@@ -305,7 +305,7 @@ git diff --name-only
 3. **DOUBT** — adversarial 视角：**证明它错了**，而不是确认它对了
 4. **RECONCILE** — 分类发现，修复或记录
 
-**审查输出写入 `04-开发记录.md` 的「关键决策反方审查」段**。不阻塞流程，但 Critical 发现必须先修再标记完成。
+**审查输出写入 `04-dev-log.md` 的「关键决策反方审查」段**。不阻塞流程，但 Critical 发现必须先修再标记完成。
 
 ## 自检
 
@@ -318,17 +318,17 @@ git diff --name-only
 - [ ] **破坏性变更走了 1.8 协议**（R4.6）：删代码 ≥ 5 行 / 改公共接口都 grep 了引用图、反问了用户、有回归测试覆盖。未命中跳则明示
 - [ ] **diff 边界 verify 跑了**（R6.5 / 5），结果贴入 开发记录.md；0 越界 ✅；建议提交信息已记录但未自动提交
 - [ ] 开发记录.md 写完了，含「6 维自查」+「越界检查」段（有 schema 变更还要含「数据库迁移」、有破坏性变更还要含「破坏性变更」段）
-- [ ] 03-任务拆分.md 中的对应任务已勾选
-- [ ] 没有改动 `01-需求分析.md` / `02-方案设计.md`
+- [ ] 03-tasks.md 中的对应任务已勾选
+- [ ] 没有改动 `01-analysis.md` / `02-design.md`
 - [ ] 没有越界改其他任务的文件（R7.3）
-- [ ] **项目状态.md 已更新**（当前 Task + 若全部完成则更新当前阶段）
+- [ ] **STATE.md 已更新**（当前 Task + 若全部完成则更新当前阶段）
 
 ## 阶段完成声明（全部任务完成后必须输出）
 
 ```
 ✅ 开发 完成
-📝 产物：.devflow-kit/<req-id>/04-开发记录.md
-📊 项目状态.md 阶段进度已更新：[x] 开发 → *-开发记录.md
+📝 产物：.devflow-kit/<req-id>/04-dev-log.md
+📊 STATE.md 阶段进度已更新：[x] 开发 → *-开发记录.md
 
 开发统计：
 - 完成任务: <N> 个
@@ -343,8 +343,8 @@ git diff --name-only
 ## 触发下一步 & 自动推进
 
 - 还有未完成任务 → 清窗，再次进入 `@devflow-kit/flow/prompts/4-dev.md` 跑下一个
-- **全部完成 → 生成 `04-开发记录.md`**：**⚠️ 强制要求**：必须严格按照 `@devflow-kit/flow/templates/04-开发记录.md` 模板的完整结构汇总本次开发阶段全部任务的执行情况、关键决策、与设计的偏离、遗留事项和质量证据，保存到 `.devflow-kit/<req-id>/04-开发记录.md`。**不得省略或改写任何段落**。
-- **全部完成 → 更新 `.devflow-kit/项目状态.md`**：
+- **全部完成 → 生成 `04-dev-log.md`**：**⚠️ 强制要求**：必须严格按照 `@devflow-kit/flow/templates/04-dev-log.md` 模板的完整结构汇总本次开发阶段全部任务的执行情况、关键决策、与设计的偏离、遗留事项和质量证据，保存到 `.devflow-kit/<req-id>/04-dev-log.md`。**不得省略或改写任何段落**。
+- **全部完成 → 更新 `.devflow-kit/STATE.md`**：
   - `当前阶段` 设为 `dev`
   - `阶段状态` 设为 `completed` 或 `blocked`
   - `上次完成阶段` 设为 `dev`

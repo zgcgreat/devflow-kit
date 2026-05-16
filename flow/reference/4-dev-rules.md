@@ -29,7 +29,7 @@
 ✅ 沿用既有抽象 grep（R6.4）：
 - HTTP 请求：找到 src/lib/api-client.ts:1（统一封装 axios）→ 沿用
 - 日期格式化：找到 src/utils/date.ts:8（formatDate）→ 沿用
-- 通知组件：未找到 → 新建（02-方案设计.md 0.5.3 已批准）
+- 通知组件：未找到 → 新建（02-design.md 0.5.3 已批准）
 ```
 
 **禁止**："项目里好像没有"——必须有 grep 命令和结果作证。

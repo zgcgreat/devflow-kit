@@ -2,7 +2,7 @@
 
 > **阶段定位**：验证所有AC是否通过
 > **前置条件**：4-dev阶段所有任务完成
-> **后置产物**：`.devflow-kit/<req-id>/05-测试报告.md`
+> **后置产物**：`.devflow-kit/<req-id>/05-test-report.md`
 
 ## Skill元信息
 
@@ -17,25 +17,25 @@ dependencies:
 
 ## 输入
 
-- `.devflow-kit/<req-id>/01-需求分析.md`（或Delta版）
-- `.devflow-kit/<req-id>/02-方案设计.md`（必读 `## 0. 技术栈选定`）
-- `.devflow-kit/<req-id>/03-任务拆分.md`
-- `.devflow-kit/<req-id>/04-开发记录.md` + 各 `<task-id>-开发记录.md`
-- `.devflow-kit/上下文.md`
+- `.devflow-kit/<req-id>/01-analysis.md`（或Delta版）
+- `.devflow-kit/<req-id>/02-design.md`（必读 `## 0. 技术栈选定`）
+- `.devflow-kit/<req-id>/03-tasks.md`
+- `.devflow-kit/<req-id>/04-dev-log.md` + 各 `<task-id>-开发记录.md`
+- `.devflow-kit/CONTEXT.md`
 
 ## 输出
 
-- `.devflow-kit/<req-id>/05-测试报告.md`
-- 更新 `.devflow-kit/项目状态.md`
+- `.devflow-kit/<req-id>/05-test-report.md`
+- 更新 `.devflow-kit/STATE.md`
 
 ## 入口门禁
 
 ```markdown
-IF 缺 01-需求分析.md:
-  输出: "规则 R2.7 触发：5-test 缺少 01-需求分析.md。本次先回到 1-analysis 补齐。"
+IF 缺 01-analysis.md:
+  输出: "规则 R2.7 触发：5-test 缺少 01-analysis.md。本次先回到 1-analysis 补齐。"
   STOP
 
-IF 缺 04-开发记录.md OR 存在未完成的task:
+IF 缺 04-dev-log.md OR 存在未完成的task:
   输出: "规则 R2.7 触发：5-test 检测到开发未完成。请先完成 4-dev 阶段。"
   STOP
 ```
@@ -50,42 +50,42 @@ IF 缺 04-开发记录.md OR 存在未完成的task:
 
 | 产物文件 | 存在性 | 优先级 | 提取内容 |
 |---------|--------|--------|----------|
-| 00-需求确认.md | ✅/❌ | 🟡 建议 | 模式判定（影响测试轮数） |
-| 01-需求分析.md | ✅/❌ | 🔴 必须 | AC列表、非功能需求 |
-| 02-方案设计.md | ✅/❌ | 🟡 建议 | 技术栈选定（决定测试命令） |
-| 03-任务拆分.md | ✅/❌ | 🟡 建议 | 任务清单（决定测试范围） |
-| 04-开发记录.md | ✅/❌ | 🟡 建议 | 关键决策、偏离说明 |
-| 上下文.md | ✅/❌ | 🟢 可选 | 编码规范、既有抽象 |
+| 00-requirements.md | ✅/❌ | 🟡 建议 | 模式判定（影响测试轮数） |
+| 01-analysis.md | ✅/❌ | 🔴 必须 | AC列表、非功能需求 |
+| 02-design.md | ✅/❌ | 🟡 建议 | 技术栈选定（决定测试命令） |
+| 03-tasks.md | ✅/❌ | 🟡 建议 | 任务清单（决定测试范围） |
+| 04-dev-log.md | ✅/❌ | 🟡 建议 | 关键决策、偏离说明 |
+| CONTEXT.md | ✅/❌ | 🟢 可选 | 编码规范、既有抽象 |
 | 经验总结.md | ✅/❌ | 🟢 可选 | 测试教训、常见bug模式 |
 
 **扫描结果输出**：
 ```markdown
-✅ 检测到 00-需求确认.md → 提取模式判定：Standard
-✅ 检测到 01-需求分析.md → 提取AC列表：8个
-✅ 检测到 02-方案设计.md → 提取技术栈：Vue3 + TypeScript
-✅ 检测到 03-任务拆分.md → 提取任务数：6个
-✅ 检测到 04-开发记录.md → 提取关键决策：3个
+✅ 检测到 00-requirements.md → 提取模式判定：Standard
+✅ 检测到 01-analysis.md → 提取AC列表：8个
+✅ 检测到 02-design.md → 提取技术栈：Vue3 + TypeScript
+✅ 检测到 03-tasks.md → 提取任务数：6个
+✅ 检测到 04-dev-log.md → 提取关键决策：3个
 ❌ 未检测到 经验总结.md → 使用通用测试最佳实践
 ```
 
 #### 1.2 分级读取策略
 
 **🔴 必须读取**（缺失会阻塞流程）：
-- **01-需求分析.md**：提供AC列表，是测试的核心依据
+- **01-analysis.md**：提供AC列表，是测试的核心依据
   - 如果缺失 → 报错并引导回stage-1-analysis
 
 **🟡 建议读取**（缺失采用降级策略）：
-- **00-需求确认.md**：提供模式判定，决定测试轮数
+- **00-requirements.md**：提供模式判定，决定测试轮数
   - 如果缺失 → 默认使用Standard模式（4轮测试）
-- **02-方案设计.md**：提供技术栈，决定测试命令
+- **02-design.md**：提供技术栈，决定测试命令
   - 如果缺失 → 从package.json推断测试框架
-- **03-任务拆分.md**：提供任务清单，决定测试范围
+- **03-tasks.md**：提供任务清单，决定测试范围
   - 如果缺失 → 从04-开发记录推断改动范围
-- **04-开发记录.md**：提供关键决策，帮助理解实现细节
+- **04-dev-log.md**：提供关键决策，帮助理解实现细节
   - 如果缺失 → 直接测试，但需人工验证更多场景
 
 **🟢 可选读取**（补充信息）：
-- **上下文.md**：提供编码规范
+- **CONTEXT.md**：提供编码规范
   - 如果缺失 → 使用通用命名约定
 - **经验总结.md**：提供历史测试教训
   - 如果缺失 → 使用通用测试策略
@@ -94,16 +94,16 @@ IF 缺 04-开发记录.md OR 存在未完成的task:
 
 **如果某个产物不存在**：
 
-1. **00-需求确认.md 缺失**：
+1. **00-requirements.md 缺失**：
    ```
-   ⚠️ 警告：缺少00-需求确认.md，无法获取模式判定
+   ⚠️ 警告：缺少00-requirements.md，无法获取模式判定
    → 降级方案：默认使用Standard模式（4轮测试）
    → 提醒：建议在05-测试报告中注明采用的测试模式
    ```
 
-2. **03-任务拆分.md 缺失**：
+2. **03-tasks.md 缺失**：
    ```
-   ⚠️ 警告：缺少03-任务拆分.md，无法确定任务范围
+   ⚠️ 警告：缺少03-tasks.md，无法确定任务范围
    → 降级方案：从04-开发记录推断改动文件
    → 或询问用户：“请确认本次改动的文件范围”
    ```
@@ -344,7 +344,7 @@ ab -n 1000 -c 10 http://localhost:3000/api/notifications
 
 ```python
 # 伪代码示例
-read_file("flow/templates/05-测试报告.md")
+read_file("flow/templates/05-test-report.md")
 ```
 
 **从模板中提取必填段落清单**：
@@ -364,7 +364,7 @@ read_file("flow/templates/05-测试报告.md")
 
 ### Step 9: 生成测试报告并逐项核对
 
-按模板生成 `.devflow-kit/<req-id>/05-测试报告.md`：
+按模板生成 `.devflow-kit/<req-id>/05-test-report.md`：
 - **必须包含模板所有6个段落**（见 Step 8 提取的清单）
 - **所有 `<...>` 占位符必须替换为实际值**
 - **AC覆盖率必须100%**
@@ -405,7 +405,7 @@ read_file("flow/templates/05-测试报告.md")
 
 ## 自检清单
 
-- [ ] **已使用 read_file 读取模板文件** `flow/templates/05-测试报告.md`
+- [ ] **已使用 read_file 读取模板文件** `flow/templates/05-test-report.md`
 - [ ] **已从模板提取必填段落清单**（6个段落）
 - [ ] **已读取所有前置产物**（01-需求分析 + 00-需求确认）
 - [ ] **已提取AC列表**（用于验证覆盖）
@@ -419,7 +419,7 @@ read_file("flow/templates/05-测试报告.md")
 - [ ] **所有占位符已替换**
 - [ ] **生成后已逐项核对**（无缺失段落）
 - [ ] 测试报告包含量化数据（不只是“通过”）
-- [ ] 项目状态.md已更新
+- [ ] STATE.md已更新
 
 ## 触发下一步
 

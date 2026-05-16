@@ -10,14 +10,14 @@
 
 | 阶段 | Stage Skill | Prompt文件 | 模板文件 | 状态 |
 |------|-------------|-----------|---------|------|
-| 0-confirm | `stage-0-confirm` | `flow/prompts/0-confirm.md` | `flow/templates/00-需求确认.md` | ✅ |
-| 1-analysis | `stage-1-analysis` | `flow/prompts/1-analysis.md` | `flow/templates/01-需求分析.md` | ✅ |
-| 2-design | `stage-2-design` | `flow/prompts/2-design.md` | `flow/templates/02-方案设计.md` | ✅ |
+| 0-confirm | `stage-0-confirm` | `flow/prompts/0-confirm.md` | `flow/templates/00-requirements.md` | ✅ |
+| 1-analysis | `stage-1-analysis` | `flow/prompts/1-analysis.md` | `flow/templates/01-analysis.md` | ✅ |
+| 2-design | `stage-2-design` | `flow/prompts/2-design.md` | `flow/templates/02-design.md` | ✅ |
 | 2a-ui-design | `stage-2a-ui-design` | `flow/prompts/2a-ui-design.md` | `flow/templates/02a-UI设计.md` | ✅ |
-| 3-task | `stage-3-task` | `flow/prompts/3-task.md` | `flow/templates/03-任务拆分.md` | ✅ |
+| 3-task | `stage-3-task` | `flow/prompts/3-task.md` | `flow/templates/03-tasks.md` | ✅ |
 | 3a-plan | `stage-3a-plan` | `flow/prompts/3a-plan.md` | `flow/templates/03a-实施计划.md` | ✅ |
 | 4-dev | `stage-4-dev` | `flow/prompts/4-dev.md` | - | ✅ |
-| 5-test | `stage-5-test` | `flow/prompts/5-test.md` | `flow/templates/05-测试报告.md` | ✅ |
+| 5-test | `stage-5-test` | `flow/prompts/5-test.md` | `flow/templates/05-test-report.md` | ✅ |
 | 6-review | `stage-6-review` | `flow/prompts/6-review.md` | - | ✅ |
 | 7-integration | `stage-7-integration` | `flow/prompts/7-integration.md` | `flow/templates/07-发布清单.md` | ✅ |
 
@@ -43,7 +43,7 @@
 GO.md 路由到: stage-0-confirm
   ↓ 加载: agent-skills/skills/stage-0-confirm/_SKILL.md
   ↓ 执行: 需求澄清 + 模式判定
-  ↓ 产物: .devflow-kit/REQ-001/00-需求确认.md
+  ↓ 产物: .devflow-kit/REQ-001/00-requirements.md
 ```
 
 ### 方式2：直接调用stage skill
@@ -108,7 +108,7 @@ dependencies:
 
 ## 状态管理
 
-所有stage共享 `.devflow-kit/项目状态.md`：
+所有stage共享 `.devflow-kit/STATE.md`：
 
 ```markdown
 当前阶段: task
@@ -117,10 +117,10 @@ dependencies:
 下一阶段: dev
 
 阶段进度:
-- [x] 需求确认 → 00-需求确认.md
-- [x] 需求分析 → 01-需求分析.md
-- [x] 方案设计 → 02-方案设计.md
-- [x] 任务拆分 → 03-任务拆分.md
+- [x] 需求确认 → 00-requirements.md
+- [x] 需求分析 → 01-analysis.md
+- [x] 方案设计 → 02-design.md
+- [x] 任务拆分 → 03-tasks.md
 - [ ] 开发执行
 - [ ] 测试验证
 - [ ] 代码审查
@@ -182,7 +182,7 @@ dependencies:
    - Step 2: 入场检测
    - Step 3: 需求澄清
    - Step 4: 模式判定 → Standard
-   - Step 5: 生成 00-需求确认.md
+   - Step 5: 生成 00-requirements.md
    - Step 6: 更新项目状态
 
 5. 路由到下一阶段:

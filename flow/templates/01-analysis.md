@@ -1,7 +1,7 @@
 ﻿# ANALYSIS: <req-id>
 
 - **Req ID**: <id>
-- **关联**: `@.devflow-kit/<req-id>/00-需求确认.md`、`@.devflow-kit/上下文.md`
+- **关联**: `@.devflow-kit/<req-id>/00-requirements.md`、`@.devflow-kit/CONTEXT.md`
 
 ---
 

@@ -38,7 +38,7 @@ UI Director + Refactor Specialist。**保留功能不变**，只换视觉。
 - 项目里已有的 `02a-UI设计.md`（如有，作为 v1 调性来源）
 - `@devflow-kit/flow/reference/ui-aesthetics.md`（调性卡片）
 - `@devflow-kit/flow/reference/ui-anti-patterns.md`
-- 项目主 `01-需求分析.md`（确认要保留的 AC 不变）
+- 项目主 `01-analysis.md`（确认要保留的 AC 不变）
 
 ---
 

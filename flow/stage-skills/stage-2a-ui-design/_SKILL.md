@@ -1,7 +1,7 @@
 ﻿# devflow-kit Stage: 2a-UI Design（UI设计）
 
 > **阶段定位**：前端项目的视觉和交互设计
-> **前置条件**：02-方案设计.md 已完成，项目类型为前端
+> **前置条件**：02-design.md 已完成，项目类型为前端
 > **后置产物**：`.devflow-kit/<req-id>/02a-UI设计.md`
 
 ## Skill元信息
@@ -17,23 +17,23 @@ dependencies:
 
 ## 输入
 
-- `.devflow-kit/<req-id>/00-需求确认.md`
-- `.devflow-kit/<req-id>/01-需求分析.md`
-- `.devflow-kit/<req-id>/02-方案设计.md`（必读 `## 0` 段）
-- `.devflow-kit/上下文.md`
+- `.devflow-kit/<req-id>/00-requirements.md`
+- `.devflow-kit/<req-id>/01-analysis.md`
+- `.devflow-kit/<req-id>/02-design.md`（必读 `## 0` 段）
+- `.devflow-kit/CONTEXT.md`
 - `devflow-kit/flow/reference/ui-aesthetics.md`（按节读取）
 - `devflow-kit/flow/reference/ui-anti-patterns.md`（75行可全读）
 
 ## 输出
 
 - `.devflow-kit/<req-id>/02a-UI设计.md`
-- 更新 `.devflow-kit/项目状态.md`
+- 更新 `.devflow-kit/STATE.md`
 
 ## 入口门禁
 
 ```markdown
-IF 缺 02-方案设计.md:
-  输出: "规则 R2.7 触发：2a-ui-design 缺少 02-方案设计.md。本次先回到 2-design 补齐。"
+IF 缺 02-design.md:
+  输出: "规则 R2.7 触发：2a-ui-design 缺少 02-design.md。本次先回到 2-design 补齐。"
   STOP
 
 IF 项目类型非前端（纯后端/CLI/lib）:
@@ -301,7 +301,7 @@ read_file("flow/templates/02a-UI设计.md")
 - [ ] 反模式检查通过
 - [ ] **产物包含模板所有7个段落**（见 Step 10 核对清单）
 - [ ] **生成后已逐项核对**（无缺失段落）
-- [ ] 项目状态.md已更新
+- [ ] STATE.md已更新
 
 ## 约束
 

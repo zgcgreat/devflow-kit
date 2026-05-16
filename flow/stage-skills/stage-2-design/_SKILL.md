@@ -1,8 +1,8 @@
 ﻿# devflow-kit Stage: 2-Design（方案设计）
 
 > **阶段定位**：将需求转化为可执行的技术设计
-> **前置条件**：01-需求分析.md 已完成
-> **后置产物**：`.devflow-kit/<req-id>/02-方案设计.md` + ADRs
+> **前置条件**：01-analysis.md 已完成
+> **后置产物**：`.devflow-kit/<req-id>/02-design.md` + ADRs
 
 ## Skill元信息
 
@@ -17,27 +17,27 @@ dependencies:
 
 ## 输入
 
-- `.devflow-kit/<req-id>/01-需求分析.md`（或Delta版）
-- `.devflow-kit/<req-id>/00-需求确认.md`
-- `.devflow-kit/上下文.md`（或ai_context_doc指定文档）
+- `.devflow-kit/<req-id>/01-analysis.md`（或Delta版）
+- `.devflow-kit/<req-id>/00-requirements.md`
+- `.devflow-kit/CONTEXT.md`（或ai_context_doc指定文档）
 - `.devflow-kit/系统架构.md`（如存在·brownfield项目）
 - `.devflow-kit/设计基线.md`（如存在·Delta模式）
 - `devflow-kit/flow/reference/tech-stacks.md`（按节读取）
 
 ## 输出
 
-- `.devflow-kit/<req-id>/02-方案设计.md`
+- `.devflow-kit/<req-id>/02-design.md`
 - `.devflow-kit/adr/<NNN>-<title>.md`（如有架构决策）
-- 更新 `.devflow-kit/项目状态.md`
+- 更新 `.devflow-kit/STATE.md`
 
 ## 入口门禁
 
 ```markdown
-IF 缺 01-需求分析.md:
-  输出: "规则 R2.7 触发：2-design 缺少 01-需求分析.md。本次先回到 1-analysis 补齐。"
+IF 缺 01-analysis.md:
+  输出: "规则 R2.7 触发：2-design 缺少 01-analysis.md。本次先回到 1-analysis 补齐。"
   STOP
 
-IF 前端项目 AND 缺 00-需求确认.md 中的项目类型:
+IF 前端项目 AND 缺 00-requirements.md 中的项目类型:
   警告: "未明确项目类型，UI设计可能不准确"
 ```
 
@@ -51,30 +51,30 @@ IF 前端项目 AND 缺 00-需求确认.md 中的项目类型:
 
 | 产物文件 | 存在性 | 优先级 | 提取内容 |
 |---------|--------|--------|----------|
-| 01-需求分析.md | ✅/❌ | 🔴 必须 | AC列表、非功能需求、依赖约束 |
-| 00-需求确认.md | ✅/❌ | 🟡 建议 | 模式判定 |
-| 上下文.md | ✅/❌ | 🟡 建议 | 既有技术栈、编码规范 |
+| 01-analysis.md | ✅/❌ | 🔴 必须 | AC列表、非功能需求、依赖约束 |
+| 00-requirements.md | ✅/❌ | 🟡 建议 | 模式判定 |
+| CONTEXT.md | ✅/❌ | 🟡 建议 | 既有技术栈、编码规范 |
 | 系统架构.md | ✅/❌ | 🟢 可选 | 既有架构、ADR |
 | 经验总结.md | ✅/❌ | 🟢 可选 | 设计教训 |
 
 **扫描结果输出**：
 ```markdown
-✅ 检测到 01-需求分析.md → 提取AC列表：8个
-✅ 检测到 00-需求确认.md → 提取模式判定：Standard
-✅ 检测到 上下文.md → 提取技术栈：Vue3 + TypeScript
+✅ 检测到 01-analysis.md → 提取AC列表：8个
+✅ 检测到 00-requirements.md → 提取模式判定：Standard
+✅ 检测到 CONTEXT.md → 提取技术栈：Vue3 + TypeScript
 ❌ 未检测到 系统架构.md → 跳过架构对齐步骤
 ```
 
 #### 1.2 分级读取策略
 
 **🔴 必须读取**（缺失会阻塞流程）：
-- **01-需求分析.md**：提供AC列表，是设计的核心依据
+- **01-analysis.md**：提供AC列表，是设计的核心依据
   - 如果缺失 → 报错并引导回stage-1-analysis
 
 **🟡 建议读取**（缺失采用降级策略）：
-- **00-需求确认.md**：提供模式判定，决定设计深度
+- **00-requirements.md**：提供模式判定，决定设计深度
   - 如果缺失 → 默认使用Standard模式
-- **上下文.md**：提供既有技术栈和编码规范
+- **CONTEXT.md**：提供既有技术栈和编码规范
   - 如果缺失 → 从package.json推断技术栈
 
 **🟢 可选读取**（补充信息）：
@@ -87,16 +87,16 @@ IF 前端项目 AND 缺 00-需求确认.md 中的项目类型:
 
 **如果某个产物不存在**：
 
-1. **00-需求确认.md 缺失**：
+1. **00-requirements.md 缺失**：
    ```
-   ⚠️ 警告：缺少00-需求确认.md，无法获取模式判定
+   ⚠️ 警告：缺少00-requirements.md，无法获取模式判定
    → 降级方案：默认使用Standard模式
    → 提醒：建议在产物中注明采用的设计深度
    ```
 
-2. **上下文.md 缺失**：
+2. **CONTEXT.md 缺失**：
    ```
-   ⚠️ 警告：缺少上下文.md，无法获取既有技术栈
+   ⚠️ 警告：缺少CONTEXT.md，无法获取既有技术栈
    → 降级方案：从package.json推断技术栈
    → 询问用户："是否需要先运行 I-intel-scan 生成上下文？"
    ```
@@ -136,7 +136,7 @@ IF 前端项目 AND 缺 00-需求确认.md 中的项目类型:
 
 **检查是否充分利用了前置产物**：
 
-- [ ] 是否读取了01-需求分析.md？
+- [ ] 是否读取了01-analysis.md？
 - [ ] 是否从01中提取了所有AC列表？
 - [ ] 是否从00-需求确认中获取了模式判定（如存在）？
 - [ ] 是否参考了上下文中的既有抽象（如存在）？
@@ -160,7 +160,7 @@ IF 前端项目 AND 缺 00-需求确认.md 中的项目类型:
 - 改变鉴权方案
 - 引入新的架构模式
 
-**已跑过0-confirm的跳过**：如果00-需求确认.md有「架构层影响声明」段，直接跳Step 0。
+**已跑过0-confirm的跳过**：如果00-requirements.md有「架构层影响声明」段，直接跳Step 0。
 
 **首次到这步**：
 ```markdown
@@ -188,7 +188,7 @@ IF 未命中:
 
 #### 例外（可跳过本步直接锁定）
 
-- `上下文.md` 已有「已锁技术决策」→ 直接读用
+- `CONTEXT.md` 已有「已锁技术决策」→ 直接读用
 - 用户描述包含强偏好（"用Next" / "后端需Go"）→ 锁定后跳过
 - 纯库/SDK/CLI项目 → 跳过本步，只需选语言
 
@@ -215,15 +215,15 @@ IF 未命中:
 请回复数字（如 "1"）或描述偏好，选定后我才出具体ADR与架构图。
 ```
 
-**等待用户选定**，然后写入 `02-方案设计.md` 的 `## 0. 技术栈选定` 段。
+**等待用户选定**，然后写入 `02-design.md` 的 `## 0. 技术栈选定` 段。
 
 ### Step 0.5: 既有架构对齐（brownfield必跑）
 
-**触发条件**：`上下文.md` 存在且非空。新创项目跳过。
+**触发条件**：`CONTEXT.md` 存在且非空。新创项目跳过。
 
 #### 0.5.1 列出触碰的既有模块
 
-基于01-需求分析和上下文.md，**grep出实际涉及的模块**：
+基于01-需求分析和CONTEXT.md，**grep出实际涉及的模块**：
 
 ```markdown
 本次需求会触碰：
@@ -264,7 +264,7 @@ IF 未命中:
 
 #### 0.5.4 写入产物
 
-将上面三段写入 `02-方案设计.md` 的 `## 0.5 既有架构对齐` 段。
+将上面三段写入 `02-design.md` 的 `## 0.5 既有架构对齐` 段。
 
 ### Step 1: 技术决策
 
@@ -330,7 +330,7 @@ IF 未命中:
 
 如果引入了"项目级有复用价值"的东西，记在§9。
 
-以后A-evolve会扫这段批量同步到上下文.md。
+以后A-evolve会扫这段批量同步到CONTEXT.md。
 
 **没有就写**：`本需求无架构层面沉淀建议`。不要凑。
 
@@ -340,7 +340,7 @@ IF 未命中:
 
 ```python
 # 伪代码示例
-read_file("flow/templates/02-方案设计.md")
+read_file("flow/templates/02-design.md")
 ```
 
 **从模板中提取必填段落清单**：
@@ -362,7 +362,7 @@ read_file("flow/templates/02-方案设计.md")
 
 ### Step 11: 生成产物并逐项核对
 
-按模板生成 `.devflow-kit/<req-id>/02-方案设计.md`：
+按模板生成 `.devflow-kit/<req-id>/02-design.md`：
 - **必须包含模板所有8个段落**（见 Step 10 提取的清单）
 - **所有 `<...>` 占位符必须替换为实际值**
 - **ADR编号必须连续**
@@ -400,7 +400,7 @@ read_file("flow/templates/02-方案设计.md")
 
 ## 自检清单
 
-- [ ] **已使用 read_file 读取模板文件** `flow/templates/02-方案设计.md`
+- [ ] **已使用 read_file 读取模板文件** `flow/templates/02-design.md`
 - [ ] **已从模板提取必填段落清单**（8个段落）
 - [ ] **已读取所有前置产物**（01-需求分析 + 00-需求确认 + 上下文）
 - [ ] **已提取所有AC列表**（用于验证设计覆盖）
@@ -419,8 +419,8 @@ read_file("flow/templates/02-方案设计.md")
 - [ ] **产物包含模板所有8个段落**（见 Step 11 核对清单）
 - [ ] **所有占位符已替换**
 - [ ] **生成后已逐项核对**（无缺失段落）
-- [ ] 02-方案设计.md已生成
-- [ ] 项目状态.md已更新
+- [ ] 02-design.md已生成
+- [ ] STATE.md已更新
 
 ## 触发下一步
 

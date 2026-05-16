@@ -25,7 +25,7 @@ dependencies:
 ## 输出
 
 - `.devflow-kit/<req-id>/07-发布清单.md`
-- 更新 `.devflow-kit/项目状态.md`
+- 更新 `.devflow-kit/STATE.md`
 - 归档当前需求到 `.devflow-kit/archive/<req-id>/`
 
 ## 入口门禁
@@ -44,22 +44,22 @@ IF 缺 06-review审查结论 OR 审查结论为"不通过":
 
 #### 1.1 读取需求分析（AC基线）
 
-从 `.devflow-kit/<req-id>/01-需求分析.md` 提取：
+从 `.devflow-kit/<req-id>/01-analysis.md` 提取：
 - **AC列表**：所有验收标准（用于验证发布前是否全部通过）
 - **非功能需求**：性能/安全要求（用于验证是否达标）
 
 **自检**：
-- [ ] 已读取01-需求分析.md
+- [ ] 已读取01-analysis.md
 - [ ] 已提取所有AC列表
 
 #### 1.2 读取测试报告与审查报告
 
-从 `.devflow-kit/<req-id>/05-测试报告.md` 和 `06-审查报告.md` 提取：
+从 `.devflow-kit/<req-id>/05-test-report.md` 和 `06-审查报告.md` 提取：
 - **测试结果**：各轮测试通过率、AC覆盖矩阵
 - **审查结论**：代码审查是否通过、遗留问题清单
 
 **自检**：
-- [ ] 已读取05-测试报告.md
+- [ ] 已读取05-test-report.md
 - [ ] 已读取06-审查报告.md
 - [ ] 已确认测试结论为“通过”
 - [ ] 已确认审查结论为“通过”或“有条件通过”
@@ -334,12 +334,12 @@ mv .devflow-kit/<req-id>/ .devflow-kit/archive/<req-id>/
 下一阶段: none（需求已完成）
 
 阶段进度:
-- [x] 需求确认 → 00-需求确认.md
-- [x] 需求分析 → 01-需求分析.md
-- [x] 方案设计 → 02-方案设计.md
-- [x] 任务拆分 → 03-任务拆分.md
-- [x] 开发执行 → 04-开发记录.md
-- [x] 测试验证 → 05-测试报告.md
+- [x] 需求确认 → 00-requirements.md
+- [x] 需求分析 → 01-analysis.md
+- [x] 方案设计 → 02-design.md
+- [x] 任务拆分 → 03-tasks.md
+- [x] 开发执行 → 04-dev-log.md
+- [x] 测试验证 → 05-test-report.md
 - [x] 代码审查 → 06-review记录.md
 - [x] 集成发布 → 07-发布清单.md
 ```
@@ -357,7 +357,7 @@ mv .devflow-kit/<req-id>/ .devflow-kit/archive/<req-id>/
 - [ ] **所有占位符已替换**
 - [ ] 经验总结已追加
 - [ ] 需求已归档到archive
-- [ ] 项目状态.md已更新
+- [ ] STATE.md已更新
 
 ## 约束
 

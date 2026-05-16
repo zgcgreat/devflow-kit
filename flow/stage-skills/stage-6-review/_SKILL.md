@@ -1,7 +1,7 @@
 ﻿# devflow-kit Stage: 6-Review（代码审查）
 
 > **阶段定位**：三轮审查确保代码质量、安全、业务正确性
-> **前置条件**：05-测试报告.md 已完成且通过
+> **前置条件**：05-test-report.md 已完成且通过
 > **后置产物**：审查问题清单 + 修复记录
 
 ## Skill元信息
@@ -18,24 +18,24 @@ dependencies:
 
 ## 输入
 
-- `.devflow-kit/<req-id>/01-需求分析.md`（或Delta版）
-- `.devflow-kit/<req-id>/02-方案设计.md`（或Delta版）
-- `.devflow-kit/<req-id>/03-任务拆分.md`
-- `.devflow-kit/<req-id>/05-测试报告.md`
+- `.devflow-kit/<req-id>/01-analysis.md`（或Delta版）
+- `.devflow-kit/<req-id>/02-design.md`（或Delta版）
+- `.devflow-kit/<req-id>/03-tasks.md`
+- `.devflow-kit/<req-id>/05-test-report.md`
 - `git diff`（本次改动的完整diff）
-- `.devflow-kit/上下文.md`
+- `.devflow-kit/CONTEXT.md`
 
 ## 输出
 
 - 审查问题清单（按轮次分类）
 - 修复记录
-- 更新 `.devflow-kit/项目状态.md`
+- 更新 `.devflow-kit/STATE.md`
 
 ## 入口门禁
 
 ```markdown
-IF 缺 05-测试报告.md:
-  输出: "规则 R2.7 触发：6-review 缺少 05-测试报告.md。本次先回到 5-test 补齐。"
+IF 缺 05-test-report.md:
+  输出: "规则 R2.7 触发：6-review 缺少 05-test-report.md。本次先回到 5-test 补齐。"
   STOP
 
 IF 测试报告结论为"不通过":
@@ -51,47 +51,47 @@ IF 测试报告结论为"不通过":
 
 #### 1.1 读取需求分析（AC基线）
 
-从 `.devflow-kit/<req-id>/01-需求分析.md` 提取：
+从 `.devflow-kit/<req-id>/01-analysis.md` 提取：
 - **AC列表**：所有验收标准（用于验证实现是否覆盖）
 - **非功能需求**：性能/安全要求（用于审查是否达标）
 
 **自检**：
-- [ ] 已读取01-需求分析.md
+- [ ] 已读取01-analysis.md
 - [ ] 已提取所有AC列表（至少N个）
 - [ ] 已识别非功能需求
 
 #### 1.2 读取方案设计
 
-从 `.devflow-kit/<req-id>/02-方案设计.md` 提取：
+从 `.devflow-kit/<req-id>/02-design.md` 提取：
 - **技术决策**：设计时的架构选择（用于验证实现是否遵循）
 - **数据流/架构图**：预期的调用链（用于验证实现是否符合）
 - **ADR列表**：架构决策记录（用于验证实现是否遵守）
 
 **自检**：
-- [ ] 已读取02-方案设计.md
+- [ ] 已读取02-design.md
 - [ ] 已提取技术决策清单
 - [ ] 已理解数据流/架构图
 
 #### 1.3 读取任务拆分与开发记录
 
-从 `.devflow-kit/<req-id>/03-任务拆分.md` 和所有 `*-开发记录.md` 提取：
+从 `.devflow-kit/<req-id>/03-tasks.md` 和所有 `*-开发记录.md` 提取：
 - **任务列表**：所有task及其write_files范围
 - **开发记录**：每个任务的实施过程、verify输出、6维自查结果
 
 **自检**：
-- [ ] 已读取03-任务拆分.md
+- [ ] 已读取03-tasks.md
 - [ ] 已读取所有开发记录（T01~TN）
 - [ ] 已确认所有verify通过
 
 #### 1.4 读取测试报告
 
-从 `.devflow-kit/<req-id>/05-测试报告.md` 提取：
+从 `.devflow-kit/<req-id>/05-test-report.md` 提取：
 - **测试结果**：各轮测试通过率
 - **AC覆盖矩阵**：每个AC的测试状态
 - **性能指标**：P50/P95/P99响应时间
 
 **自检**：
-- [ ] 已读取05-测试报告.md
+- [ ] 已读取05-test-report.md
 - [ ] 已确认测试结论为“通过”
 - [ ] 已提取性能指标
 
@@ -215,7 +215,7 @@ sonar-scanner
 
 | 维度 | 检查项 | 方法 |
 |------|--------|------|
-| AC覆盖 | 每个AC都有对应实现 | 对照01-需求分析.md |
+| AC覆盖 | 每个AC都有对应实现 | 对照01-analysis.md |
 | 边界条件 | 空值/极值/并发 | 审查测试用例 |
 | 异常处理 | try-catch覆盖 | grep错误处理 |
 | 日志记录 | 关键操作有日志 | grep console.log/logger |
@@ -385,7 +385,7 @@ read_file("flow/templates/06-审查报告.md")
 - [ ] **生成后已逐项核对**（无缺失段落）
 - [ ] 审查问题清单已记录
 - [ ] 修复验证已通过
-- [ ] 项目状态.md已更新
+- [ ] STATE.md已更新
 
 ## 约束
 

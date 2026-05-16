@@ -8,16 +8,16 @@
 
 ## 输入
 
-- `@.devflow-kit/<req-id>/01-需求分析.md`
-- `@.devflow-kit/<req-id>/02-方案设计.md`（**必读 `## 0. 技术栈选定`**——任务的 verify 命令、依赖管理、目录结构必须按选定的栈写）
-- `@.devflow-kit/上下文.md`
+- `@.devflow-kit/<req-id>/01-analysis.md`
+- `@.devflow-kit/<req-id>/02-design.md`（**必读 `## 0. 技术栈选定`**——任务的 verify 命令、依赖管理、目录结构必须按选定的栈写）
+- `@.devflow-kit/CONTEXT.md`
 
 ## 入口门禁（Artifact Preflight）
 
 开始拆任务前先检查上游产物，缺任何一项都不要继续：
 
-- 缺 `01-需求分析.md`：停止，回到 `@devflow-kit/flow/prompts/1-analysis.md`。
-- 缺 `02-方案设计.md`：停止，回到 `@devflow-kit/flow/prompts/2-design.md`；即使是精简路径，也必须有能锁定技术栈、触碰模块、禁动清单和写入边界的设计说明。
+- 缺 `01-analysis.md`：停止，回到 `@devflow-kit/flow/prompts/1-analysis.md`。
+- 缺 `02-design.md`：停止，回到 `@devflow-kit/flow/prompts/2-design.md`；即使是精简路径，也必须有能锁定技术栈、触碰模块、禁动清单和写入边界的设计说明。
 - 前端 / UI 项目缺 `02a-UI设计.md`：停止，回到 `@devflow-kit/flow/prompts/2a-ui-design.md`。纯后端 / CLI / lib 项目才可跳过。
 - 禁止 Planner 自己脑补技术栈、触碰模块、禁动清单或 `write_files` 边界。
 
@@ -29,7 +29,7 @@
 
 ## 你的职责
 
-**⚠️ 强制要求**：必须严格按照 `@devflow-kit/flow/templates/03-任务拆分.md` 模板的完整结构产出**原子任务列表**，**不得省略或改写任何段落**。
+**⚠️ 强制要求**：必须严格按照 `@devflow-kit/flow/templates/03-tasks.md` 模板的完整结构产出**原子任务列表**，**不得省略或改写任何段落**。
 
 ### 拆解原则
 
@@ -51,11 +51,11 @@
 - **`read_files` 应该包含**：
   - 本任务要修改的文件（= write_files 的超集）
   - 本任务要 import / 参考的既有模块（沿用抽象要 read 才能用）
-  - 02-方案设计.md `## 0.5.1` 「触碰模块」中的「已有·复用」项
+  - 02-design.md `## 0.5.1` 「触碰模块」中的「已有·复用」项
 
 - **`write_files` 严格控制**：
-  - 02-方案设计.md `## 0.5.1` 「新增模块」项都加进来
-  - 02-方案设计.md `## 0.5.1` 「触碰模块」中需要修改的那些
+  - 02-design.md `## 0.5.1` 「新增模块」项都加进来
+  - 02-design.md `## 0.5.1` 「触碰模块」中需要修改的那些
   - **不允许加「禁动清单」里的文件**（这是 R7.3 + R6.5 联动拦截点）
 
 - **示例**：
@@ -115,13 +115,13 @@
 
 ## 输出
 
-- `.devflow-kit/<req-id>/03-任务拆分.md`（**必须严格按模板格式输出**，包含所有任务的 XML 块 + 执行顺序）
-- **更新 `.devflow-kit/项目状态.md`**：
+- `.devflow-kit/<req-id>/03-tasks.md`（**必须严格按模板格式输出**，包含所有任务的 XML 块 + 执行顺序）
+- **更新 `.devflow-kit/STATE.md`**：
   - `当前阶段` 设为 `task`
   - `阶段状态` 设为 `completed` 或 `blocked`
   - `上次完成阶段` 设为 `task`
   - `下一阶段` 设为 `dev`
-  - 在「阶段进度」清单中打钩 `任务拆分 → 03-任务拆分.md`
+  - 在「阶段进度」清单中打钩 `任务拆分 → 03-tasks.md`
 
 ## 约束（强制）
 
@@ -132,20 +132,20 @@
 ## 自检
 
 - [ ] 每个任务都有完整的 7 字段（`id` / `name` / `read_files` / `write_files` / `action` / `verify` / `done`）
-- [ ] **每个 `write_files` 都严格在 02-方案设计.md 「触碰模块 + 新增模块」范围内**（B3 护栏）
-- [ ] **任何任务的 `write_files` 都不包含 02-方案设计.md 「禁动清单」中的文件**
+- [ ] **每个 `write_files` 都严格在 02-design.md 「触碰模块 + 新增模块」范围内**（B3 护栏）
+- [ ] **任何任务的 `write_files` 都不包含 02-design.md 「禁动清单」中的文件**
 - [ ] 每个任务的 `verify` 都是可执行命令
 - [ ] `[P]` 任务均有并行安全理由：`write_files` 无交集、依赖无冲突、共享状态风险可控；如果没有安全并行点，允许 0 个 `[P]`
 - [ ] 执行顺序清晰、无环依赖
 - [ ] 任务编号连续
-- [ ] **项目状态.md 已更新**（当前阶段 + 阶段进度打钩）
+- [ ] **STATE.md 已更新**（当前阶段 + 阶段进度打钩）
 
 ## 阶段完成声明（必须输出）
 
 ```
 ✅ 任务拆分 完成
-📝 产物：.devflow-kit/<req-id>/03-任务拆分.md
-📊 项目状态.md 阶段进度已更新：[x] 任务拆分 → 03-任务拆分.md
+📝 产物：.devflow-kit/<req-id>/03-tasks.md
+📊 STATE.md 阶段进度已更新：[x] 任务拆分 → 03-tasks.md
 
 任务统计：
 - 总任务数: <N> 个

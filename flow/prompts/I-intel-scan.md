@@ -3,14 +3,14 @@
 
 
 > 在已存在的项目（brownfield）里第一次用 flow-kit 时，**先跑这个**。
-> 自动扫描代码库 → 自动填 `上下文.md` → 后续所有 req 都受益。
+> 自动扫描代码库 → 自动填 `CONTEXT.md` → 后续所有 req 都受益。
 > 不是周期命令，跑过一次就行；项目结构有大变化（重构 / 框架升级 / 新增模块）时再跑。
 
 ## 触发方式
 
 - 用户说「**扫描代码 / scan / intel / 入场扫描 / 给项目体检**」
-- 进入 0-confirm 前由 GO.md 第二步（老项目入场检测）自动触发：检测 `上下文.md` 不存在或字段缺失
-- `项目状态.md` 没有 `last_intel_scan` 字段或距上次 > 90 天
+- 进入 0-confirm 前由 GO.md 第二步（老项目入场检测）自动触发：检测 `CONTEXT.md` 不存在或字段缺失
+- `STATE.md` 没有 `last_intel_scan` 字段或距上次 > 90 天
 
 ## 输入
 
@@ -18,8 +18,8 @@
 
 ## 输出
 
-- **⚠️ 强制要求**：必须严格按照 `@devflow-kit/flow/templates/上下文.md` 模板的完整结构输出，填入第 1 步的发现，**保存到 `.devflow-kit/上下文.md`**。**不得省略或改写任何段落**。每个字段都要有具体证据（文件路径 + 行号）。
-- `项目状态.md` 的 `last_intel_scan: <YYYY-MM-DD>` 字段更新
+- **⚠️ 强制要求**：必须严格按照 `@devflow-kit/flow/templates/CONTEXT.md` 模板的完整结构输出，填入第 1 步的发现，**保存到 `.devflow-kit/CONTEXT.md`**。**不得省略或改写任何段落**。每个字段都要有具体证据（文件路径 + 行号）。
+- `STATE.md` 的 `last_intel_scan: <YYYY-MM-DD>` 字段更新
 
 ## 步骤
 
@@ -33,7 +33,7 @@
 
 | 文档 | 路径 | 来自哪个生态 |
 |---|---|---|
-| `上下文.md` | `.devflow-kit/` | flow-kit 自己 |
+| `CONTEXT.md` | `.devflow-kit/` | flow-kit 自己 |
 | `AGENTS.md` | 仓库根 | OpenAI Codex / 标准 agents 协议 |
 | `CLAUDE.md` | 仓库根 / `.claude/` | Anthropic Claude Code |
 | `.cursor/rules/*.md` | `.cursor/` | Cursor IDE |
@@ -56,21 +56,21 @@
   - CLAUDE.md（仓库根，<size>）
   - .cursor/rules/architecture.md（<size>）
 
-flow-kit 用 上下文.md 作为单一源。请选择：
-  1. 综合 + 扫描（推荐）：我读所有现有文档 + 跑入场扫描，合并生成 上下文.md
-  2. 以现有文档为准：选定其中一个作为基础（告诉我哪个）→ 我提取关键信息到 上下文.md，保留双向链接
+flow-kit 用 CONTEXT.md 作为单一源。请选择：
+  1. 综合 + 扫描（推荐）：我读所有现有文档 + 跑入场扫描，合并生成 CONTEXT.md
+  2. 以现有文档为准：选定其中一个作为基础（告诉我哪个）→ 我提取关键信息到 CONTEXT.md，保留双向链接
   3. 忽略现有文档，重新扫描生成
-  4. 不生成 上下文.md，4-dev / 2-design 改用 <你指定的文档>（如 AGENTS.md）作为 AI 遵守依据
+  4. 不生成 CONTEXT.md，4-dev / 2-design 改用 <你指定的文档>（如 AGENTS.md）作为 AI 遵守依据
 
 请选 1/2/3/4。无人工确认前我不动手。
 ```
 
 各选项后续动作：
 
-- **选 1（综合）**：read 每份文档（带 R1.9 token 预算控制） → 跑步骤 1（项目元信息）→ 把现有文档的关键决策**整合**到 上下文.md（在段落末尾标 `来自 AGENTS.md:42`）→ 在 上下文.md 顶部加「源文档」段列出所有引用
-- **选 2（以现有为准）**：read 用户指定的文档 → 把它的关键内容映射到 上下文.md 的对应段（`既有抽象索引` / `命名约定` / `禁动清单` 等），跑**精简扫描**（只补现有文档没说的部分）
+- **选 1（综合）**：read 每份文档（带 R1.9 token 预算控制） → 跑步骤 1（项目元信息）→ 把现有文档的关键决策**整合**到 CONTEXT.md（在段落末尾标 `来自 AGENTS.md:42`）→ 在 CONTEXT.md 顶部加「源文档」段列出所有引用
+- **选 2（以现有为准）**：read 用户指定的文档 → 把它的关键内容映射到 CONTEXT.md 的对应段（`既有抽象索引` / `命名约定` / `禁动清单` 等），跑**精简扫描**（只补现有文档没说的部分）
 - **选 3（忽略重扫）**：直接跑步骤 1，不读现有文档（**警告用户**：可能与现有约定冲突）
-- **选 4（不生成 上下文.md）**：在 项目状态.md 写 `ai_context_doc: <用户指定路径>`，**所有后续阶段**（GO.md / 2-design / 4-dev）改读这个文档代替 上下文.md。**跳过本 prompt 剩余步骤**
+- **选 4（不生成 CONTEXT.md）**：在 STATE.md 写 `ai_context_doc: <用户指定路径>`，**所有后续阶段**（GO.md / 2-design / 4-dev）改读这个文档代替 CONTEXT.md。**跳过本 prompt 剩余步骤**
 
 ##### 分支 B · 找到非标准但项目级文档（README / ARCHITECTURE / CONTRIBUTING）
 
@@ -85,7 +85,7 @@ flow-kit 用 上下文.md 作为单一源。请选择：
   - CONTRIBUTING.md（<size>）
 
 请选择：
-  1. 把它们当作扫描的补充输入，生成完整 上下文.md（推荐）
+  1. 把它们当作扫描的补充输入，生成完整 CONTEXT.md（推荐）
   2. 跳过这些，仅按代码扫描
   3. 用户指定其中一个作为开发遵守依据（告诉我哪个）
 
@@ -99,8 +99,8 @@ flow-kit 用 上下文.md 作为单一源。请选择：
 ```
  项目里未发现任何 AI 上下文文档（上下文/AGENTS/CLAUDE/Cursor/Windsurf/Copilot/Cline/README/ARCHITECTURE/CONTRIBUTING）。
 
-flow-kit 需要一份 上下文.md 给 AI 用。请选择：
-  1. 现在跑入场扫描，纯从代码生成 上下文.md（~15-30k tokens，仅首次）
+flow-kit 需要一份 CONTEXT.md 给 AI 用。请选择：
+  1. 现在跑入场扫描，纯从代码生成 CONTEXT.md（~15-30k tokens，仅首次）
   2. 我手动指定项目里某个文档作为开发遵守依据：<请回复路径>
   3. 跳过 intel-scan，直接进 0-confirm（不推荐 · AI 会"盲飞"，老项目护栏 B1-B5 全失效）
 
@@ -115,7 +115,7 @@ flow-kit 需要一份 上下文.md 给 AI 用。请选择：
 ## 既有文档探测（步骤 0）
 - 探测命中：<列出找到的文档>
 - 用户选择：<选项编号 + 简述>
-- 决策：<生成 上下文.md / 以现有文档为准 / 跳过 intel-scan>
+- 决策：<生成 CONTEXT.md / 以现有文档为准 / 跳过 intel-scan>
 - 引用源（如有）：<列出 source 文档路径 + 重点段位置>
 ```
 
@@ -214,7 +214,7 @@ ls .github/workflows/* .gitlab-ci.* azure-pipelines.* → CI 平台
 | 质量验证 | `vitest` / `jest` / `@testing-library` / `playwright` / `cypress` / `storybook` |
 | 前端风险 | SSR/hydration、SEO、a11y、响应式、bundle size、浏览器兼容 |
 
-这些发现必须写入 `上下文.md` 的「前端结构」和「既有抽象索引」；不得只在扫描总结里提一句。
+这些发现必须写入 `CONTEXT.md` 的「前端结构」和「既有抽象索引」；不得只在扫描总结里提一句。
 
 #### 1.5 既有抽象层（关键 · 防重复实现）
 
@@ -244,11 +244,11 @@ ls Dockerfile docker-compose.* k8s/ helm/  → 容器化
 grep -l "DATABASE_URL\|REDIS_URL" .env*    → 服务依赖
 ```
 
-### 2. 生成 `.devflow-kit/上下文.md`
+### 2. 生成 `.devflow-kit/CONTEXT.md`
 
-用 `@devflow-kit/flow/templates/上下文.md` 模板，填入第 1 步的发现，**保存到 `.devflow-kit/上下文.md`**。每个字段都要有具体证据（文件路径 + 行号）。
+用 `@devflow-kit/flow/templates/CONTEXT.md` 模板，填入第 1 步的发现，**保存到 `.devflow-kit/CONTEXT.md`**。每个字段都要有具体证据（文件路径 + 行号）。
 
-`上下文.md` 必须同时包含：
+`CONTEXT.md` 必须同时包含：
 
 1. **项目地图表**：有哪些子项目、类型、根路径、运行命令。
 2. **项目结构树**：仓库根与每个子项目的关键目录树，含目录职责说明。
@@ -256,11 +256,11 @@ grep -l "DATABASE_URL\|REDIS_URL" .env*    → 服务依赖
 4. **既有抽象索引**：HTTP client、DB access、hooks、utils、错误处理等。
 
 **禁止**填空话："使用了一些工具" / "标准结构"——这些都要换成具体的「`src/utils/date.ts:12`」级证据。
-**禁止过度压缩**：不能因为上下文.md 长度预算而删除项目结构树；如文件过长，优先压缩历史决策和旧技术债，不压缩项目结构。
+**禁止过度压缩**：不能因为CONTEXT.md 长度预算而删除项目结构树；如文件过长，优先压缩历史决策和旧技术债，不压缩项目结构。
 
-### 3. 写 `.devflow-kit/项目状态.md`
+### 3. 写 `.devflow-kit/STATE.md`
 
-用以下内容写入 `.devflow-kit/项目状态.md`（如果文件已存在，只更新或添加相关字段）：
+用以下内容写入 `.devflow-kit/STATE.md`（如果文件已存在，只更新或添加相关字段）：
 ### 4. 给用户一份扫描总结
 
 ```markdown
@@ -280,22 +280,22 @@ grep -l "DATABASE_URL\|REDIS_URL" .env*    → 服务依赖
   - 涉及 schema 改动 → 建议引入 Prisma 或 Knex（4-dev 1.7 会拦）
   - 新增模块的 hooks 命名要参考现有 22 个的风格
 
-`上下文.md` 已生成。后续运行 0-confirm 时 AI 会自动加载。
+`CONTEXT.md` 已生成。后续运行 0-confirm 时 AI 会自动加载。
 ```
 
 ## 自检
 
 - [ ] **步骤 0 既有文档探测做了**：找到的标准 AI 上下文文档已列出，用户已选定分支（A/B/C），决策已写入扫描总结
 - [ ] **未经用户同意没自动开始扫描**（分支 C 必须等用户回复 1/2/3）
-- [ ] 用户选 4「不生成 上下文.md」时已写 `项目状态.md` 的 `ai_context_doc` 字段并跳过剩余步骤
+- [ ] 用户选 4「不生成 CONTEXT.md」时已写 `STATE.md` 的 `ai_context_doc` 字段并跳过剩余步骤
 - [ ] 1.0~1.7 各段都有 grep / read 输出（不靠猜），多子项目时每个 frontend / backend / shared 都有记录
-- [ ] 上下文.md 同时包含「项目地图表」和「项目结构树」，且前端 / 后端 / shared 关键目录未被省略
-- [ ] 上下文.md 的每个字段都有文件路径 / 行号引用
-- [ ] 上下文.md 顶部「源文档」段列出引用的 AGENTS / CLAUDE / 等（如适用）
-- [ ] 项目状态.md 的 `last_intel_scan` 已更新
+- [ ] CONTEXT.md 同时包含「项目地图表」和「项目结构树」，且前端 / 后端 / shared 关键目录未被省略
+- [ ] CONTEXT.md 的每个字段都有文件路径 / 行号引用
+- [ ] CONTEXT.md 顶部「源文档」段列出引用的 AGENTS / CLAUDE / 等（如适用）
+- [ ] STATE.md 的 `last_intel_scan` 已更新
 - [ ] 扫描总结贴出关键发现 + 对后续 需求的影响
 
 ## 触发下一步
 
 - 跑完 → 用户继续原本意图（如 `@devflow-kit/flow/GO.md` + 一句新需求）
-- AI 此时会自动读 上下文.md（或步骤 0 选 4 指定的替代文档）→ 后续阶段都基于它
+- AI 此时会自动读 CONTEXT.md（或步骤 0 选 4 指定的替代文档）→ 后续阶段都基于它

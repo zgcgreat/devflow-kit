@@ -1,6 +1,6 @@
 ﻿# STATE — 跨会话项目状态
 
-> `.devflow-kit/项目状态.md` — DevFlow Kit 的跨会话状态文件。Standard / Strict 流程必须维护；Fast 模式可按需创建。
+> `.devflow-kit/STATE.md` — DevFlow Kit 的跨会话状态文件。Standard / Strict 流程必须维护；Fast 模式可按需创建。
 
 ---
 
@@ -57,7 +57,7 @@
 | **项目类型** | `greenfield / brownfield / 未知` |
 | **扫描状态** | `未开始 / 进行中 / 已完成 / 已跳过` |
 | **扫描时间** | `YYYY-MM-DD HH:mm` 或 `—` |
-| **上下文文档** | `上下文.md / AGENTS.md / CLAUDE.md / none` |
+| **上下文文档** | `CONTEXT.md / AGENTS.md / CLAUDE.md / none` |
 | **跳过原因** | `用户选择跳过 / greenfield 无需扫描 / 已有上下文文档 / —` |
 
 进入 Standard / Strict 的新需求前必须确认本节。brownfield 项目未完成扫描时，必须让用户选择扫描、指定现有上下文文档或明确跳过。
@@ -81,14 +81,14 @@
 
 | 阶段 | 状态 | 产物 | 确认规则 |
 |---|---|---|---|
-| 需求确认 | `[ ]` | `00-需求确认.md` | 必须等用户确认 |
-| 需求分析 | `[ ]` | `01-需求分析.md` | 必须等用户确认 |
-| 方案设计 | `[ ]` | `02-方案设计.md` | 必须等用户确认 |
+| 需求确认 | `[ ]` | `00-requirements.md` | 必须等用户确认 |
+| 需求分析 | `[ ]` | `01-analysis.md` | 必须等用户确认 |
+| 方案设计 | `[ ]` | `02-design.md` | 必须等用户确认 |
 | UI 设计 | `[ ] / N/A` | `02a-UI设计.md` | 前端 / UI 必须等用户确认 |
-| 任务拆分 | `[ ]` | `03-任务拆分.md` | 无阻塞可继续 |
-| 开发 | `[ ]` | `04-开发记录.md` + 任务级记录 | 无阻塞可继续 |
-| 测试 | `[ ]` | `05-测试报告.md` | 无阻塞可继续 |
-| 审查 | `[ ]` | `06-代码审查.md` | Critical 必须停等 |
+| 任务拆分 | `[ ]` | `03-tasks.md` | 无阻塞可继续 |
+| 开发 | `[ ]` | `04-dev-log.md` + 任务级记录 | 无阻塞可继续 |
+| 测试 | `[ ]` | `05-test-report.md` | 无阻塞可继续 |
+| 审查 | `[ ]` | `06-code-review.md` | Critical 必须停等 |
 | 集成 | `[ ]` | `07-发布清单.md` | 发布 GO 必须确认 |
 
 ### Strict 附加项
@@ -116,7 +116,7 @@
 
 ```text
 🔄 会话恢复摘要
-- 恢复自：<项目状态.md + 产物文件>
+- 恢复自：<STATE.md + 产物文件>
 - 活跃 Req：<req-id>
 - 模式：<Fast/Standard/Strict>
 - 当前阶段：<phase>（<阶段状态>）
@@ -151,7 +151,7 @@
 
 ```yaml
 # 老项目入场扫描 / AI 上下文文档替代
-ai_context_doc: 上下文.md      # 或 AGENTS.md / CLAUDE.md / 用户指定路径 / none
+ai_context_doc: CONTEXT.md      # 或 AGENTS.md / CLAUDE.md / 用户指定路径 / none
 last_intel_scan: YYYY-MM-DD    # 上次跑 I-intel-scan 的日期；为空表示从未跑
                                # GO.md 第二步会按 90 天阈值提醒重扫
 

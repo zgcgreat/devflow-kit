@@ -23,7 +23,7 @@ Forge 不应该成为 flow-kit 的依赖。
 ```text
 devflow-kit/flow/GO.md
 devflow-kit/flow/prompts/4-dev.md
-devflow-kit/flow/templates/03-任务拆分.md
+devflow-kit/flow/templates/03-tasks.md
 .claude/hooks/forge-pretool-guard.ps1
 .claude/hooks/forge-session-audit.ps1
 ```

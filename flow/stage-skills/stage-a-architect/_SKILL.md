@@ -17,9 +17,9 @@ dependencies:
 
 ## 输入
 
-- `.devflow-kit/上下文.md`
+- `.devflow-kit/CONTEXT.md`
 - `.devflow-kit/需求LOG.md`（如存在）
-- `.devflow-kit/archive/*/02-方案设计.md`（抽样读取§9段）
+- `.devflow-kit/archive/*/02-design.md`（抽样读取§9段）
 - `src/` 顶层结构
 - `package.json` / 依赖文件
 
@@ -54,10 +54,10 @@ cat go.mod
 
 ### Step 2: 读取历史ADR
 
-从 `.devflow-kit/archive/*/02-方案设计.md` 的 `## 9. 架构沉淀建议` 段提取：
+从 `.devflow-kit/archive/*/02-design.md` 的 `## 9. 架构沉淀建议` 段提取：
 
 ```markdown
-grep -r "## 9" .devflow-kit/archive/*/02-方案设计.md
+grep -r "## 9" .devflow-kit/archive/*/02-design.md
 ```
 
 **汇总**：
