@@ -1,44 +1,132 @@
-# AGENTS.md
+# DevFlow Kit - AI Assistant Instructions
 
-This repository is a unified skill package for AI coding agents. It merges a flow-oriented project workflow with a library of specialized engineering skills.
+## Overview
 
-## Core Model
+DevFlow Kit is a comprehensive AI-powered development workflow system that combines:
+- **Structured Process Orchestration** (from devflow-kit)
+- **Engineering Discipline** (from superpowers)  
+- **Cross-session Memory** (from team-skills)
 
-There are three layers:
+## Quick Start
 
-- `SKILL.md` is the public entry point. Load it first when the host supports skills.
-- `flow/` is the orchestration layer. It decides the phase, manages `.specs/<req-id>/` artifacts, and enforces phase gates.
-- `agent-skills/` is the capability layer. It provides focused practices for spec, planning, implementation, TDD, review, security, performance, and shipping. (Sourced from upstream `agent-skills` project.)
+### First Time Setup
 
-Do not treat every file as startup context. Use progressive disclosure: load the entry point, then only the phase prompt, artifacts, and specialized skills needed for the current user request.
+To install DevFlow Kit to your current project, say:
 
-## Intent Routing
+```
+Use install-superflow.
+```
 
-For broad requests, read `flow/GO.md` and follow its routing rules.
+The AI will automatically:
+1. Detect current project state
+2. Ask for installation mode (Basic/Full/Preview)
+3. Copy all necessary files
+4. Verify installation integrity
+5. Guide you through quick start
 
-For explicit lifecycle requests:
+**No manual script execution needed!**
 
-- New idea / vague feature: `flow/prompts/0-confirm.md` plus `agent-skills/skills/idea-refine` and `agent-skills/skills/spec-driven-development`.
-- Requirements / spec: `flow/prompts/1-analysis.md` plus `agent-skills/skills/spec-driven-development`.
-- Design / API / architecture: `flow/prompts/2-design.md` plus API, source-driven, ADR, security, or performance skills as relevant.
-- UI / visual design: `flow/prompts/2a-ui-design.md` plus `agent-skills/skills/frontend-ui-engineering`.
-- Task breakdown: `flow/prompts/3-task.md` plus `agent-skills/skills/planning-and-task-breakdown`.
-- Implementation: `flow/prompts/4-dev.md` plus incremental implementation, TDD, and git workflow skills.
-- Test / debug: `flow/prompts/5-test.md` plus TDD, debugging, and browser testing skills as relevant.
-- Review: `flow/prompts/6-review.md` plus code quality, security, and performance skills.
-- Ship / integration: `flow/prompts/7-integration.md` plus shipping, CI/CD, migration, and deprecation skills.
-- Brownfield scan: `flow/prompts/I-intel-scan.md` plus context engineering.
-- Architecture inventory: `flow/prompts/A-architect.md`; architecture update: `flow/prompts/A-evolve.md`.
-- Health scan: `flow/prompts/M-health.md` plus simplification, review, performance, and security skills.
+### After Installation
 
-## Rules for Agents
+When working on this project, you can activate DevFlow Kit by saying:
 
-Do not implement a non-trivial change before requirements and tasks exist, unless the user has explicitly chosen a small direct-edit path.
+```
+Use devflow-kit. <your requirement>
+```
 
-Do not claim a task is complete without verification evidence.
+Or reference the main entry point:
 
-Do not silently broaden scope. Record follow-ups instead.
+```
+@devflow-kit/flow/GO.md
 
-When a specialized skill applies, use it. If the host has a skill invocation mechanism, invoke the skill. If not, read the relevant `agent-skills/skills/<name>/_SKILL.md` file and follow it manually.
+<your requirement>
+```
 
-Specialist personas in `agent-skills/agents/` may be used for independent review. They should not call each other. The main agent is responsible for synthesizing their outputs.
+## Available Workflows
+
+### 1. Standard Development Flow (Default)
+For regular feature development with full process discipline.
+
+### 2. Fast Mode
+For small changes (<50 lines, low risk). Direct implementation with minimal validation.
+
+### 3. Strict Mode
+For high-risk changes (auth, payments, database schema). Full process with enhanced verification.
+
+## Key Principles
+
+1. **Always read GO.md first** - This is the router and source of truth for all workflows
+2. **Follow mode recommendations** - Fast/Standard/Strict based on risk assessment
+3. **Use TDD for new behavior** - Write failing tests first, then minimal code
+4. **Update memory when significant work completes** - Keep PROJECT_CONTEXT.md and CURRENT_STATE.md current
+5. **Verify before claiming completion** - Run fresh verification commands and show evidence
+
+## Memory System
+
+If `.superpowers-memory/` exists in the project root:
+
+### Automatic Memory Updates
+- **At session start**: Read PROJECT_CONTEXT.md, CURRENT_STATE.md, DECISIONS.md, KNOWN_FAILURES.md
+- **After stage-7-integration**: Automatically trigger memory closeout (see manage-memory Skill)
+- **During work**: Update relevant memory files when durable knowledge is created
+
+### Manual Memory Management
+Users can manually trigger memory operations:
+```bash
+Use manage-memory. 初始化记忆系统      # Initialize memory system
+Use superpowers-learning workflow       # Update memory after session
+Use manage-memory. 验证记忆质量         # Validate memory quality
+Use manage-memory. 清理过期记忆         # Clean up old memories
+```
+
+### Memory Files
+- **PROJECT_CONTEXT.md**: Stable project facts (tech stack, architecture, conventions)
+- **CURRENT_STATE.md**: Current work status (updated every session)
+- **DECISIONS.md**: Important technical decisions (ADR style)
+- **KNOWN_FAILURES.md**: Failure patterns to avoid repeating mistakes
+- **session-journal/**: Detailed session logs
+
+## Stage Skills
+
+The workflow consists of these stages (automatically routed by GO.md):
+
+- **stage-0-confirm**: Clarify requirements
+- **stage-1-analysis**: Write user stories and acceptance criteria
+- **stage-2-design**: Technical design with ADRs
+- **stage-2a-ui-design**: UI/UX design decisions (frontend only)
+- **stage-3-task**: Break down into executable tasks
+- **stage-4-dev**: Implement with TDD
+- **stage-5-test**: Risk-driven testing
+- **stage-6-review**: Five-axis code review
+- **stage-7-integration**: Archive artifacts and close out
+
+## Superpowers Integration
+
+Core engineering skills available:
+
+- **brainstorming**: Socratic design refinement before coding
+- **test-driven-development**: RED-GREEN-REFACTOR cycle enforcement
+- **subagent-driven-development**: Parallel agent execution with two-stage review
+- **systematic-debugging**: Four-phase root cause analysis
+- **verification-before-completion**: Evidence-based completion claims
+
+## Tool Adapters
+
+This kit supports multiple AI tools:
+
+- **Claude Code**: Use `/go` command or natural language
+- **Cursor**: Reference `@devflow-kit/flow/GO.md`
+- **Gemini CLI**: Use slash commands from adapters/gemini/commands/
+- **Windsurf**: Use `/go` workflow
+- **GitHub Copilot**: Paste flow/SYSTEM.md into copilot-instructions.md
+
+## Documentation
+
+- [Quick Start](docs/QUICKSTART.md)
+- [Memory Guide](docs/MEMORY_GUIDE.md)
+- [Tutorials](docs/tutorials/)
+- [Stage Skills Reference](docs/STAGE_SKILLS_REFERENCE.md)
+
+## License
+
+MIT License

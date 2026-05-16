@@ -370,6 +370,35 @@ mv .specs/<req-id>/ .specs/archive/<req-id>/
 
 需求已完成，等待下一个需求。
 
+**自动触发记忆更新** (如果启用了记忆系统):
+
+```markdown
+🧠 检测到 .superpowers-memory/ 目录存在
+
+正在执行会话收尾检查...
+→ 加载 skills/manage-memory/_SKILL.md
+→ 执行 Step 2: 更新记忆 (会话收尾)
+
+检查项:
+- [ ] 是否有持久化事实变化?
+- [ ] 当前工作状态是否变化?
+- [ ] 是否有重要决策?
+- [ ] 是否发现失败模式?
+- [ ] 是否有可复用经验?
+
+→ 自动更新 CURRENT_STATE.md
+→ 追加 DECISIONS.md (如有新决策)
+→ 追加 KNOWN_FAILURES.md (如有新失败模式)
+→ 创建 session-journal/<date>-<req-id>.md
+
+✅ 记忆更新完成
+```
+
+**用户也可以手动触发**:
+```
+Use superpowers-learning workflow
+```
+
 ## 错误处理
 
 - 发布失败 → 立即执行回滚

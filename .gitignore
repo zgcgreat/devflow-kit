@@ -1,0 +1,40 @@
+# SuperFlow Kit - Git Ignore
+
+# 依赖和构建产物
+node_modules/
+dist/
+build/
+*.pyc
+__pycache__/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# 日志
+*.log
+npm-debug.log*
+
+# 环境变量
+.env
+.env.local
+
+# 测试覆盖率
+coverage/
+.nyc_output/
+
+# 临时文件
+tmp/
+temp/
+*.tmp
+
+# 项目产物(可选,根据团队策略决定)
+# .specs/
+# .superpowers-memory/

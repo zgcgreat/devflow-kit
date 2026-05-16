@@ -162,7 +162,7 @@ dependencies:
 
 **自检**：输出前逐项核对模板强制规则（R13.9）
 
-### Step 5: 更新项目状态
+### Step 6: 更新项目状态
 
 ```markdown
 当前阶段: confirm

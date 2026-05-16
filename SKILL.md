@@ -1,6 +1,6 @@
 ---
 name: devflow-kit
-description: 结构化AI编程工作流系统
+description: 整合结构化流程、工程纪律与跨会话记忆的AI编程工作流系统
 ---
 
 # DevFlow Kit
@@ -11,7 +11,7 @@ description: 结构化AI编程工作流系统
 
 ## 唯一入口
 
-`devflow-kit/flow/GO.md` 是唯一路由器和流程事实源。它包含：
+`flow/GO.md` 是唯一路由器和流程事实源。它包含:
 
 - 模式判定规则（Fast / Standard / Strict）
 - 入场检测流程
@@ -53,6 +53,7 @@ description: 结构化AI编程工作流系统
 
 ## 版本
 
-v2.3 - Stage Skill架构
-- Stage Skills: v1.0.0（稳定）
-- 向后兼容：是
+v1.0.0 - DevFlow Kit 初始版本
+- 整合 devflow-kit v2.3 + superpowers + team-skills
+- Stage Skills: v1.0.0(稳定)
+- 向后兼容: 是
