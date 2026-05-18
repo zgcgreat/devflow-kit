@@ -1,6 +1,12 @@
 ---
 name: manage-memory
+version: 1.0.0
 description: 管理 DevFlow Kit 的记忆系统。用于初始化、更新、验证和清理 .devflow-kit/memory/ 目录中的记忆文件。
+author: devflow-kit
+dependencies:
+  - stage-7-integration (triggers memory update)
+  - brainstorming (references PROJECT_CONTEXT.md)
+  - systematic-debugging (queries KNOWN_FAILURES.md)
 ---
 
 # Manage DevFlow Memory
@@ -15,6 +21,39 @@ description: 管理 DevFlow Kit 的记忆系统。用于初始化、更新、验
 - "会话收尾检查"
 - "验证记忆质量"
 - "清理过期记忆"
+
+## 配置
+
+### 记忆文件清单
+
+所有记忆文件位于 `.devflow-kit/memory/` 目录：
+
+**核心文件（8个）**:
+- PROJECT_CONTEXT.md - 项目背景（稳定，很少变化）
+- CURRENT_STATE.md - 当前状态（动态，每次会话更新）
+- DECISIONS.md - 技术决策（ADR风格）
+- KNOWN_FAILURES.md - 已知失败模式
+- VERIFICATION_BASELINE.md - 验证基线
+- TEAM_PREFERENCES.md - 团队偏好
+- USER_PROFILE.md - 用户画像
+- AGENT_NOTES.md - AI助手笔记
+
+**辅助文件（3个）**:
+- LEARNING_BACKLOG.md - 学习待办（可复用经验候选）
+- SESSION_CLOSE_CHECKLIST.md - 会话收尾清单（参考模板）
+- memory-index.yaml - 记忆健康索引（由验证逻辑自动刷新）
+
+**子目录**:
+- journals/ - 会话日志（文件名格式：YYYY-MM-DD-<req-id>.md）
+
+### 安全约束
+
+- **路径白名单**: 所有操作仅限于 `.devflow-kit/memory/` 及其子目录
+- **禁止路径遍历**: 拒绝包含 `../` 或 `..\` 的路径输入
+- **文件覆盖保护**: 初始化时如目标文件已存在，询问用户是否覆盖
+- **归档备份**: 清理 journals 前先压缩备份到 `journals-archive/`
+
+---
 
 ## 执行流程
 
@@ -192,7 +231,7 @@ Step 3: 检查并更新所有相关的记忆文件
    - <建议的下一个需求>
    ```
    
-   ✅ **journals/** - 每次有意义的会话都创建日志
+   ✅ **journals/** - 每次有意义的会话都创建会话日志
    
    **判断标准**（满足任一即创建）:
    - 修改超过 5 个文件
@@ -424,15 +463,15 @@ Step 3: 检查并更新所有相关的记忆文件
 
 **session-journal/**:
 - 状态: ⚠️ 有15个旧会话日志
-- 建议: 保留最近10个，归档更早的
+- 建议: 保留最近10个，归档更早的到 journals-archive/
 
 ---
 
 建议操作:
 1. 更新 CURRENT_STATE.md
-2. 归档旧的 session-journal (保留最近10个)
+2. 归档旧的会话日志到 journals-archive/ (保留最近10个)
 
-执行清理? [Y/n]
+⚠️ **安全提示**: 归档前会自动备份，确认执行？[Y/n]
 ```
 
 ---
