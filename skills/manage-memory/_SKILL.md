@@ -10,7 +10,7 @@ description: 管理 DevFlow Kit 的记忆系统。用于初始化、更新、验
 ## 触发场景
 
 - "初始化记忆系统"
-- "Use superpowers-learning workflow"
+- "运行学习工作流" (Use superpowers-learning workflow)
 - "更新项目记忆"
 - "会话收尾检查"
 - "验证记忆质量"
@@ -143,11 +143,31 @@ PROJECT_CONTEXT.md 已自动填充:
 
 **具体操作**:
 
-1. **读取 SESSION_CLOSE_CHECKLIST.md**
-   - 按照清单逐项检查
-   - 确保不会遗漏任何重要的记忆更新
+1. **读取 SESSION_CLOSE_CHECKLIST.md 并逐项确认**
+   
+   按照以下清单检查本次会话：
+   - [ ] CURRENT_STATE.md 是否已更新到最新状态？
+   - [ ] 是否需要创建新的 journal 条目？（判断标准：修改超过5个文件 OR 做出重要决策 OR 遇到系统性问题）
+   - [ ] 是否有持久化事实、决策、失败模式、验证规则、团队偏好变化？
+   - [ ] 所有新增条目是否包含完整元数据（id, status, confidence, source, last_updated, review_after）？
+   - [ ] 如果有 confidence=verified 的条目，source 是否为空？（禁止！）
+   - [ ] 是否有旧条目被替换？如有，是否标记为 status: superseded？
+   - [ ] LEARNING_BACKLOG 中是否有 ready_for_promotion 的候选？证据是否充足？
 
-2. **判断是否需要更新每个记忆文件**
+3. **判断是否需要更新每个记忆文件**（快速决策指南）
+
+   **决策树**: 本次会话做了什么？
+   ```
+   ├─ 修改了技术栈/架构 → 更新 PROJECT_CONTEXT.md
+   ├─ 做出了技术决策 → 追加 DECISIONS.md
+   ├─ 遇到了系统性问题 → 追加 KNOWN_FAILURES.md
+   ├─ 建立了新验证标准 → 追加 VERIFICATION_BASELINE.md
+   ├─ 团队约定变化 → 更新 TEAM_PREFERENCES.md
+   ├─ 用户偏好调整 → 更新 USER_PROFILE.md
+   ├─ AI执行提醒变化 → 更新 AGENT_NOTES.md
+   ├─ 发现可复用模式 → 追加 LEARNING_BACKLOG.md
+   └─ 只是开发功能 → 只更新 CURRENT_STATE.md + journals/
+   ```
 
    **必须更新的文件**:
    
@@ -173,6 +193,14 @@ PROJECT_CONTEXT.md 已自动填充:
    ```
    
    ✅ **journals/** - 每次有意义的会话都创建日志
+   
+   **判断标准**（满足任一即创建）:
+   - 修改超过 5 个文件
+   - 做出了重要技术决策
+   - 遇到了系统性问题或失败模式
+   - 完成了重要功能模块
+   - 学到了可复用的经验
+   
    - 文件名格式：`YYYY-MM-DD-<req-id>.md`
    - 记录：工作内容、决策、问题、经验、下一步
 
@@ -255,21 +283,47 @@ PROJECT_CONTEXT.md 已自动填充:
    - script
    - skill draft
 
-5. **运行验证脚本**（如果记忆文件被更新）
+5. **内置验证逻辑**（如果记忆文件被更新）
 
-   ```bash
-   # PowerShell
-   .\scripts\validate-superpowers-memory.ps1 -ProjectRoot .
+   执行以下检查并输出结果：
+
+   **完整性检查**:
+   - [ ] PROJECT_CONTEXT.md 是否存在且有内容？
+   - [ ] CURRENT_STATE.md 是否包含最后更新日期？
+   - [ ] DECISIONS.md 是否存在（可选）？
+   - [ ] KNOWN_FAILURES.md 是否存在（可选）？
+   - [ ] journals/ 目录是否存在？
+
+   **格式检查**:
+   - [ ] DECISIONS.md 条目是否包含 id, status, confidence, source, last_updated, review_after？
+   - [ ] KNOWN_FAILURES.md 条目是否包含完整元数据？
+   - [ ] VERIFICATION_BASELINE.md 条目是否包含完整元数据？
+   - [ ] TEAM_PREFERENCES.md 条目是否包含完整元数据？
+   - [ ] USER_PROFILE.md 条目是否包含完整元数据？
+   - [ ] AGENT_NOTES.md 条目是否包含完整元数据？
+
+   ** freshness 检查**:
+   - [ ] CURRENT_STATE.md 的最后更新日期是否在今天或昨天？
+   - [ ] journals/ 中是否有今天的日志文件？
+
+   **LEARNING_BACKLOG 晋升检查**:
+   - [ ] 扫描 LEARNING_BACKLOG.md 中 status=ready_for_promotion 的条目
+   - [ ] 检查是否满足：evidence_count >= 2 AND repeated_times >= 2
+   - [ ] 列出可晋升的候选及其建议目标（checklist/rule/workflow/script/skill）
+
+   **输出验证报告**:
+   ```markdown
+   📋 记忆验证报告
    
-   # Bash
-   sh ./scripts/validate-superpowers-memory.sh --project-root .
+   完整性: ✅ 所有必需文件存在 / ⚠️ 缺少 X 个文件
+   格式: ✅ 所有条目格式正确 / ⚠️ Y 个条目缺少元数据
+   Freshness: ✅ CURRENT_STATE 最新 / ⚠️ 已过期 Z 天
+   Journals: ✅ 今日日志已创建 / ⚠️ 缺失今日日志
+   Backlog: ✅ N 个候选待审查 / ℹ️ 无待晋升候选
+   
+   需要修复的问题:
+   - <如有>
    ```
-   
-   验证脚本会：
-   - 检查所有必需文件是否存在
-   - 验证条目格式是否正确
-   - 检测过期条目
-   - 刷新 memory-index.yaml
 
 6. **输出总结**
 
@@ -396,10 +450,46 @@ PROJECT_CONTEXT.md 已自动填充:
 下次会话时，AI会自动读取这些记忆。
 
 💡 提示:
-- 每完成一个重要功能后，运行 "Use superpowers-learning workflow"
-- 定期(每月)运行 "验证记忆质量" 确保记忆有效性
-- 项目重大变更时，更新 PROJECT_CONTEXT.md
+- 每完成一个重要功能后，说 "运行学习工作流"
+- 定期(每月)说 "验证记忆质量" 确保记忆有效性
+- 项目重大变更时，手动更新 PROJECT_CONTEXT.md
 ```
+
+---
+
+## 测试用例
+
+### 测试1: 初始化空项目
+**输入**: "初始化记忆系统"
+**预期结果**:
+- 创建 `.devflow-kit/memory/` 目录
+- 创建 11 个模板文件
+- 创建 `journals/` 子目录
+- PROJECT_CONTEXT.md 自动填充项目基本信息
+
+### 测试2: 完整会话收尾
+**输入**: "运行学习工作流"（假设已完成需求 req-001，修改了8个文件，做出了1个技术决策）
+**预期结果**:
+- CURRENT_STATE.md 更新，包含 req-001 信息
+- journals/YYYY-MM-DD-req-001.md 已创建
+- DECISIONS.md 追加1个新决策（含完整元数据）
+- 输出验证报告，显示完整性✅、格式✅、Freshness✅
+
+### 测试3: 验证记忆质量
+**输入**: "验证记忆质量"
+**预期结果**:
+- 检查所有必需文件存在性
+- 检查条目元数据完整性
+- 检查 CURRENT_STATE.md 新鲜度
+- 输出评分和改进建议
+
+### 测试4: 清理过期记忆
+**输入**: "清理过期记忆"
+**预期结果**:
+- 分析各文件状态
+- 识别过时的 CURRENT_STATE 条目
+- 建议归档旧的 journals（保留最近10个）
+- 等待用户确认后执行
 
 ---
 
