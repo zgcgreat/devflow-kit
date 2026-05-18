@@ -33,14 +33,19 @@ Structured AI programming workflow system with cross-session memory.
 3. If `中断任务` is not empty → **highest priority**, go to recovery branch
 4. **Initialize memory system** (first use must run):
    - Check if `.devflow-kit/memory/` exists
-   - If NOT exists → create directory and initialize base files:
+   - If NOT exists → create directory and initialize from templates:
      ```
      .devflow-kit/memory/
-     ├── PROJECT_CONTEXT.md    # Project background (to be filled)
-     ├── DECISIONS.md          # Historical decisions (empty)
-     ├── KNOWN_FAILURES.md     # Known failures (empty)
+     ├── PROJECT_CONTEXT.md    # Project background (from template memory-PROJECT_CONTEXT.md)
+     ├── DECISIONS.md          # Historical decisions (from template memory-DECISIONS.md)
+     ├── KNOWN_FAILURES.md     # Known failures (from template memory-KNOWN_FAILURES.md)
+     ├── VERIFICATION_BASELINE.md # Verification baseline (from template memory-VERIFICATION_BASELINE.md)
+     ├── TEAM_PREFERENCES.md     # Team preferences (from template memory-TEAM_PREFERENCES.md)
+     ├── USER_PROFILE.md     # User profile (from template memory-USER_PROFILE.md)
+     ├── AGENT_NOTES.md     # AI notes (from template memory-AGENT_NOTES.md)
      └── journals/             # Session log directory
      ```
+   - If EXISTS → load, use templates as reference for any missing files
    - If EXISTS → load PROJECT_CONTEXT.md, DECISIONS.md, KNOWN_FAILURES.md
 
 ---
