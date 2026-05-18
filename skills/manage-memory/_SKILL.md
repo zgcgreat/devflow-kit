@@ -67,11 +67,11 @@ description: 管理 DevFlow Kit 的记忆系统。用于初始化、更新、验
 ```markdown
 🚀 初始化记忆系统...
 
-步骤1: 创建目录结构
+Step 1: 创建目录结构
 - ✅ .devflow-kit/memory/
 - ✅ .devflow-kit/memory/journals/
 
-步骤2: 从 templates/memory/ 复制模板文件
+Step 2: 从 templates/memory/ 复制模板文件
 - ✅ PROJECT_CONTEXT.md (项目背景)
 - ✅ DECISIONS.md (技术决策)
 - ✅ KNOWN_FAILURES.md (已知失败模式)
@@ -84,7 +84,7 @@ description: 管理 DevFlow Kit 的记忆系统。用于初始化、更新、验
 - ✅ SESSION_CLOSE_CHECKLIST.md (会话收尾清单)
 - ✅ memory-index.yaml (记忆健康索引)
 
-步骤3: 自动填充项目信息
+Step 3: 自动填充项目信息（这可能需要几秒钟）
 
 正在分析项目...
 📊 提取的信息:
@@ -111,34 +111,34 @@ PROJECT_CONTEXT.md 已自动填充:
 
 💡 提示:
 - 你可以编辑 .devflow-kit/memory/PROJECT_CONTEXT.md 补充更多信息
-- 每次会话结束时，说 "Use superpowers-learning workflow" 更新记忆
+- 每次会话结束时，说 "运行学习工作流" 更新记忆
 ```
 
 ---
 
 #### 场景B: 更新记忆 (会话收尾)
 
-**用户**: "Use superpowers-learning workflow" 或 "更新项目记忆"
+**用户**: "运行学习工作流" 或 "更新项目记忆"
 
 **AI执行**:
 
 ```markdown
 🧠 记忆系统学习工作流
 
-步骤1: 回顾本次会话的工作内容
+Step 1: 回顾本次会话的工作内容
 - 分析了哪些文件?
 - 做了哪些修改?
 - 遇到了什么问题?
 - 做出了哪些决策?
 - 验证了什么?
 
-步骤2: 将学习内容分类为四类
+Step 2: 将学习内容分类为四类
 - 📌 持久化项目事实 (durable project facts)
 - 🔄 当前工作状态 (current working state)
 - 📝 会话结果 (session outcome)
 - ♻️ 可复用方法或重复陷阱 (reusable method or repeated pitfall)
 
-步骤3: 检查并更新所有相关的记忆文件
+Step 3: 检查并更新所有相关的记忆文件
 ```
 
 **具体操作**:
@@ -154,7 +154,7 @@ PROJECT_CONTEXT.md 已自动填充:
    - [ ] 是否有旧条目被替换？如有，是否标记为 status: superseded？
    - [ ] LEARNING_BACKLOG 中是否有 ready_for_promotion 的候选？证据是否充足？
 
-3. **判断是否需要更新每个记忆文件**（快速决策指南）
+2. **判断是否需要更新每个记忆文件**（快速决策指南）
 
    **决策树**: 本次会话做了什么？
    ```
@@ -175,7 +175,7 @@ PROJECT_CONTEXT.md 已自动填充:
    ```markdown
    # Current State
    
-   **最后更新**: YYYY-MM-DD HH:mm:ss
+   **最后更新**: YYYY-MM-DD（统一使用 ISO 8601 日期格式）
    
    ## 当前焦点
    <下一个待开发的需求 或 "无">
@@ -201,7 +201,7 @@ PROJECT_CONTEXT.md 已自动填充:
    - 完成了重要功能模块
    - 学到了可复用的经验
    
-   - 文件名格式：`YYYY-MM-DD-<req-id>.md`
+   - 文件名格式：`YYYY-MM-DD-<req-id>.md`（统一使用 ISO 8601 日期格式）
    - 记录：工作内容、决策、问题、经验、下一步
 
    **条件更新的文件** (根据会话内容判断):
@@ -255,7 +255,7 @@ PROJECT_CONTEXT.md 已自动填充:
    - 使用候选格式（包含candidate_id, type, status, evidence_count, repeated_times等）
    - 评估是否达到晋升条件（evidence_count >= 2, repeated_times >= 2）
 
-3. **添加必需的元数据**
+4. **添加必需的元数据**
 
    对于所有持久化条目（DECISIONS, KNOWN_FAILURES, VERIFICATION_BASELINE, TEAM_PREFERENCES, USER_PROFILE, AGENT_NOTES），必须包含：
    - `id`: 唯一标识符（格式：type-YYYY-MM-DD-slug）
@@ -267,7 +267,7 @@ PROJECT_CONTEXT.md 已自动填充:
    
    ⚠️ **禁止**：如果 `source` 为空，不得标记为 `confidence: verified`
 
-4. **检查 LEARNING_BACKLOG 晋升候选**
+5. **检查 LEARNING_BACKLOG 晋升候选**
 
    如果有条目满足以下条件，建议晋升：
    - `evidence_count >= 2`
@@ -283,7 +283,7 @@ PROJECT_CONTEXT.md 已自动填充:
    - script
    - skill draft
 
-5. **内置验证逻辑**（如果记忆文件被更新）
+6. **内置验证逻辑**（如果记忆文件被更新）
 
    执行以下检查并输出结果：
 
@@ -325,7 +325,7 @@ PROJECT_CONTEXT.md 已自动填充:
    - <如有>
    ```
 
-6. **输出总结**
+7. **输出总结**
 
 ```markdown
 ✅ 记忆学习工作流完成
