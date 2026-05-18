@@ -1,4 +1,4 @@
-﻿# devflow-kit Stage: 0-Confirm（需求确认）
+# devflow-kit Stage: 0-Confirm（需求确认）
 
 > **阶段定位**：工作流入口，澄清需求并判定执行模式
 > **前置条件**：无
