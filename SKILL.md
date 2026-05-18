@@ -51,6 +51,11 @@ Structured AI programming workflow system with cross-session memory.
      ```
    - Template source: `templates/memory/`
    - If EXISTS → load PROJECT_CONTEXT.md, DECISIONS.md, KNOWN_FAILURES.md, CURRENT_STATE.md
+   
+   **Memory update trigger**: After completing a requirement or meaningful session, say:
+   - "运行学习工作流" (Run learning workflow) - to update all memory files
+   - "验证记忆质量" (Validate memory quality) - to check memory health
+   - "清理过期记忆" (Clean expired memory) - to archive old journals
 
 ---
 
