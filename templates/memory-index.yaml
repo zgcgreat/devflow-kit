@@ -1,5 +1,5 @@
 version: 1
-# 本文件由 validate-superpowers-memory.ps1 维护。
+# 本文件由记忆验证脚本维护。
 # 允许手动编辑，但验证器可能会覆盖摘要字段。
 last_full_review:
 active_focus:
@@ -24,4 +24,4 @@ learning_backlog:
   total_candidates: 0
   ready_for_promotion: 0
   stale_candidates: 0
-  promotion_ready_candidates: 0
+  promotion_ready_candidates:

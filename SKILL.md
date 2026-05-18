@@ -33,20 +33,24 @@ Structured AI programming workflow system with cross-session memory.
 3. If `中断任务` is not empty → **highest priority**, go to recovery branch
 4. **Initialize memory system** (first use must run):
    - Check if `.devflow-kit/memory/` exists
-   - If NOT exists → create directory and initialize from templates:
+   - If NOT exists → create directory and initialize from templates in `templates/memory/`:
      ```
      .devflow-kit/memory/
-     ├── PROJECT_CONTEXT.md    # Project background (from template memory-PROJECT_CONTEXT.md)
-     ├── DECISIONS.md          # Historical decisions (from template memory-DECISIONS.md)
-     ├── KNOWN_FAILURES.md     # Known failures (from template memory-KNOWN_FAILURES.md)
-     ├── VERIFICATION_BASELINE.md # Verification baseline (from template memory-VERIFICATION_BASELINE.md)
-     ├── TEAM_PREFERENCES.md     # Team preferences (from template memory-TEAM_PREFERENCES.md)
-     ├── USER_PROFILE.md     # User profile (from template memory-USER_PROFILE.md)
-     ├── AGENT_NOTES.md     # AI notes (from template memory-AGENT_NOTES.md)
-     └── journals/             # Session log directory
+     ├── PROJECT_CONTEXT.md           # Project background
+     ├── DECISIONS.md                 # Historical decisions
+     ├── KNOWN_FAILURES.md            # Known failures
+     ├── CURRENT_STATE.md             # Current working state
+     ├── VERIFICATION_BASELINE.md     # Verification standards
+     ├── TEAM_PREFERENCES.md          # Team preferences
+     ├── USER_PROFILE.md              # User preferences
+     ├── AGENT_NOTES.md               # AI assistant notes
+     ├── LEARNING_BACKLOG.md          # Learning candidates
+     ├── SESSION_CLOSE_CHECKLIST.md   # Session close checklist
+     ├── memory-index.yaml            # Memory health index
+     └── journals/                    # Session log directory
      ```
-   - If EXISTS → load, use templates as reference for any missing files
-   - If EXISTS → load PROJECT_CONTEXT.md, DECISIONS.md, KNOWN_FAILURES.md
+   - Template source: `templates/memory/`
+   - If EXISTS → load PROJECT_CONTEXT.md, DECISIONS.md, KNOWN_FAILURES.md, CURRENT_STATE.md
 
 ---
 

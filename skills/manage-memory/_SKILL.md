@@ -1,6 +1,6 @@
-﻿---
+---
 name: manage-memory
-description: 管理 DevFlow Kit 的记忆系统。用于初始化、更新、验证和清理 .superpowers-memory/ 目录中的记忆文件。
+description: 管理 DevFlow Kit 的记忆系统。用于初始化、更新、验证和清理 .devflow-kit/memory/ 目录中的记忆文件。
 ---
 
 # Manage DevFlow Memory
@@ -10,11 +10,11 @@ description: 管理 DevFlow Kit 的记忆系统。用于初始化、更新、验
 ## 触发场景
 
 - "初始化记忆系统"
-- "更新项目记忆"
-- "验证记忆质量"
-- "清理会话记忆"
 - "Use superpowers-learning workflow"
-- "运行记忆收尾检查"
+- "更新项目记忆"
+- "会话收尾检查"
+- "验证记忆质量"
+- "清理过期记忆"
 
 ## 执行流程
 
@@ -24,12 +24,12 @@ description: 管理 DevFlow Kit 的记忆系统。用于初始化、更新、验
 🔍 检测记忆系统状态
 
 检查项:
-- [ ] .superpowers-memory/ 目录是否存在?
+- [ ] .devflow-kit/memory/ 目录是否存在?
 - [ ] PROJECT_CONTEXT.md 是否存在?
 - [ ] CURRENT_STATE.md 是否存在?
 - [ ] DECISIONS.md 是否存在?
 - [ ] KNOWN_FAILURES.md 是否存在?
-- [ ] session-journal/ 目录是否存在?
+- [ ] journals/ 目录是否存在?
 ```
 
 **如果不存在**:
@@ -39,16 +39,19 @@ description: 管理 DevFlow Kit 的记忆系统。用于初始化、更新、验
 是否要初始化记忆系统? [Y/n]
 
 初始化将创建:
-- .superpowers-memory/
+- .devflow-kit/memory/
   ├── PROJECT_CONTEXT.md (项目背景)
-  ├── CURRENT_STATE.md (当前状态)
   ├── DECISIONS.md (技术决策)
   ├── KNOWN_FAILURES.md (失败模式)
+  ├── CURRENT_STATE.md (当前状态)
   ├── VERIFICATION_BASELINE.md (验证基线)
   ├── TEAM_PREFERENCES.md (团队偏好)
   ├── USER_PROFILE.md (用户画像)
   ├── AGENT_NOTES.md (AI笔记)
-  └── session-journal/ (会话日志)
+  ├── LEARNING_BACKLOG.md (学习待办)
+  ├── SESSION_CLOSE_CHECKLIST.md (会话收尾清单)
+  ├── memory-index.yaml (记忆健康索引)
+  └── journals/ (会话日志)
 ```
 
 ---
@@ -65,18 +68,21 @@ description: 管理 DevFlow Kit 的记忆系统。用于初始化、更新、验
 🚀 初始化记忆系统...
 
 步骤1: 创建目录结构
-- ✅ .superpowers-memory/
-- ✅ .superpowers-memory/session-journal/
+- ✅ .devflow-kit/memory/
+- ✅ .devflow-kit/memory/journals/
 
-步骤2: 生成模板文件
+步骤2: 从 templates/memory/ 复制模板文件
 - ✅ PROJECT_CONTEXT.md (项目背景)
-- ✅ CURRENT_STATE.md (当前状态)
 - ✅ DECISIONS.md (技术决策)
 - ✅ KNOWN_FAILURES.md (已知失败模式)
+- ✅ CURRENT_STATE.md (当前状态)
 - ✅ VERIFICATION_BASELINE.md (验证基线)
 - ✅ TEAM_PREFERENCES.md (团队偏好)
 - ✅ USER_PROFILE.md (用户画像)
 - ✅ AGENT_NOTES.md (AI助手笔记)
+- ✅ LEARNING_BACKLOG.md (学习待办)
+- ✅ SESSION_CLOSE_CHECKLIST.md (会话收尾清单)
+- ✅ memory-index.yaml (记忆健康索引)
 
 步骤3: 自动填充项目信息
 
@@ -104,7 +110,7 @@ PROJECT_CONTEXT.md 已自动填充:
 ✅ 记忆系统初始化完成!
 
 💡 提示:
-- 你可以编辑 .superpowers-memory/PROJECT_CONTEXT.md 补充更多信息
+- 你可以编辑 .devflow-kit/memory/PROJECT_CONTEXT.md 补充更多信息
 - 每次会话结束时，说 "Use superpowers-learning workflow" 更新记忆
 ```
 
@@ -117,133 +123,178 @@ PROJECT_CONTEXT.md 已自动填充:
 **AI执行**:
 
 ```markdown
-🧠 记忆系统收尾检查
+🧠 记忆系统学习工作流
 
-检查项:
-- [x] 是否有持久化事实变化? 
-      → 是: <列出变化>
-- [x] 当前工作状态是否变化?
-      → 是: <描述变化>
-- [x] 是否有重要决策?
-      → 是: <列出决策>
-- [x] 是否发现失败模式?
-      → 是: <列出失败模式>
-- [x] 是否有可复用经验?
-      → 是: <列出经验>
+步骤1: 回顾本次会话的工作内容
+- 分析了哪些文件?
+- 做了哪些修改?
+- 遇到了什么问题?
+- 做出了哪些决策?
+- 验证了什么?
 
----
+步骤2: 将学习内容分类为四类
+- 📌 持久化项目事实 (durable project facts)
+- 🔄 当前工作状态 (current working state)
+- 📝 会话结果 (session outcome)
+- ♻️ 可复用方法或重复陷阱 (reusable method or repeated pitfall)
 
-正在更新记忆...
-
-✅ 已更新:
-- CURRENT_STATE.md: "<更新内容>"
-- DECISIONS.md: "<新决策>"
-- KNOWN_FAILURES.md: "<新失败模式>"
-- session-journal/<date>-<topic>.md: 会话摘要
-
-✅ 记忆更新完成
-
-下次会话时，AI会自动读取这些记忆，避免重复沟通。
+步骤3: 检查并更新所有相关的记忆文件
 ```
 
 **具体操作**:
 
-1. **读取当前会话的工作内容**
-   - 分析了哪些文件?
-   - 做了哪些修改?
-   - 遇到了什么问题?
-   - 做出了哪些决策?
+1. **读取 SESSION_CLOSE_CHECKLIST.md**
+   - 按照清单逐项检查
+   - 确保不会遗漏任何重要的记忆更新
 
-2. **判断是否需要更新记忆**
+2. **判断是否需要更新每个记忆文件**
 
-   **应该更新的情况**:
-   - ✅ 完成了重要功能
-   - ✅ 改变了技术选型
-   - ✅ 发现了系统性问题
-   - ✅ 做出了架构决策
-   - ✅ 学到了新的最佳实践
-
-   **不应更新的情况**:
-   - ❌ 修复typo或小bug
-   - ❌ 临时实验性代码
-   - ❌ 未经验证的假设
-   - ❌ 会话中间状态
-
-3. **更新对应文件**
-
-   **CURRENT_STATE.md**:
+   **必须更新的文件**:
+   
+   ✅ **CURRENT_STATE.md** - 每次会话结束都必须更新
    ```markdown
-   **最后更新**: <日期>
+   # Current State
+   
+   **最后更新**: YYYY-MM-DD HH:mm:ss
    
    ## 当前焦点
-   <正在进行的工作>
+   <下一个待开发的需求 或 "无">
    
    ## 最近完成
-   - ✅ <已完成的功能>
+   - ✅ <本次需求名称> (<req-id>) - YYYY-MM-DD
+     - 主要功能：<简要描述>
+     - 关键决策：<如有>
    
    ## 待解决问题
-   - <待解决的问题>
+   - <从06-code-review.md提取的遗留问题>
    
    ## 下一步
-   - <计划的工作>
+   - <建议的下一个需求>
    ```
+   
+   ✅ **journals/** - 每次有意义的会话都创建日志
+   - 文件名格式：`YYYY-MM-DD-<req-id>.md`
+   - 记录：工作内容、决策、问题、经验、下一步
 
-   **DECISIONS.md**:
-   ```markdown
-   ## <日期>: <决策标题>
+   **条件更新的文件** (根据会话内容判断):
    
-   **背景**: <为什么需要做这个决策>
+   🔹 **PROJECT_CONTEXT.md** - 当持久化项目事实变化时
+   - 技术栈变更
+   - 架构重大调整
+   - 新的核心模块
+   - 重要约束条件变化
    
-   **选项**:
-   - 选项A: <描述>
-   - 选项B: <描述>
+   🔹 **DECISIONS.md** - 当做出重要技术决策时
+   - 技术选型决策
+   - 架构设计决策
+   - ADR记录
+   - 使用标准条目模板（包含id, status, confidence, source, last_updated, review_after）
    
-   **决策**: <最终选择>
+   🔹 **KNOWN_FAILURES.md** - 当发现重复失败模式时
+   - 系统性问题
+   - 环境陷阱
+   - 流程坑点
+   - 使用标准条目模板
    
-   **理由**: <为什么选这个>
+   🔹 **VERIFICATION_BASELINE.md** - 当确认新的验证规则时
+   - 新的验证命令
+   - 验证标准变更
+   - 盲点记录
+   - 使用标准条目模板
    
-   **影响**: <对后续工作的影响>
+   🔹 **TEAM_PREFERENCES.md** - 当团队约定变化时
+   - 协作偏好变更
+   - 沟通边界调整
+   - 工作约定更新
+   - 使用标准条目模板
+   
+   🔹 **USER_PROFILE.md** - 当用户偏好变化时
+   - 沟通风格偏好
+   - 工具使用偏好
+   - 输出习惯调整
+   - 使用标准条目模板
+   
+   🔹 **AGENT_NOTES.md** - 当AI执行提醒变化时
+   - 仓库特定处理提醒
+   - 重复操作陷阱
+   - 质量提醒
+   - 使用标准条目模板
+   
+   🔹 **LEARNING_BACKLOG.md** - 当发现可复用经验时
+   - checklist模式
+   - 兼容性经验
+   - 实现套路
+   - 使用候选格式（包含candidate_id, type, status, evidence_count, repeated_times等）
+   - 评估是否达到晋升条件（evidence_count >= 2, repeated_times >= 2）
+
+3. **添加必需的元数据**
+
+   对于所有持久化条目（DECISIONS, KNOWN_FAILURES, VERIFICATION_BASELINE, TEAM_PREFERENCES, USER_PROFILE, AGENT_NOTES），必须包含：
+   - `id`: 唯一标识符（格式：type-YYYY-MM-DD-slug）
+   - `status`: active / superseded
+   - `confidence`: verified / inferred
+   - `source`: 指向真实证据（代码、文档、测试、会话笔记）
+   - `last_updated`: YYYY-MM-DD
+   - `review_after`: YYYY-MM-DD
+   
+   ⚠️ **禁止**：如果 `source` 为空，不得标记为 `confidence: verified`
+
+4. **检查 LEARNING_BACKLOG 晋升候选**
+
+   如果有条目满足以下条件，建议晋升：
+   - `evidence_count >= 2`
+   - `repeated_times >= 2`
+   - 有明确的 `source`
+   - 有 `review_after`
+   - 有链接的支持条目
+   
+   晋升目标可以是：
+   - checklist
+   - 项目规则
+   - workflow step
+   - script
+   - skill draft
+
+5. **运行验证脚本**（如果记忆文件被更新）
+
+   ```bash
+   # PowerShell
+   .\scripts\validate-superpowers-memory.ps1 -ProjectRoot .
+   
+   # Bash
+   sh ./scripts/validate-superpowers-memory.sh --project-root .
    ```
+   
+   验证脚本会：
+   - 检查所有必需文件是否存在
+   - 验证条目格式是否正确
+   - 检测过期条目
+   - 刷新 memory-index.yaml
 
-   **KNOWN_FAILURES.md**:
-   ```markdown
-   ## <日期>: <失败模式标题>
-   
-   **现象**: <出现了什么问题>
-   
-   **根因**: <根本原因是什么>
-   
-   **解决方案**: <如何解决的>
-   
-   **预防措施**: <如何避免再次发生>
-   
-   **适用场景**: <在什么情况下可能发生>
-   ```
+6. **输出总结**
 
-4. **创建session-journal条目**
+```markdown
+✅ 记忆学习工作流完成
 
-   ```markdown
-   # Session Journal: <日期> - <主题>
-   
-   **会话时长**: <开始时间> - <结束时间>
-   
-   **工作内容**:
-   - <任务1>
-   - <任务2>
-   
-   **关键决策**:
-   - <决策1>
-   - <决策2>
-   
-   **遇到的问题**:
-   - <问题1> → <解决方案>
-   
-   **学到的经验**:
-   - <经验1>
-   
-   **下一步行动**:
-   - <行动1>
-   ```
+已更新的文件:
+- CURRENT_STATE.md: 更新了当前状态
+- journals/YYYY-MM-DD-<req-id>.md: 创建了会话日志
+- DECISIONS.md: 追加了 X 个新决策（如有）
+- KNOWN_FAILURES.md: 追加了 Y 个新失败模式（如有）
+- VERIFICATION_BASELINE.md: 追加了 Z 个新验证规则（如有）
+- TEAM_PREFERENCES.md: 更新了团队偏好（如有）
+- USER_PROFILE.md: 更新了用户偏好（如有）
+- AGENT_NOTES.md: 更新了AI笔记（如有）
+- LEARNING_BACKLOG.md: 追加了 N 个学习候选（如有）
+
+验证结果:
+- ✅ 所有必需文件存在
+- ✅ 条目格式正确
+- ⚠️ 发现 M 个过期条目需要审查
+- memory-index.yaml 已刷新
+
+💡 下次会话时，AI会自动读取这些记忆，无需重复沟通。
+```
 
 ---
 
@@ -420,7 +471,7 @@ PROJECT_CONTEXT.md 已自动填充:
 
 ### 记忆 vs 产物
 
-| 维度 | 记忆 (.superpowers-memory/) | 产物 (.specs/<req-id>/) |
+| 维度 | 记忆 (.devflow-kit/memory/) | 产物 (.devflow-kit/<req-id>/) |
 |---|---------------------------|---|
 | **作用域** | 整个项目生命周期 | 单个需求/功能 |
 | **持久性** | 长期保留,跨会话有效 | 需求完成后归档 |
@@ -454,17 +505,16 @@ PROJECT_CONTEXT.md 已自动填充:
 
 ### Q4: 记忆会被共享到其他项目吗?
 
-**A**: 不会。记忆存储在项目的 `.superpowers-memory/` 目录中，只在当前项目内有效。
+**A**: 不会。记忆存储在项目的 `.devflow-kit/memory/` 目录中，只在当前项目内有效。
 
 ### Q5: 如何备份记忆?
 
-**A**: 直接复制 `.superpowers-memory/` 目录即可。建议纳入Git版本控制(但不包括session-journal/)。
+**A**: 直接复制 `.devflow-kit/memory/` 目录即可。建议纳入Git版本控制(但不包括journals/)。
 
 ---
 
 ## 与其他Skill的关系
 
-- **install-devflow**: 安装DevFlow Kit时可选择启用记忆系统
 - **stage-7-integration**: 集成阶段会触发记忆更新
 - **brainstorming**: 设计澄清时会参考 PROJECT_CONTEXT.md
 - **systematic-debugging**: 调试时会查询 KNOWN_FAILURES.md
