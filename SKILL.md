@@ -2,7 +2,12 @@
 name: devflow-kit
 description: |
   AI-powered software development workflow system with structured processes, 
-  engineering discipline, and cross-session memory. 
+  engineering discipline, and cross-session memory.
+  Now fused with spec-kit SDD (Specification-Driven Development):
+  - 9-Article Project Constitution with automatic gate enforcement
+  - [NEEDS CLARIFICATION] ambiguity markers for precise requirements
+  - Constitution Gate at design phase with complexity tracking
+  - SDD command integration (/speckit.specify, /speckit.plan, /speckit.tasks)
   Use when: (1) Starting a new development project or feature, 
   (2) Need structured workflow (requirement → design → dev → test → review), 
   (3) Need staged execution with gate checks, 

@@ -2,6 +2,43 @@
 
 > ⚠️ **进入本阶段前，必须先加载**：`devflow-kit/agent-skills/skills/devops/_SKILL.md`
 
+### 0. SDD 增强命令（可选 · 来自 spec-kit 融合）
+
+> **来源**: 融合 spec-kit 的 Specification-Driven Development
+> **触发**: 当用户想使用 SDD 命令体系时启用
+
+如果用户希望使用完整的 SDD 流程，可以替代本阶段使用以下命令：
+
+| 命令 | 作用 | 触发条件 |
+|---|---|---|
+| `/speckit.specify <需求描述>` | 创建规格文档（自动分支 + 模板） | 新需求从 0 开始 |
+| `/speckit.plan <技术描述>` | 生成实现计划 + research + data-model + contracts | 已完成 0-confirm |
+| `/speckit.tasks` | 从计划生成可执行任务列表 | 已完成 plan |
+| `/speckit.checklist` | 验证宪法合规性 | 设计/实现完成前 |
+| `/speckit.clarify` | 澄清歧义（迭代 [NEEDS CLARIFICATION]） | 任何阶段 |
+| `/speckit.implement` | 执行任务（CLI-first TDD 流程） | 任务列表就绪 |
+
+**SDD 命令工作流示例**：
+```
+1. /speckit.specify Real-time chat system with message history
+   → 自动创建 specs/003-chat-system/spec.md
+2. /speckit.plan WebSocket + PostgreSQL + Redis
+   → 自动创建 plan.md + research.md + data-model.md + contracts/
+3. /speckit.tasks
+   → 自动创建 tasks.md（并行任务标注）
+4. /speckit.implement
+   → 执行 TDD 循环（测试 → 实现 → 重构）
+5. /speckit.checklist
+   → 验证宪法合规后发布
+```
+
+**说明**：
+- SDD 命令可与 devflow-kit 并行使用，不互斥
+- 两者可以互补：devflow-kit 提供结构化流程，SDD 命令提供模板自动化
+- 选择 SDD 命令时跳过本 prompt 的步骤 1-7，直接执行命令
+
+---
+
 ## 角色
 
 你是 Verifier + Release。

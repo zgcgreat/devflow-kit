@@ -159,7 +159,50 @@
 例：
 > 状态管理：选 React Context 而非 Redux。理由：状态量小（仅主题），引入 Redux 是过度工程。代价：跨远距离组件传递时性能不如选择器订阅，本场景不存在该问题。
 
-### 1.5 Doubt：反方审查关键决策（可选但推荐）
+---
+
+### 1.5 宪法检查（Constitution Gate）— 来自 spec-kit 融合
+
+> **来源**: 融合 spec-kit 的 Constitutional Foundation
+> **目的**: 确保所有技术决策符合项目宪法 `.devflow-kit/constitution.md`
+
+**强制门禁**：在列出决策清单后、绘制架构图前，必须执行此检查。
+
+读取 `.devflow-kit/constitution.md`，逐条验证：
+
+| 宪法条款 | 检查项 | 通过? | 违规说明 |
+|---|---|---|---|
+| Article I (库优先) | 新功能先作为独立库存在？ | ☐ | |
+| Article II (CLI 接口) | 库暴露 CLI 接口？ | ☐ | |
+| Article III (测试先行) | 测试已在实现前编写？ | ☐ | |
+| Article VII (简单性) | 使用 ≤3 个项目？ | ☐ | |
+| Article VIII (反抽象) | 直接使用框架而非包装？ | ☐ | |
+| Article IX (集成优先) | 契约已定义且测试？ | ☐ | |
+
+**违规处理**：
+- 如有违规 → 在 `02-design.md` 中增加「复杂性追踪」段（见模板）
+- 必须填写：违规项 / 为什么需要 / 被拒绝的更简方案及原因
+- 用户可在 review 时挑战违规
+
+**Phase -1 门禁**（来自 spec-kit plan-template）：
+
+#### 简单性门禁 (Article VII)
+- [ ] 使用 ≤3 个项目？
+- [ ] 没有过度设计？
+
+#### 反抽象门禁 (Article VIII)
+- [ ] 直接使用框架？
+- [ ] 单一模型表示？
+
+#### 集成优先门禁 (Article IX)
+- [ ] 契约已定义？
+- [ ] 契约测试已编写？
+
+**全部通过 → 才能进入步骤 2（数据流 / 架构图）**
+
+---
+
+### 1.6 Doubt：反方审查关键决策（可选但推荐）
 
 > 引入 `agent-skills/skills/doubt-driven-development/_SKILL.md`，对 § 1 决策清单中**非平凡**的决策执行 fresh-context 反方审查。
 

@@ -31,6 +31,34 @@
 
 ## 你的职责
 
+0.5 **宪法初始化**（首次使用必跑，已有则跳过）：
+
+   > **来源**: 融合 spec-kit SDD 体系 — 项目宪法是所有设计和实现的最高约束
+
+   检查 `.devflow-kit/constitution.md` 是否存在：
+
+   - **不存在** → 使用 `@devflow-kit/templates/spec-constitution-template.md` 创建：
+     1. 读取模板
+     2. 根据项目类型填充「项目特定约束」段（技术栈要求、安全要求、性能标准）
+     3. 其他段落保留模板原样（9 条核心原则不可修改）
+     4. 保存到 `.devflow-kit/constitution.md`
+     5. 告知用户：
+        ```
+        📜 已创建项目宪法 .devflow-kit/constitution.md
+           - 包含 9 条核心原则（库优先 / CLI 接口 / 测试先行 / 集成测试 / 可观测性 / 版本管理 / 简单性 / 反抽象 / 宪法优先级）
+           - 所有后续设计和实现受此宪法约束
+           - 如需修改原则，走修订流程（文档化理由 → 审核 → 兼容性评估）
+        ```
+   - **存在** → 告知用户沿用已有宪法，不重新创建
+
+   **宪法约束范围**：
+   - 0-confirm → 宪法不影响需求表述
+   - 1-analysis → 宪法不影响需求分析
+   - **2-design → 必须经过 Constitution Gate 检查**
+   - 3-task → 任务拆分对齐宪法约束
+   - 4-dev → 实现必须符合宪法原则 III（测试先行）
+   - 7-integration → 发布前复验宪法合规
+
 1. **自动生成 req-id**（用户**不需要**提供）：
    - 从用户描述提取核心关键词，转成 kebab-case（小写、短横线分隔、英文）
    - 长度 2~4 个词。例：「设计陪诊网站」→ `companion-platform`；「加个深色模式」→ `dark-mode`；「订单超时退款」→ `order-timeout-refund`
